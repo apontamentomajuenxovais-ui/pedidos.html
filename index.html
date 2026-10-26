@@ -713,7 +713,7 @@
       }).join('');
     }
 
-    // FUNÇÃO QUE GERA A JANELA IMPRESSA / PDF DO PEDIDO
+    // GERAÇÃO DO COMPROVANTE / PDF
     function gerarPDFComprovantePedido(dadosPedido) {
       const win = window.open('', '_blank');
       if(!win) return;
@@ -795,6 +795,7 @@
       win.document.close();
     }
 
+    // ENVIO DO PEDIDO VIA WHATSAPP E SALVAMENTO NO BANCO
     window.enviarPedidoWhatsApp = async function() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return alert("O carrinho está vazio!");
@@ -836,10 +837,10 @@
         await addDoc(collection(db, "b2b_pedidos"), objetoPedido);
       } catch(err) { console.error(err); }
 
-      // 1. Gera o PDF / Comprovante impresso para o cliente
+      // 1. Abre a janela do PDF / Comprovante
       gerarPDFComprovantePedido(objetoPedido);
 
-      // 2. Monta e envia a mensagem para o WhatsApp
+      // 2. Monta a mensagem formatada para o WhatsApp
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
       msg += `🏢 *Distribuidor:* ${window.distribuidorLogado.nome}\n`;
       msg += `📄 *Doc/CNPJ:* ${window.distribuidorLogado.documento}\n`;
