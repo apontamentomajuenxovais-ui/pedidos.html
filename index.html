@@ -175,7 +175,8 @@
               <option value="todos">Todos os Pedidos</option>
               <option value="Pendente">🟡 Pendente</option>
               <option value="Separado para Retirada">📦 Separado para Retirada</option>
-              <option value="Enviado - Aguardando Pagamento">🚚 Enviado - Aguardando Pagamento</option>
+              <option value="Enviado">🚚 Enviado</option>
+              <option value="Aguardando Pagamento">⏳ Aguardando Pagamento</option>
               <option value="Concluído">✅ Concluído</option>
               <option value="Cancelado">❌ Cancelado</option>
             </select>
@@ -778,7 +779,6 @@
         return;
       }
 
-      // Ordena do mais recente para o mais antigo
       listaFiltrada.sort((a,b) => new Date(b.data) - new Date(a.data));
 
       container.innerHTML = listaFiltrada.map(p => {
@@ -787,7 +787,8 @@
 
         let corBadge = 'bg-amber-100 text-amber-900 border-amber-300';
         if(st === 'Separado para Retirada') corBadge = 'bg-blue-100 text-blue-900 border-blue-300';
-        if(st === 'Enviado - Aguardando Pagamento') corBadge = 'bg-purple-100 text-purple-900 border-purple-300';
+        if(st === 'Enviado') corBadge = 'bg-indigo-100 text-indigo-900 border-indigo-300';
+        if(st === 'Aguardando Pagamento') corBadge = 'bg-purple-100 text-purple-900 border-purple-300';
         if(st === 'Concluído') corBadge = 'bg-emerald-100 text-emerald-900 border-emerald-300';
         if(st === 'Cancelado') corBadge = 'bg-red-100 text-red-900 border-red-300';
 
@@ -826,7 +827,8 @@
                 <select onchange="atualizarStatusPedido('${p.id}', this.value)" class="border rounded p-1.5 text-xs font-bold text-slate-800 bg-slate-100">
                   <option value="Pendente" ${st === 'Pendente' ? 'selected' : ''}>🟡 Pendente</option>
                   <option value="Separado para Retirada" ${st === 'Separado para Retirada' ? 'selected' : ''}>📦 Separado para Retirada</option>
-                  <option value="Enviado - Aguardando Pagamento" ${st === 'Enviado - Aguardando Pagamento' ? 'selected' : ''}>🚚 Enviado - Aguardando Pagamento</option>
+                  <option value="Enviado" ${st === 'Enviado' ? 'selected' : ''}>🚚 Enviado</option>
+                  <option value="Aguardando Pagamento" ${st === 'Aguardando Pagamento' ? 'selected' : ''}>⏳ Aguardando Pagamento</option>
                   <option value="Concluído" ${st === 'Concluído' ? 'selected' : ''}>✅ Concluído</option>
                   <option value="Cancelado" ${st === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
                 </select>
