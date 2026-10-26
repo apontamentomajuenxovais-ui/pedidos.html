@@ -331,14 +331,17 @@
         
         <!-- OPÇÕES DE CONCLUSÃO (WHATSAPP E PDF LADO A LADO) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <button onclick="salvarEEnviarWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          <button onclick="enviarWhatsAppMantendoCarrinho()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
             📲 Enviar por WhatsApp
           </button>
-          <button onclick="salvarEGerarPDF()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          <button onclick="gerarPDFMantendoCarrinho()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
             🖨️ Gerar Espelho / PDF
           </button>
         </div>
-        <button onclick="fecharModalCarrinho()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2 rounded-xl text-xs">Continuar Comprando</button>
+        <div class="flex gap-2">
+          <button onclick="concluirEstatisticasPedido()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow">Finalizar e Limpar Pedido</button>
+          <button onclick="fecharModalCarrinho()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-2.5 rounded-xl text-xs">Voltar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -363,6 +366,7 @@
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
     let modoGestorAtivo = false;
+    let pedidoAtualCache = null;
 
     window.distribuidores = [];
     window.produtos = [];
@@ -718,8 +722,8 @@
       }).join('');
     }
 
-    // FUNÇÃO QUE MONTA O OBJETO DO PEDIDO
-    function prepararDadosPedido() {
+    // MONTA E SALVA O PEDIDO NO BANCO (MANTENDO O CARRINHO ATIVO)
+    async function garantirPedidoSalvo() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return null;
 
@@ -744,7 +748,7 @@
       const end = window.distribuidorLogado.endereco || {};
       const endFormatado = end.cep ? `${end.rua}, Nº ${end.num} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP: ${end.cep})` : 'A combinar';
 
-      return {
+      const pedidoObj = {
         distribuidor: window.distribuidorLogado.nome,
         documento: window.distribuidorLogado.documento,
         enderecoEntrega: endFormatado,
@@ -755,9 +759,19 @@
         itens: resumoItens,
         valorTotal: totalGeral
       };
+
+      // Se já salvou este carrinho exato, não duplica no banco
+      if(!pedidoAtualCache) {
+        try {
+          const docRef = await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
+          pedidoAtualCache = { id: docRef.id, ...pedidoObj };
+        } catch(err) { console.error(err); }
+      }
+
+      return pedidoAtualCache || pedidoObj;
     }
 
-    // FUNÇÃO PARA GERAR O ESPELHO / PDF
+    // GERAÇÃO DO COMPROVANTE / PDF
     function gerarPDFComprovantePedido(dadosPedido) {
       const win = window.open('', '_blank');
       if(!win) {
@@ -842,14 +856,10 @@
       win.document.close();
     }
 
-    // BOTÃO 1: SALVAR E ENVIAR POR WHATSAPP
-    window.salvarEEnviarWhatsApp = async function() {
-      const pedidoObj = prepararDadosPedido();
+    // BOTÃO 1: ENVIAR WHATSAPP MANTENDO CARRINHO ATIVO
+    window.enviarWhatsAppMantendoCarrinho = async function() {
+      const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return alert("O carrinho está vazio!");
-
-      try {
-        await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
-      } catch(err) { console.error(err); }
 
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
       msg += `🏢 *Distribuidor:* ${pedidoObj.distribuidor}\n`;
@@ -868,30 +878,28 @@
       msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
-      
-      window.carrinho = {};
-      if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
-      fecharModalCarrinho();
-      renderCatalogo();
-      atualizarResumoCarrinho();
     };
 
-    // BOTÃO 2: SALVAR E GERAR PDF
-    window.salvarEGerarPDF = async function() {
-      const pedidoObj = prepararDadosPedido();
+    // BOTÃO 2: GERAR PDF MANTENDO CARRINHO ATIVO
+    window.gerarPDFMantendoCarrinho = async function() {
+      const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return alert("O carrinho está vazio!");
 
-      try {
-        await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
-      } catch(err) { console.error(err); }
-
       gerarPDFComprovantePedido(pedidoObj);
+    };
+
+    // BOTÃO 3: FINALIZAR E LIMPAR O CARRINHO
+    window.concluirEstatisticasPedido = function() {
+      const keys = Object.keys(window.carrinho);
+      if(keys.length === 0) return alert("O carrinho está vazio!");
 
       window.carrinho = {};
+      pedidoAtualCache = null;
       if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
       fecharModalCarrinho();
       renderCatalogo();
       atualizarResumoCarrinho();
+      alert("Pedido finalizado com sucesso!");
     };
 
     // LÓGICA DO GESTOR DE PEDIDOS
