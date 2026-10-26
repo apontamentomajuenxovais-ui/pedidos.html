@@ -308,7 +308,7 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM CAMPO DE OBSERVAÇÃO -->
+  <!-- MODAL DO CARRINHO DE COMPRAS -->
   <div id="modal-carrinho" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
@@ -328,12 +328,17 @@
           <span>Valor Total:</span>
           <span id="modal-carrinho-total" class="text-emerald-600">R$ 0,00</span>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="fecharModalCarrinho()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2.5 rounded-xl text-xs">Continuar Comprando</button>
-          <button onclick="enviarPedidoWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1 shadow">
-            📲 Enviar Pedido
+        
+        <!-- OPÇÕES DE CONCLUSÃO (WHATSAPP E PDF LADO A LADO) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button onclick="salvarEEnviarWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+            📲 Enviar por WhatsApp
+          </button>
+          <button onclick="salvarEGerarPDF()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+            🖨️ Gerar Espelho / PDF
           </button>
         </div>
+        <button onclick="fecharModalCarrinho()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2 rounded-xl text-xs">Continuar Comprando</button>
       </div>
     </div>
   </div>
@@ -713,10 +718,52 @@
       }).join('');
     }
 
-    // GERAÇÃO DO COMPROVANTE / PDF
+    // FUNÇÃO QUE MONTA O OBJETO DO PEDIDO
+    function prepararDadosPedido() {
+      const keys = Object.keys(window.carrinho);
+      if(keys.length === 0) return null;
+
+      const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
+      const observacaoTxt = document.getElementById('carrinho-obs')?.value.trim() || '';
+
+      let totalGeral = 0;
+      let resumoItens = [];
+
+      keys.forEach(chaveKey => {
+        const item = window.carrinho[chaveKey];
+        const prod = window.produtos.find(p => p.id === item.prodId);
+        if(prod) {
+          const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
+          const subtotal = precoUnit * item.qtd;
+          totalGeral += subtotal;
+
+          resumoItens.push({ nome: prod.nome, cor: item.cor, qtd: item.qtd, precoUnit, subtotal });
+        }
+      });
+
+      const end = window.distribuidorLogado.endereco || {};
+      const endFormatado = end.cep ? `${end.rua}, Nº ${end.num} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP: ${end.cep})` : 'A combinar';
+
+      return {
+        distribuidor: window.distribuidorLogado.nome,
+        documento: window.distribuidorLogado.documento,
+        enderecoEntrega: endFormatado,
+        escala: chaveEscala,
+        observacao: observacaoTxt,
+        status: 'Pendente',
+        data: new Date().toISOString(),
+        itens: resumoItens,
+        valorTotal: totalGeral
+      };
+    }
+
+    // FUNÇÃO PARA GERAR O ESPELHO / PDF
     function gerarPDFComprovantePedido(dadosPedido) {
       const win = window.open('', '_blank');
-      if(!win) return;
+      if(!win) {
+        alert("O navegador bloqueou a janela do PDF. Por favor, permita pop-ups.");
+        return;
+      }
 
       const dataStr = new Date(dadosPedido.data).toLocaleString('pt-BR');
       const itensHtml = dadosPedido.itens.map((i, idx) => `
@@ -742,13 +789,13 @@
             table { width: 100%; border-collapse: collapse; margin-top: 15px; }
             th { background: #0f172a; color: white; padding: 8px; font-size: 12px; text-align: left; }
             .total { text-align: right; font-size: 16px; font-weight: bold; margin-top: 15px; color: #059669; }
-            .no-print { margin-bottom: 20px; }
+            .no-print { margin-bottom: 20px; text-align: center; }
             @media print { .no-print { display: none; } }
           </style>
         </head>
         <body>
           <div class="no-print">
-            <button onclick="window.print()" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">🖨️ Imprimir / Salvar em PDF</button>
+            <button onclick="window.print()" style="background: #0f172a; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">🖨️ Imprimir / Salvar em PDF</button>
           </div>
 
           <div class="header">
@@ -795,70 +842,50 @@
       win.document.close();
     }
 
-    // ENVIO DO PEDIDO VIA WHATSAPP E SALVAMENTO NO BANCO
-    window.enviarPedidoWhatsApp = async function() {
-      const keys = Object.keys(window.carrinho);
-      if(keys.length === 0) return alert("O carrinho está vazio!");
-
-      const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
-      const observacaoTxt = document.getElementById('carrinho-obs')?.value.trim() || '';
-
-      let totalGeral = 0;
-      let resumoItens = [];
-
-      keys.forEach(chaveKey => {
-        const item = window.carrinho[chaveKey];
-        const prod = window.produtos.find(p => p.id === item.prodId);
-        if(prod) {
-          const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
-          const subtotal = precoUnit * item.qtd;
-          totalGeral += subtotal;
-
-          resumoItens.push({ nome: prod.nome, cor: item.cor, qtd: item.qtd, precoUnit, subtotal });
-        }
-      });
-
-      const end = window.distribuidorLogado.endereco || {};
-      const endFormatado = end.cep ? `${end.rua}, Nº ${end.num} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP: ${end.cep})` : 'A combinar';
-
-      const objetoPedido = {
-        distribuidor: window.distribuidorLogado.nome,
-        documento: window.distribuidorLogado.documento,
-        enderecoEntrega: endFormatado,
-        escala: chaveEscala,
-        observacao: observacaoTxt,
-        status: 'Pendente',
-        data: new Date().toISOString(),
-        itens: resumoItens,
-        valorTotal: totalGeral
-      };
+    // BOTÃO 1: SALVAR E ENVIAR POR WHATSAPP
+    window.salvarEEnviarWhatsApp = async function() {
+      const pedidoObj = prepararDadosPedido();
+      if(!pedidoObj) return alert("O carrinho está vazio!");
 
       try {
-        await addDoc(collection(db, "b2b_pedidos"), objetoPedido);
+        await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
       } catch(err) { console.error(err); }
 
-      // 1. Monta a mensagem formatada para o WhatsApp
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
-      msg += `🏢 *Distribuidor:* ${window.distribuidorLogado.nome}\n`;
-      msg += `📄 *Doc/CNPJ:* ${window.distribuidorLogado.documento}\n`;
-      msg += `🏷️ *Tabela:* ${chaveEscala.replace('_', ' ').toUpperCase()}\n`;
-      msg += `📍 *ENTREGA / FRETE:* ${endFormatado}\n`;
-      if(observacaoTxt) {
-        msg += `📝 *OBSERVAÇÃO:* ${observacaoTxt}\n`;
+      msg += `🏢 *Distribuidor:* ${pedidoObj.distribuidor}\n`;
+      msg += `📄 *Doc/CNPJ:* ${pedidoObj.documento}\n`;
+      msg += `🏷️ *Tabela:* ${pedidoObj.escala.replace('_', ' ').toUpperCase()}\n`;
+      msg += `📍 *ENTREGA / FRETE:* ${pedidoObj.enderecoEntrega}\n`;
+      if(pedidoObj.observacao) {
+        msg += `📝 *OBSERVAÇÃO:* ${pedidoObj.observacao}\n`;
       }
       msg += `-----------------------------------\n\n📦 *ITENS DO PEDIDO:* \n`;
 
-      resumoItens.forEach((item, index) => {
+      pedidoObj.itens.forEach((item, index) => {
         msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
       });
 
-      msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${totalGeral.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
+      msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
 
-      // 2. Dispara o WhatsApp (Abrindo o link diretamente)
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
       
-      // 3. Abre a janela do PDF / Comprovante impresso
-      gerarPDFComprovantePedido(objetoPedido);
+      window.carrinho = {};
+      if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
+      fecharModalCarrinho();
+      renderCatalogo();
+      atualizarResumoCarrinho();
+    };
+
+    // BOTÃO 2: SALVAR E GERAR PDF
+    window.salvarEGerarPDF = async function() {
+      const pedidoObj = prepararDadosPedido();
+      if(!pedidoObj) return alert("O carrinho está vazio!");
+
+      try {
+        await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
+      } catch(err) { console.error(err); }
+
+      gerarPDFComprovantePedido(pedidoObj);
 
       window.carrinho = {};
       if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
