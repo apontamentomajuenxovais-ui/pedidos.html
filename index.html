@@ -308,7 +308,7 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM CAMPO DE OBSERVAÇÃO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
@@ -316,6 +316,13 @@
         <button onclick="fecharModalCarrinho()" class="text-slate-400 hover:text-white font-bold text-lg">✕</button>
       </div>
       <div class="p-4 overflow-y-auto flex-1 divide-y" id="container-itens-carrinho"></div>
+
+      <!-- CAMPO DE OBSERVAÇÃO -->
+      <div class="p-4 bg-amber-50 border-t border-amber-200 space-y-1.5">
+        <label class="block text-xs font-bold text-amber-900">📝 Observações do Pedido (Opcional):</label>
+        <textarea id="carrinho-obs" rows="2" placeholder="Ex: Instruções de entrega, preferências de cores ou prazos..." class="w-full border rounded-lg p-2 text-xs bg-white"></textarea>
+      </div>
+
       <div class="p-4 bg-slate-50 border-t space-y-3">
         <div class="flex justify-between items-center font-black text-lg text-slate-900">
           <span>Valor Total:</span>
@@ -706,11 +713,95 @@
       }).join('');
     }
 
+    // FUNÇÃO QUE GERA A JANELA IMPRESSA / PDF DO PEDIDO
+    function gerarPDFComprovantePedido(dadosPedido) {
+      const win = window.open('', '_blank');
+      if(!win) return;
+
+      const dataStr = new Date(dadosPedido.data).toLocaleString('pt-BR');
+      const itensHtml = dadosPedido.itens.map((i, idx) => `
+        <tr style="border-bottom: 1px solid #e2e8f0;">
+          <td style="padding: 8px; font-size: 12px;">${idx + 1}</td>
+          <td style="padding: 8px; font-size: 12px;"><strong>${i.nome}</strong> ${i.cor ? '(' + i.cor + ')' : ''}</td>
+          <td style="padding: 8px; font-size: 12px; text-align: center;">${i.qtd}</td>
+          <td style="padding: 8px; font-size: 12px; text-align: right;">R$ ${Number(i.precoUnit).toFixed(2)}</td>
+          <td style="padding: 8px; font-size: 12px; text-align: right; font-weight: bold;">R$ ${Number(i.subtotal).toFixed(2)}</td>
+        </tr>
+      `).join('');
+
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Espelho do Pedido - MAJU ENXOVAIS</title>
+          <style>
+            body { font-family: sans-serif; padding: 20px; color: #1e293b; max-width: 800px; margin: auto; }
+            .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 20px; }
+            .logo { background: #f59e0b; color: #0f172a; padding: 10px 15px; font-weight: 900; font-size: 20px; border-radius: 8px; }
+            .box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            th { background: #0f172a; color: white; padding: 8px; font-size: 12px; text-align: left; }
+            .total { text-align: right; font-size: 16px; font-weight: bold; margin-top: 15px; color: #059669; }
+            .no-print { margin-bottom: 20px; }
+            @media print { .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="no-print">
+            <button onclick="window.print()" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">🖨️ Imprimir / Salvar em PDF</button>
+          </div>
+
+          <div class="header">
+            <div>
+              <h2 style="margin:0;">MAJU ENXOVAIS</h2>
+              <p style="margin:2px 0 0 0; font-size: 12px; color: #64748b;">Comprovante / Espelho de Pedido B2B</p>
+            </div>
+            <div class="logo">ME</div>
+          </div>
+
+          <div class="box">
+            <p style="margin: 2px 0;"><strong>Cliente/Distribuidor:</strong> ${dadosPedido.distribuidor}</p>
+            <p style="margin: 2px 0;"><strong>CNPJ/Documento:</strong> ${dadosPedido.documento}</p>
+            <p style="margin: 2px 0;"><strong>Data do Pedido:</strong> ${dataStr}</p>
+            <p style="margin: 2px 0;"><strong>Endereço de Entrega:</strong> ${dadosPedido.enderecoEntrega}</p>
+            ${dadosPedido.observacao ? `<p style="margin: 6px 0 2px 0; color: #b45309;"><strong>Observações:</strong> ${dadosPedido.observacao}</p>` : ''}
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item / Produto</th>
+                <th style="text-align: center;">Qtd</th>
+                <th style="text-align: right;">Unitário</th>
+                <th style="text-align: right;">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itensHtml}
+            </tbody>
+          </table>
+
+          <div class="total">
+            VALOR TOTAL DO PEDIDO: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
+          </div>
+
+          <div style="margin-top: 40px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+            MAJU ENXOVAIS - Pedido gerado via Portal de Vendas B2B
+          </div>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    }
+
     window.enviarPedidoWhatsApp = async function() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return alert("O carrinho está vazio!");
 
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
+      const observacaoTxt = document.getElementById('carrinho-obs')?.value.trim() || '';
+
       let totalGeral = 0;
       let resumoItens = [];
 
@@ -729,24 +820,35 @@
       const end = window.distribuidorLogado.endereco || {};
       const endFormatado = end.cep ? `${end.rua}, Nº ${end.num} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP: ${end.cep})` : 'A combinar';
 
+      const objetoPedido = {
+        distribuidor: window.distribuidorLogado.nome,
+        documento: window.distribuidorLogado.documento,
+        enderecoEntrega: endFormatado,
+        escala: chaveEscala,
+        observacao: observacaoTxt,
+        status: 'Pendente',
+        data: new Date().toISOString(),
+        itens: resumoItens,
+        valorTotal: totalGeral
+      };
+
       try {
-        await addDoc(collection(db, "b2b_pedidos"), {
-          distribuidor: window.distribuidorLogado.nome,
-          documento: window.distribuidorLogado.documento,
-          enderecoEntrega: endFormatado,
-          escala: chaveEscala,
-          status: 'Pendente',
-          data: new Date().toISOString(),
-          itens: resumoItens,
-          valorTotal: totalGeral
-        });
+        await addDoc(collection(db, "b2b_pedidos"), objetoPedido);
       } catch(err) { console.error(err); }
 
+      // 1. Gera o PDF / Comprovante impresso para o cliente
+      gerarPDFComprovantePedido(objetoPedido);
+
+      // 2. Monta e envia a mensagem para o WhatsApp
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
       msg += `🏢 *Distribuidor:* ${window.distribuidorLogado.nome}\n`;
       msg += `📄 *Doc/CNPJ:* ${window.distribuidorLogado.documento}\n`;
       msg += `🏷️ *Tabela:* ${chaveEscala.replace('_', ' ').toUpperCase()}\n`;
-      msg += `📍 *ENTREGA / FRETE:* ${endFormatado}\n-----------------------------------\n\n📦 *ITENS DO PEDIDO:* \n`;
+      msg += `📍 *ENTREGA / FRETE:* ${endFormatado}\n`;
+      if(observacaoTxt) {
+        msg += `📝 *OBSERVAÇÃO:* ${observacaoTxt}\n`;
+      }
+      msg += `-----------------------------------\n\n📦 *ITENS DO PEDIDO:* \n`;
 
       resumoItens.forEach((item, index) => {
         msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
@@ -757,6 +859,7 @@
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
       
       window.carrinho = {};
+      if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
       fecharModalCarrinho();
       renderCatalogo();
       atualizarResumoCarrinho();
@@ -809,6 +912,7 @@
                 </div>
                 <p class="text-xs text-slate-500">CNPJ: ${p.documento || 'N/A'} | Data: ${dataFormatada}</p>
                 <p class="text-xs text-slate-600 font-semibold mt-0.5">📍 Entrega: ${p.enderecoEntrega || 'A combinar'}</p>
+                ${p.observacao ? `<p class="text-xs text-amber-800 bg-amber-50 p-1.5 rounded border border-amber-200 mt-1 font-medium">📝 <strong>Obs:</strong> ${p.observacao}</p>` : ''}
               </div>
               <div class="text-right">
                 <p class="text-[10px] uppercase font-bold text-slate-400">Total do Pedido</p>
@@ -833,11 +937,18 @@
                   <option value="Cancelado" ${st === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
                 </select>
               </div>
-              <button onclick="deletarPedido('${p.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir Pedido</button>
+              <div class="flex gap-2">
+                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-slate-700 font-bold text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-300">🖨️ Reenviar / PDF</button>
+                <button onclick="deletarPedido('${p.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
+              </div>
             </div>
           </div>
         `;
       }).join('');
+    };
+
+    window.reimprimirPedidoGestor = function(pedidoObj) {
+      gerarPDFComprovantePedido(pedidoObj);
     };
 
     window.atualizarStatusPedido = async function(id, novoStatus) {
