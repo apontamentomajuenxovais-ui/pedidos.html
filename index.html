@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MAJU ENXOVAIS - Portal B2B de Distribuidores</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     html, body {
       overflow-x: hidden;
@@ -16,799 +13,372 @@
     input, select, textarea {
       font-size: 16px !important;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen pb-12">
 
-  <!-- TOP NAVIGATION BAR -->
-  <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-40">
+  <!-- NAVBAR -->
+  <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <!-- Logo & Brand -->
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="voltarParaVitrineOuHome()">
-        <div class="bg-amber-500 text-slate-950 px-2.5 py-1 rounded-lg font-black text-xl tracking-wider shadow">ME</div>
+      <div class="flex items-center space-x-3">
+        <div class="bg-amber-500 text-slate-950 p-2 rounded-lg font-black text-xl">ME</div>
         <div>
-          <h1 class="font-bold text-base md:text-xl leading-tight tracking-wide">MAJU ENXOVAIS</h1>
-          <p class="text-[10px] md:text-xs text-amber-400 font-medium">Portal B2B de Pedidos & Distribuidores</p>
+          <h1 class="font-bold text-base md:text-lg leading-tight">MAJU ENXOVAIS</h1>
+          <p class="text-xs text-amber-400" id="nav-user-status">Portal de Vendas B2B</p>
         </div>
       </div>
-
-      <!-- Navigation Actions -->
-      <div class="flex items-center space-x-2 md:space-x-3">
-        <!-- Logged-in Distributor Cart Badge (Mobile/Desktop) -->
-        <button id="btn-carrinho-nav" onclick="abrirModalCarrinho()" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs md:text-sm shadow flex items-center space-x-1.5 transition">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <span>Carrinho</span>
-          <span id="nav-cart-count" class="bg-slate-950 text-amber-400 text-xs px-1.5 py-0.5 rounded-full font-black">0</span>
+      <div class="flex items-center space-x-2">
+        <button id="btn-carrinho" onclick="abrirModalCarrinho()" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs md:text-sm flex items-center gap-1.5 shadow">
+          <span>🛒 Carrinho</span>
+          <span id="badge-carrinho-qtd" class="bg-slate-950 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black">0</span>
         </button>
-
-        <!-- User/Admin Profile Header Controls -->
-        <div id="dist-info-header" class="hidden text-right hidden md:block">
-          <p id="header-dist-nome" class="text-xs font-bold text-slate-200">Distribuidor</p>
-          <span id="header-dist-escala" class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-semibold px-2 py-0.5 rounded">Escala 1</span>
-        </div>
-
-        <button id="btn-logout" onclick="fazerLogout()" class="hidden bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-2.5 py-1.5 rounded-lg text-xs transition border border-slate-700">
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
-
-        <!-- Toggle Admin Gestor Access -->
-        <button onclick="toggleModoGestor()" id="btn-gestor-nav" class="bg-slate-800 text-amber-400 hover:bg-slate-700 border border-amber-500/40 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1 shadow">
-          <i class="fa-solid fa-lock"></i>
-          <span id="lbl-btn-gestor">Área Gestor</span>
-        </button>
+        <button id="btn-gestor" onclick="toggleModoGestor()" class="bg-slate-800 text-amber-400 border border-amber-500/30 hover:bg-slate-700 px-3 py-2 rounded-lg text-xs font-bold">🔒 Gestor</button>
+        <button id="btn-logout" onclick="fazerLogout()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-xs font-bold">Sair</button>
       </div>
     </div>
   </nav>
 
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-7xl mx-auto px-3 py-4 md:px-6 md:py-6 flex-grow w-full">
+  <main class="max-w-7xl mx-auto p-4 md:p-6">
 
-    <!-- SCREEN 1: LOGIN / REGISTRATION MODAL -->
-    <div id="sec-login" class="max-w-md mx-auto my-6 md:my-10 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-      <div class="bg-slate-900 p-6 text-center text-white border-b border-amber-500/30">
-        <div class="inline-block bg-amber-500 text-slate-950 px-3 py-1 rounded-xl font-black text-2xl mb-2">ME</div>
-        <h2 class="text-xl font-black tracking-wide">Acesso do Distribuidor B2B</h2>
-        <p class="text-xs text-slate-400 mt-1">Digite suas credenciais de parceiro para ver sua tabela exclusiva de preços.</p>
+    <!-- TELA DE LOGIN DO DISTRIBUIDOR -->
+    <div id="sec-login" class="max-w-md mx-auto my-12 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200">
+      <div class="text-center mb-6">
+        <div class="bg-amber-500 text-slate-950 w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center mx-auto mb-3 shadow-md">ME</div>
+        <h2 class="text-2xl font-black text-slate-900">Portal do Distribuidor</h2>
+        <p class="text-xs text-slate-500 mt-1">Acesse com seus dados para visualizar sua tabela exclusiva de preços</p>
       </div>
 
-      <div class="p-6 space-y-5">
-        <!-- TAB TOGGLES -->
-        <div class="flex border-b border-slate-200 text-xs font-bold">
-          <button id="tab-btn-login" onclick="alternarAbaLogin('login')" class="flex-1 py-2.5 text-center text-amber-600 border-b-2 border-amber-500 font-black">LOGIN DISTRIBUIDOR</button>
-          <button id="tab-btn-cadastro" onclick="alternarAbaLogin('cadastro')" class="flex-1 py-2.5 text-center text-slate-500 hover:text-slate-800">CADASTRAR SUAE MPRESA</button>
-        </div>
-
-        <!-- FORM LOGIN -->
-        <form id="form-login" onsubmit="realizarLogin(event)" class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">CNPJ ou Telefone Cadastrado</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-solid fa-id-card"></i></span>
-              <input type="text" id="login-cnpj" required placeholder="Ex: 12.345.678/0001-90" class="w-full pl-9 pr-3 py-2.5 border rounded-lg text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Senha de Acesso</label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-solid fa-key"></i></span>
-              <input type="password" id="login-senha" required placeholder="••••••••" class="w-full pl-9 pr-3 py-2.5 border rounded-lg text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
-            </div>
-          </div>
-          <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-lg text-sm shadow-md transition flex items-center justify-center space-x-2">
-            <span>ENTRAR NO CATALOGO</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </form>
-
-        <!-- FORM AUTOCADASTRO -->
-        <form id="form-autocadastro" onsubmit="realizarAutoCadastro(event)" class="space-y-3 hidden">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-0.5">Razão Social / Nome Fantasia</label>
-            <input type="text" id="cad-razao" required placeholder="Ex: Enxovais do Vale Ltda" class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-0.5">CNPJ ou CPF</label>
-            <input type="text" id="cad-cnpj" required placeholder="00.000.000/0001-00" class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50">
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-0.5">WhatsApp / Fone</label>
-              <input type="text" id="cad-fone" required placeholder="(16) 99999-0000" class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-0.5">Cidade / UF</label>
-              <input type="text" id="cad-cidade" required placeholder="Franca/SP" class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-0.5">Crie uma Senha</label>
-            <input type="password" id="cad-senha" required placeholder="Senha de acesso" class="w-full px-3 py-2 border rounded-lg text-sm bg-slate-50">
-          </div>
-          <p class="text-[11px] text-amber-700 bg-amber-50 p-2 rounded border border-amber-200 leading-tight">
-            <i class="fa-solid fa-circle-info mr-1"></i> Cadastros novos iniciam na <strong>Escala 1 (Inicial)</strong>. O gestor pode atualizar sua tabela para Escala 2 ou 3 posteriormente.
-          </p>
-          <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-lg text-sm shadow transition">
-            SOLICITAR CADASTRO B2B
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- SCREEN 2: DISTRIBUTOR PORTAL & CATALOG (Área do Cliente B2B) -->
-    <div id="sec-distribuidor" class="hidden space-y-6">
-      
-      <!-- DISTRIBUTOR BANNER HEADER -->
-      <div class="bg-slate-900 text-white p-4 md:p-6 rounded-2xl shadow-lg border border-slate-800 flex flex-wrap justify-between items-center gap-4">
+      <form onsubmit="fazerLoginDistribuidor(event)" class="space-y-4">
         <div>
-          <div class="flex items-center space-x-2">
-            <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> CONECTADO B2B
-            </span>
-            <span id="dist-card-escala-badge" class="bg-amber-500 text-slate-950 text-xs font-black px-2.5 py-0.5 rounded shadow">
-              Escala 1 - Varejo / Inicial
-            </span>
-          </div>
-          <h2 id="dist-card-nome" class="text-xl md:text-2xl font-black mt-1">Distribuidora Exemplo</h2>
-          <p class="text-xs text-slate-400 flex items-center space-x-3 mt-0.5">
-            <span><i class="fa-solid fa-id-card mr-1 text-amber-500"></i><span id="dist-card-cnpj">00.000.000/0001-00</span></span>
-            <span><i class="fa-solid fa-location-dot mr-1 text-amber-500"></i><span id="dist-card-cidade">Franca / SP</span></span>
-          </p>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ ou Identificação</label>
+          <input type="text" id="login-doc" required placeholder="Digite seu CNPJ cadastrado" class="w-full border rounded-lg p-3 text-sm">
         </div>
-
-        <div class="flex items-center space-x-3 w-full sm:w-auto">
-          <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center flex-1 sm:flex-initial">
-            <p class="text-[10px] text-slate-400 uppercase font-bold">Itens no Carrinho</p>
-            <p id="dist-summary-qtd" class="text-xl font-black text-amber-400">0</p>
-          </div>
-          <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center flex-1 sm:flex-initial">
-            <p class="text-[10px] text-slate-400 uppercase font-bold">Total do Pedido</p>
-            <p id="dist-summary-total" class="text-xl font-black text-emerald-400">R$ 0,00</p>
-          </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Senha de Acesso</label>
+          <input type="password" id="login-senha" required placeholder="••••••••" class="w-full border rounded-lg p-3 text-sm">
         </div>
-      </div>
-
-      <!-- FILTER & SEARCH BAR -->
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-3 justify-between items-center">
-        <!-- Search Input -->
-        <div class="relative w-full md:w-80">
-          <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <input type="text" id="catalog-search" oninput="filtrarProdutos()" placeholder="Buscar por código, nome ou tecido..." class="w-full pl-9 pr-3 py-2 border rounded-lg text-sm bg-slate-50 focus:bg-white outline-none">
-        </div>
-
-        <!-- Category Filters -->
-        <div id="catalog-categories" class="flex flex-wrap gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-          <button onclick="filtrarCategoria('TODOS')" class="cat-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white shadow">Todos</button>
-          <button onclick="filtrarCategoria('JOGOS DE CAMA')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">Jogos de Cama</button>
-          <button onclick="filtrarCategoria('EDREDONS & COLCHAS')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">Edredons & Colchas</button>
-          <button onclick="filtrarCategoria('KITS & CORTINAS')" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">Kits & Cortinas</button>
-        </div>
-      </div>
-
-      <!-- PRODUCT CATALOG GRID -->
-      <div id="grid-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-        <!-- Dynamic Product Cards Injected Here -->
-      </div>
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black p-3.5 rounded-xl shadow transition">Entrar no Portal B2B</button>
+      </form>
+      <p class="text-[11px] text-center text-slate-400 mt-6">Ainda não é um distribuidor cadastrado? Entre em contato com a equipe comercial.</p>
     </div>
 
-    <!-- SCREEN 3: GESTOR ADMIN PANEL (🔒 Área restrita do Gestor) -->
+    <!-- PAINEL B2B (CATÁLOGO DE PRODUTOS) -->
+    <div id="sec-catalogo" class="hidden space-y-6">
+      <!-- CABEÇALHO DO DISTRIBUIDOR -->
+      <div class="bg-white p-4 md:p-6 rounded-xl border border-slate-200 shadow-sm flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h2 class="text-xl font-black text-slate-900" id="lbl-distribuidor-nome">Distribuidor</h2>
+          <p class="text-xs text-slate-500">Tabela Ativa: <span id="lbl-distribuidor-escala" class="font-bold text-amber-600 uppercase">Escala 1</span></p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <p class="text-[10px] text-slate-500 font-semibold uppercase">Total no Carrinho</p>
+            <p class="text-lg font-black text-emerald-600" id="lbl-carrinho-total">R$ 0,00</p>
+          </div>
+          <button onclick="abrirModalCarrinho()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs md:text-sm shadow flex items-center gap-2">
+            🛒 Ver Pedido
+          </button>
+        </div>
+      </div>
+
+      <!-- GRID DE PRODUTOS -->
+      <div id="grid-produtos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
+    </div>
+
+    <!-- ABA CADASTROS (PAINEL GESTOR) -->
     <div id="sec-gestor" class="hidden space-y-6">
-      
-      <!-- GESTOR HEADER & TABS -->
-      <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between md:items-center gap-4">
+      <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex justify-between items-center">
         <div>
-          <h2 class="text-xl md:text-2xl font-black text-slate-900 flex items-center gap-2">
-            <span class="bg-slate-900 text-amber-400 p-1.5 rounded-lg text-base"><i class="fa-solid fa-user-shield"></i></span>
-            Painel Administrativo B2B
-          </h2>
-          <p class="text-xs text-slate-500 mt-0.5">Gestão de Tabela de Preços por Categoria, Distribuidores e Pedidos em Tempo Real.</p>
+          <h2 class="text-lg font-black text-amber-900">Painel do Gestor - Configurações B2B</h2>
+          <p class="text-xs text-amber-700">Gerencie distribuidores, tabelas de preço e catálogo de produtos.</p>
         </div>
-
-        <!-- ADMIN TABS -->
-        <div class="flex flex-wrap gap-2">
-          <button onclick="mudarAbaGestor('pedidos')" id="tab-g-pedidos" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow">
-            <i class="fa-solid fa-list-check mr-1"></i> Pedidos (<span id="count-pedidos-badge">0</span>)
-          </button>
-          <button onclick="mudarAbaGestor('distribuidores')" id="tab-g-distribuidores" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
-            <i class="fa-solid fa-users mr-1"></i> Distribuidores
-          </button>
-          <button onclick="mudarAbaGestor('produtos')" id="tab-g-produtos" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
-            <i class="fa-solid fa-box-open mr-1"></i> Cadastrar Produtos
-          </button>
-        </div>
+        <button onclick="toggleModoGestor()" class="bg-slate-800 text-white text-xs font-bold px-3 py-2 rounded-lg">Fechar Modo Gestor</button>
       </div>
 
-      <!-- TAB 1: HISTÓRICO DE PEDIDOS B2B -->
-      <div id="gestor-sec-pedidos" class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-        <div class="flex justify-between items-center border-b pb-3">
-          <h3 class="font-bold text-slate-800 text-sm md:text-base">Histórico de Pedidos de Distribuidores</h3>
-          <button onclick="carregarDadosGerais()" class="text-xs text-indigo-600 font-bold hover:underline"><i class="fa-solid fa-rotate mr-1"></i>Atualizar</button>
-        </div>
-
-        <div class="overflow-x-auto border rounded-xl">
-          <table class="w-full text-left text-xs md:text-sm">
-            <thead class="bg-slate-800 text-white font-bold">
-              <tr>
-                <th class="p-3">Data / Hora</th>
-                <th class="p-3">Distribuidor</th>
-                <th class="p-3 text-center">Escala</th>
-                <th class="p-3 text-center">Qtd Itens</th>
-                <th class="p-3 text-right">Valor Total</th>
-                <th class="p-3 text-center">Status</th>
-                <th class="p-3 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="tb-gestor-pedidos" class="divide-y text-slate-700">
-              <!-- Dynamic orders list -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- TAB 2: GESTÃO DE DISTRIBUIDORES -->
-      <div id="gestor-sec-distribuidores" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Cadastrar Distribuidor -->
-        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-1 space-y-4">
-          <h3 class="font-bold text-slate-800 text-base border-b pb-2">Cadastrar / Editar Distribuidor</h3>
-          <form onsubmit="salvarDistribuidor(event)" class="space-y-3">
-            <input type="hidden" id="admin-dist-id">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-base font-bold text-slate-800 border-b pb-2">Cadastrar Novo Distribuidor</h3>
+          <form onsubmit="cadastrarDistribuidor(event)" class="space-y-3">
             <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">Razão Social / Nome</label>
-              <input type="text" id="admin-dist-nome" required placeholder="Ex: Distribuidora Brasil" class="w-full border rounded-lg p-2 text-sm">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">CNPJ / CPF</label>
-              <input type="text" id="admin-dist-cnpj" required placeholder="12.345.678/0001-90" class="w-full border rounded-lg p-2 text-sm">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Razão Social / Nome Fantasia</label>
+              <input type="text" id="cad-dist-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-2.5 text-sm">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Telefone / Whats</label>
-                <input type="text" id="admin-dist-fone" placeholder="(16) 99999-0000" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ / Documento</label>
+                <input type="text" id="cad-dist-doc" required placeholder="Apenas números" class="w-full border rounded-lg p-2.5 text-sm">
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Cidade / UF</label>
-                <input type="text" id="admin-dist-cidade" placeholder="Ribeirão Preto/SP" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Senha de Acesso</label>
+                <input type="text" id="cad-dist-senha" required placeholder="Defina uma senha" class="w-full border rounded-lg p-2.5 text-sm">
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Senha de Acesso</label>
-                <input type="text" id="admin-dist-senha" required placeholder="Senha" class="w-full border rounded-lg p-2 text-sm font-bold">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-amber-700 mb-1">Escala de Preço</label>
-                <select id="admin-dist-escala" class="w-full border rounded-lg p-2 text-sm bg-amber-50 font-bold text-slate-900 border-amber-300">
-                  <option value="escala_1">Escala 1 (Varejo)</option>
-                  <option value="escala_2">Escala 2 (Atacado)</option>
-                  <option value="escala_3">Escala 3 (Master)</option>
-                </select>
-              </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Tabela de Preço Atribuída</label>
+              <select id="cad-dist-escala" required class="w-full border rounded-lg p-2.5 text-sm font-semibold">
+                <option value="escala_1">Escala 1 (Preço Padrão)</option>
+                <option value="escala_2">Escala 2 (Preço Intermediário)</option>
+                <option value="escala_3">Escala 3 (Preço Especial / Volume)</option>
+              </select>
             </div>
-            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-lg text-sm transition">
-              Salvar Distribuidor
-            </button>
+            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-lg text-sm shadow">Salvar Distribuidor</button>
           </form>
+          
+          <h4 class="text-xs font-bold text-slate-600 uppercase pt-2">Distribuidores Cadastrados</h4>
+          <ul id="lista-distribuidores" class="divide-y text-xs max-h-48 overflow-y-auto"></ul>
         </div>
 
-        <!-- Lista de Distribuidores -->
-        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2 space-y-4">
-          <h3 class="font-bold text-slate-800 text-base border-b pb-2">Distribuidores Cadastrados</h3>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-left text-xs md:text-sm">
-              <thead class="bg-slate-100 text-slate-700 font-bold border-b">
-                <tr>
-                  <th class="p-2.5">Empresa / CNPJ</th>
-                  <th class="p-2.5">Cidade</th>
-                  <th class="p-2.5 text-center">Escala Atribuída</th>
-                  <th class="p-2.5 text-center">Senha</th>
-                  <th class="p-2.5 text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tb-gestor-distribuidores" class="divide-y">
-                <!-- Dynamic distributors list -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 3: GESTÃO DE PRODUTOS & PREÇOS DAS 3 ESCALAS -->
-      <div id="gestor-sec-produtos" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Cadastrar Produto -->
-        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-1 space-y-4">
-          <h3 class="font-bold text-slate-800 text-base border-b pb-2">Cadastrar / Editar Produto</h3>
-          <form onsubmit="salvarProduto(event)" class="space-y-3">
-            <input type="hidden" id="admin-prod-id">
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Código / SKU</label>
-                <input type="text" id="admin-prod-sku" required placeholder="SKU-101" class="w-full border rounded-lg p-2 text-sm font-bold">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Categoria</label>
-                <select id="admin-prod-categoria" class="w-full border rounded-lg p-2 text-sm">
-                  <option value="JOGOS DE CAMA">JOGOS DE CAMA</option>
-                  <option value="EDREDONS & COLCHAS">EDREDONS & COLCHAS</option>
-                  <option value="KITS & CORTINAS">KITS & CORTINAS</option>
-                </select>
-              </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-base font-bold text-slate-800 border-b pb-2">Cadastrar / Atualizar Produto</h3>
+          <form onsubmit="cadastrarProduto(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Nome do Produto</label>
+              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 100% Algodão" class="w-full border rounded-lg p-2.5 text-sm">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">Nome do Produto</label>
-              <input type="text" id="admin-prod-nome" required placeholder="Ex: Jogo de Cama Casal Percal 200 Fios" class="w-full border rounded-lg p-2 text-sm">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Descrição Curta</label>
+              <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border rounded-lg p-2.5 text-sm">
             </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">Descrição Comercial</label>
-              <textarea id="admin-prod-desc" rows="2" placeholder="4 peças com toque acetinado..." class="w-full border rounded-lg p-2 text-sm"></textarea>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
+
+            <!-- FOTOS DO PRODUTO (3 FOTOS) -->
+            <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
+              <label class="block text-xs font-bold text-slate-700">Fotos do Produto (Links/URLs)</label>
               <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">URL da Imagem (Link)</label>
-                <input type="text" id="admin-prod-img" placeholder="https://..." class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-[10px] text-slate-500 font-semibold">Foto 1 (Principal)</label>
+                <input type="url" id="cad-prod-foto1" placeholder="https://exemplo.com/foto1.jpg" class="w-full border rounded p-2 text-xs">
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-600 mb-1">Qtd Mínima (Caixa/Pct)</label>
-                <input type="number" id="admin-prod-qtdmin" value="1" min="1" class="w-full border rounded-lg p-2 text-sm font-bold">
+                <label class="block text-[10px] text-slate-500 font-semibold">Foto 2</label>
+                <input type="url" id="cad-prod-foto2" placeholder="https://exemplo.com/foto2.jpg" class="w-full border rounded p-2 text-xs">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 font-semibold">Foto 3</label>
+                <input type="url" id="cad-prod-foto3" placeholder="https://exemplo.com/foto3.jpg" class="w-full border rounded p-2 text-xs">
+              </div>
+            </div>
+            
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[10px] text-slate-500 font-bold uppercase">Preço Escala 1</label>
+                <input type="number" step="0.01" id="cad-prod-p1" required placeholder="85.00" class="w-full border rounded p-1.5 text-xs font-bold text-slate-800">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 font-bold uppercase">Preço Escala 2</label>
+                <input type="number" step="0.01" id="cad-prod-p2" required placeholder="78.00" class="w-full border rounded p-1.5 text-xs font-bold text-amber-700">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 font-bold uppercase">Preço Escala 3</label>
+                <input type="number" step="0.01" id="cad-prod-p3" required placeholder="70.00" class="w-full border rounded p-1.5 text-xs font-bold text-emerald-700">
               </div>
             </div>
 
-            <!-- AS 3 ESCALAS DE PREÇOS -->
-            <div class="bg-amber-50 p-3 rounded-xl border border-amber-200 space-y-2">
-              <p class="text-xs font-bold text-amber-900 uppercase">Preços pelas 3 Escalas B2B (R$)</p>
-              <div class="grid grid-cols-3 gap-2">
-                <div>
-                  <label class="block text-[10px] font-bold text-slate-600">Escala 1 (Inicial)</label>
-                  <input type="number" step="0.01" id="admin-prod-p1" required placeholder="85.00" class="w-full border rounded p-1.5 text-xs font-bold">
-                </div>
-                <div>
-                  <label class="block text-[10px] font-bold text-slate-600">Escala 2 (Atacado)</label>
-                  <input type="number" step="0.01" id="admin-prod-p2" required placeholder="78.00" class="w-full border rounded p-1.5 text-xs font-bold">
-                </div>
-                <div>
-                  <label class="block text-[10px] font-bold text-slate-600">Escala 3 (Master)</label>
-                  <input type="number" step="0.01" id="admin-prod-p3" required placeholder="70.00" class="w-full border rounded p-1.5 text-xs font-bold">
-                </div>
-              </div>
-            </div>
-
-            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-lg text-sm transition">
-              Salvar Produto no Catálogo
-            </button>
+            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-lg text-sm shadow">Salvar Produto</button>
           </form>
-        </div>
 
-        <!-- Lista de Produtos -->
-        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2 space-y-4">
-          <h3 class="font-bold text-slate-800 text-base border-b pb-2">Catálogo Cadastrado & Tabela Comparativa de Preços</h3>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-left text-xs md:text-sm">
-              <thead class="bg-slate-100 text-slate-700 font-bold border-b">
-                <tr>
-                  <th class="p-2.5">SKU / Produto</th>
-                  <th class="p-2.5 text-center">Escala 1</th>
-                  <th class="p-2.5 text-center">Escala 2</th>
-                  <th class="p-2.5 text-center">Escala 3</th>
-                  <th class="p-2.5 text-right">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tb-gestor-produtos" class="divide-y">
-                <!-- Dynamic products list -->
-              </tbody>
-            </table>
-          </div>
+          <h4 class="text-xs font-bold text-slate-600 uppercase pt-2">Produtos no Catálogo</h4>
+          <ul id="lista-produtos-gestor" class="divide-y text-xs max-h-48 overflow-y-auto"></ul>
         </div>
       </div>
-
     </div>
 
   </main>
 
-  <!-- MODAL CARRINHO DE COMPRAS & ENVIAR PARA WHATSAPP -->
-  <div id="modal-carrinho" class="fixed inset-0 bg-slate-950/70 z-50 flex justify-end transition-opacity duration-300 hidden">
-    <div class="bg-white w-full max-w-lg h-full shadow-2xl flex flex-col justify-between">
-      
-      <!-- Modal Header -->
-      <div class="bg-slate-900 text-white p-4 flex justify-between items-center border-b border-amber-500/30">
-        <div class="flex items-center space-x-2">
-          <div class="bg-amber-500 text-slate-950 p-1.5 rounded-lg font-black text-xs">ME</div>
-          <div>
-            <h3 class="font-bold text-base leading-tight">Carrinho de Pedido B2B</h3>
-            <p id="modal-cart-escala" class="text-[11px] text-amber-400">Escala de Preços Ativa</p>
-          </div>
-        </div>
-        <button onclick="fecharModalCarrinho()" class="text-slate-400 hover:text-white p-1 text-lg">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+  <!-- MODAL DO CARRINHO DE COMPRAS -->
+  <div id="modal-carrinho" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
+        <h3 class="font-bold text-base flex items-center gap-2">🛒 Seu Pedido B2B</h3>
+        <button onclick="fecharModalCarrinho()" class="text-slate-400 hover:text-white font-bold text-lg">✕</button>
       </div>
 
-      <!-- Items List -->
-      <div id="cart-items-container" class="p-4 flex-grow overflow-y-auto custom-scrollbar space-y-3">
-        <!-- Cart Items Injected Here -->
-      </div>
+      <div class="p-4 overflow-y-auto flex-1 divide-y" id="container-itens-carrinho"></div>
 
-      <!-- Cart Footer & Actions -->
-      <div class="bg-slate-50 p-4 border-t border-slate-200 space-y-3">
-        <!-- Optional Observations -->
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Observações de Pagamento ou Entrega</label>
-          <input type="text" id="cart-obs" placeholder="Ex: Transportadora X / Faturamento 30 dias" class="w-full border rounded-lg p-2 text-xs bg-white">
+      <div class="p-4 bg-slate-50 border-t space-y-3">
+        <div class="flex justify-between items-center font-black text-lg text-slate-900">
+          <span>Valor Total:</span>
+          <span id="modal-carrinho-total" class="text-emerald-600">R$ 0,00</span>
         </div>
-
-        <div class="flex justify-between items-center border-t pt-2">
-          <span class="text-xs font-bold uppercase text-slate-500">Valor Total Estimado:</span>
-          <span id="modal-cart-total" class="text-2xl font-black text-emerald-600">R$ 0,00</span>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="fecharModalCarrinho()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2.5 rounded-xl text-xs">Continuar Comprando</button>
+          <button onclick="enviarPedidoWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1 shadow">
+            📲 Enviar Pedido
+          </button>
         </div>
-
-        <button onclick="finalizarPedidoWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl shadow-lg flex items-center justify-center space-x-2 transition text-sm">
-          <i class="fa-brands fa-whatsapp text-lg"></i>
-          <span>FINALIZAR PEDIDO NO WHATSAPP</span>
-        </button>
       </div>
-
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-4 text-center border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4">
-      <p class="font-semibold text-slate-300">MAJU ENXOVAIS &copy; 2026 - Todos os Direitos Reservados</p>
-      <p class="text-[10px] text-slate-500 mt-0.5">Sincronizado via Firebase Cloud | Pedidos direcionados para (16) 99621-6754</p>
-    </div>
-  </footer>
-
-  <!-- FIREBASE SDKs & SYSTEM LOGIC -->
+  <!-- FIREBASE SDKs E LÓGICA COMPLETA -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, addDoc, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, addDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDl1gUSxd2v3iirh4Eozs9KibkQ6M_NcIc",
       authDomain: "maju-enxovais.firebaseapp.com",
       projectId: "maju-enxovais",
       storageBucket: "maju-enxovais.firebasestorage.app",
       messagingSenderId: "397338285103",
-      appId: "1:397338285103:web:d76f389f34e8bc6c4b22da"
+      appId: "1:397338285103:web:d76f389f34e8bc6c4b22da",
+      measurementId: "G-991NH0S2Q1"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Global App State
-    window.distribuidorLogado = JSON.parse(sessionStorage.getItem('maju_distribuidor')) || null;
-    window.modoGestorAtivo = false;
-    window.senhaGestor = "1234";
-    window.whatsappTarget = "5516996216754";
+    const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
+    let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
+    let modoGestorAtivo = false;
 
-    window.listaProdutos = [];
-    window.listaDistribuidores = [];
-    window.listaPedidos = [];
-    window.carrinho = {}; // { prodId: quantidade }
-    window.categoriaFiltro = "TODOS";
+    window.distribuidores = [];
+    window.produtos = [];
+    window.distribuidorLogado = null;
+    window.carrinho = {};
 
-    // INITIAL DEMO DATA (Fallback if Firestore empty)
-    const DEMO_PRODUTOS = [
-      {
-        sku: "MJ-101",
-        nome: "Jogo de Cama Casal Percal 200 Fios Premium",
-        categoria: "JOGOS DE CAMA",
-        descricao: "Contém 4 peças em 100% algodão super macio. Toque acetinado e anti-pilling.",
-        img: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=600&q=80",
-        qtd_minima: 5,
-        preco_1: 89.90,
-        preco_2: 79.90,
-        preco_3: 69.90
-      },
-      {
-        sku: "MJ-202",
-        nome: "Edredom King Size Dupla Face Matelassê",
-        categoria: "EDREDONS & COLCHAS",
-        descricao: "Achechegante e quente. Manta siliconada antialérgica de alta gramatura.",
-        img: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80",
-        qtd_minima: 3,
-        preco_1: 159.00,
-        preco_2: 139.00,
-        preco_3: 119.00
-      },
-      {
-        sku: "MJ-303",
-        nome: "Kit Cortina Ilhós 3,00m x 2,80m Jacquard",
-        categoria: "KITS & CORTINAS",
-        descricao: "Tecido estruturado elegante com ótimo caimento e bloqueio de luz suave.",
-        img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80",
-        qtd_minima: 4,
-        preco_1: 110.00,
-        preco_2: 95.00,
-        preco_3: 82.00
-      }
-    ];
-
-    const DEMO_DISTRIBUIDORES = [
-      {
-        razao: "Distribuidora de Enxovais Paulista Ltda",
-        cnpj: "12.345.678/0001-90",
-        fone: "(16) 99888-1122",
-        cidade: "Ribeirão Preto / SP",
-        senha: "123",
-        escala: "escala_2"
-      }
-    ];
-
-    // LISTENERS REALTIME FIRESTORE
-    onSnapshot(collection(db, "produtos"), (snapshot) => {
-      window.listaProdutos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      if (window.listaProdutos.length === 0) preencherDemoProdutos();
-      renderizarCatalogo();
-      renderizarAdminProdutos();
+    onSnapshot(collection(db, "b2b_distribuidores"), (snapshot) => {
+      window.distribuidores = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderGestorDistribuidores();
     });
 
-    onSnapshot(collection(db, "distribuidores"), (snapshot) => {
-      window.listaDistribuidores = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      if (window.listaDistribuidores.length === 0) preencherDemoDistribuidores();
-      renderizarAdminDistribuidores();
+    onSnapshot(collection(db, "b2b_produtos"), (snapshot) => {
+      window.produtos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderCatalogo();
+      renderGestorProdutos();
     });
-
-    onSnapshot(collection(db, "pedidos_b2b"), (snapshot) => {
-      window.listaPedidos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderizarAdminPedidos();
-    });
-
-    async function preencherDemoProdutos() {
-      for(let p of DEMO_PRODUTOS) {
-        await addDoc(collection(db, "produtos"), p);
-      }
-    }
-
-    async function preencherDemoDistribuidores() {
-      for(let d of DEMO_DISTRIBUIDORES) {
-        await addDoc(collection(db, "distribuidores"), d);
-      }
-    }
-
-    // ON LOAD INITIALIZATION
-    window.onload = function() {
-      if(window.distribuidorLogado) {
-        exibirAreaDistribuidor();
-      } else {
-        exibirTelaLogin();
-      }
-    };
-
-    // NAVIGATION CONTROL
-    window.exibirTelaLogin = function() {
-      document.getElementById('sec-login').classList.remove('hidden');
-      document.getElementById('sec-distribuidor').classList.add('hidden');
-      document.getElementById('sec-gestor').classList.add('hidden');
-      document.getElementById('btn-logout').classList.add('hidden');
-      document.getElementById('btn-carrinho-nav').classList.add('hidden');
-      document.getElementById('dist-info-header').classList.add('hidden');
-    };
-
-    window.exibirAreaDistribuidor = function() {
-      document.getElementById('sec-login').classList.add('hidden');
-      document.getElementById('sec-distribuidor').classList.remove('hidden');
-      document.getElementById('sec-gestor').classList.add('hidden');
-      document.getElementById('btn-logout').classList.remove('hidden');
-      document.getElementById('btn-carrinho-nav').classList.remove('hidden');
-      document.getElementById('dist-info-header').classList.remove('hidden');
-
-      const d = window.distribuidorLogado;
-      document.getElementById('header-dist-nome').innerText = d.razao;
-      document.getElementById('dist-card-nome').innerText = d.razao;
-      document.getElementById('dist-card-cnpj').innerText = d.cnpj;
-      document.getElementById('dist-card-cidade').innerText = d.cidade || 'Franca / SP';
-
-      const rotuloEscala = formatarRotuloEscala(d.escala);
-      document.getElementById('header-dist-escala').innerText = rotuloEscala;
-      document.getElementById('dist-card-escala-badge').innerText = rotuloEscala;
-
-      renderizarCatalogo();
-      atualizarResumoCarrinho();
-    };
 
     window.toggleModoGestor = function() {
-      if(window.modoGestorAtivo) {
-        window.modoGestorAtivo = false;
-        document.getElementById('lbl-btn-gestor').innerText = "Área Gestor";
-        if(window.distribuidorLogado) exibirAreaDistribuidor();
-        else exibirTelaLogin();
+      if(modoGestorAtivo) {
+        modoGestorAtivo = false;
+        alert("Sessão do Gestor encerrada.");
       } else {
-        const pass = prompt("Digite a Senha do Gestor (Padrão: 1234):");
-        if(pass === window.senhaGestor) {
-          window.modoGestorAtivo = true;
-          document.getElementById('lbl-btn-gestor').innerText = "Sair do Gestor";
-          document.getElementById('sec-login').classList.add('hidden');
-          document.getElementById('sec-distribuidor').classList.add('hidden');
-          document.getElementById('sec-gestor').classList.remove('hidden');
-          document.getElementById('btn-logout').classList.add('hidden');
-          document.getElementById('btn-carrinho-nav').classList.add('hidden');
-          mudarAbaGestor('pedidos');
+        const pass = prompt("Digite a Senha do Gestor:");
+        if(pass === senhaGestor) {
+          modoGestorAtivo = true;
+          alert("Modo Gestor ativado!");
         } else if(pass !== null) {
-          alert("Senha de gestor incorreta!");
+          alert("Senha incorreta!");
+          return;
         }
       }
+      atualizarViews();
     };
 
-    window.voltarParaVitrineOuHome = function() {
-      if(window.modoGestorAtivo) return;
-      if(window.distribuidorLogado) exibirAreaDistribuidor();
-      else exibirTelaLogin();
-    };
+    window.fazerLoginDistribuidor = function(e) {
+      if(e) e.preventDefault();
+      const docVal = document.getElementById('login-doc').value.trim();
+      const senhaVal = document.getElementById('login-senha').value.trim();
 
-    window.alternarAbaLogin = function(aba) {
-      const fLogin = document.getElementById('form-login');
-      const fCad = document.getElementById('form-autocadastro');
-      const bLogin = document.getElementById('tab-btn-login');
-      const bCad = document.getElementById('tab-btn-cadastro');
-
-      if(aba === 'login') {
-        fLogin.classList.remove('hidden');
-        fCad.classList.add('hidden');
-        bLogin.className = "flex-1 py-2.5 text-center text-amber-600 border-b-2 border-amber-500 font-black";
-        bCad.className = "flex-1 py-2.5 text-center text-slate-500 hover:text-slate-800";
-      } else {
-        fLogin.classList.add('hidden');
-        fCad.classList.remove('hidden');
-        bCad.className = "flex-1 py-2.5 text-center text-amber-600 border-b-2 border-amber-500 font-black";
-        bLogin.className = "flex-1 py-2.5 text-center text-slate-500 hover:text-slate-800";
-      }
-    };
-
-    // AUTHENTICATION LOGIC
-    window.realizarLogin = function(e) {
-      e.preventDefault();
-      const cnpj = document.getElementById('login-cnpj').value.trim();
-      const senha = document.getElementById('login-senha').value.trim();
-
-      const achado = window.listaDistribuidores.find(d => 
-        (d.cnpj.replace(/\D/g, '') === cnpj.replace(/\D/g, '') || d.fone === cnpj) && d.senha === senha
-      );
+      const achado = window.distribuidores.find(d => d.documento === docVal && d.senha === senhaVal);
 
       if(achado) {
         window.distribuidorLogado = achado;
-        sessionStorage.setItem('maju_distribuidor', JSON.stringify(achado));
-        exibirAreaDistribuidor();
+        modoGestorAtivo = false;
+        atualizarViews();
       } else {
-        alert("Distribuidor não encontrado ou senha incorreta! Se for seu primeiro acesso, cadastre-se na aba ao lado.");
-      }
-    };
-
-    window.realizarAutoCadastro = async function(e) {
-      e.preventDefault();
-      const novo = {
-        razao: document.getElementById('cad-razao').value.trim(),
-        cnpj: document.getElementById('cad-cnpj').value.trim(),
-        fone: document.getElementById('cad-fone').value.trim(),
-        cidade: document.getElementById('cad-cidade').value.trim(),
-        senha: document.getElementById('cad-senha').value.trim(),
-        escala: "escala_1" // Default initial scale
-      };
-
-      try {
-        const docRef = await addDoc(collection(db, "distribuidores"), novo);
-        novo.id = docRef.id;
-        window.distribuidorLogado = novo;
-        sessionStorage.setItem('maju_distribuidor', JSON.stringify(novo));
-        alert("Cadastro realizado com sucesso! Bem-vindo à MAJU ENXOVAIS.");
-        exibirAreaDistribuidor();
-      } catch(err) {
-        console.error(err);
-        alert("Erro ao salvar cadastro. Tente novamente.");
+        alert("CNPJ/Documento ou Senha incorretos.");
       }
     };
 
     window.fazerLogout = function() {
-      sessionStorage.removeItem('maju_distribuidor');
       window.distribuidorLogado = null;
       window.carrinho = {};
-      exibirTelaLogin();
+      modoGestorAtivo = false;
+      atualizarViews();
     };
 
-    // CATALOG & CART RENDERERS
-    function obterPrecoPorEscala(produto, escala) {
-      if(escala === 'escala_3') return produto.preco_3 || produto.preco_1;
-      if(escala === 'escala_2') return produto.preco_2 || produto.preco_1;
-      return produto.preco_1;
+    function atualizarViews() {
+      const secLogin = document.getElementById('sec-login');
+      const secCatalogo = document.getElementById('sec-catalogo');
+      const secGestor = document.getElementById('sec-gestor');
+      const btnLogout = document.getElementById('btn-logout');
+      const btnCarrinho = document.getElementById('btn-carrinho');
+      const navStatus = document.getElementById('nav-user-status');
+
+      secLogin.classList.add('hidden');
+      secCatalogo.classList.add('hidden');
+      secGestor.classList.add('hidden');
+      btnLogout.classList.add('hidden');
+      btnCarrinho.classList.add('hidden');
+
+      if(modoGestorAtivo) {
+        secGestor.classList.remove('hidden');
+        if(navStatus) navStatus.innerText = "Modo Gestor (Configurações B2B)";
+      } else if(window.distribuidorLogado) {
+        secCatalogo.classList.remove('hidden');
+        btnLogout.classList.remove('hidden');
+        btnCarrinho.classList.remove('hidden');
+
+        document.getElementById('lbl-distribuidor-nome').innerText = window.distribuidorLogado.nome;
+        const escalaFormatada = window.distribuidorLogado.escala.replace('_', ' ');
+        document.getElementById('lbl-distribuidor-escala').innerText = escalaFormatada;
+
+        if(navStatus) navStatus.innerText = `Distribuidor: ${window.distribuidorLogado.nome}`;
+        renderCatalogo();
+        atualizarResumoCarrinho();
+      } else {
+        secLogin.classList.remove('hidden');
+        if(navStatus) navStatus.innerText = "Portal de Vendas B2B";
+      }
     }
 
-    function formatarRotuloEscala(escala) {
-      if(escala === 'escala_3') return "Escala 3 - Atacado Master / Grande Volume";
-      if(escala === 'escala_2') return "Escala 2 - Atacado / Distribuidor";
-      return "Escala 1 - Varejo / Tabela Inicial";
-    }
-
-    window.filtrarCategoria = function(cat) {
-      window.categoriaFiltro = cat;
-      document.querySelectorAll('.cat-btn').forEach(btn => {
-        if(btn.innerText.toUpperCase().includes(cat) || (cat === 'TODOS' && btn.innerText === 'Todos')) {
-          btn.className = "cat-btn active px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white shadow";
-        } else {
-          btn.className = "cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200";
-        }
-      });
-      renderizarCatalogo();
-    };
-
-    window.filtrarProdutos = function() {
-      renderizarCatalogo();
-    };
-
-    function renderizarCatalogo() {
+    function renderCatalogo() {
       const grid = document.getElementById('grid-produtos');
       if(!grid || !window.distribuidorLogado) return;
 
-      const busca = document.getElementById('catalog-search')?.value.toLowerCase() || '';
-      const escalaCliente = window.distribuidorLogado.escala || 'escala_1';
-
-      const prodsFiltrados = window.listaProdutos.filter(p => {
-        const bateCat = (window.categoriaFiltro === 'TODOS' || p.categoria === window.categoriaFiltro);
-        const bateBusca = (p.nome.toLowerCase().includes(busca) || p.sku.toLowerCase().includes(busca) || (p.descricao && p.descricao.toLowerCase().includes(busca)));
-        return bateCat && bateBusca;
-      });
-
-      if(prodsFiltrados.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 bg-white rounded-2xl border border-dashed border-slate-300">
-          <i class="fa-solid fa-box-open text-4xl mb-2 text-slate-300"></i>
-          <p class="font-bold">Nenhum produto encontrado nesta categoria ou busca.</p>
-        </div>`;
+      if(window.produtos.length === 0) {
+        grid.innerHTML = '<div class="col-span-full p-8 text-center text-slate-400 font-medium">Nenhum produto disponível no catálogo.</div>';
         return;
       }
 
-      grid.innerHTML = prodsFiltrados.map(p => {
-        const precoUn = obterPrecoPorEscala(p, escalaCliente);
-        const qtdNoCarrinho = window.carrinho[p.id] || 0;
-        const imgUrl = p.img || 'https://placehold.co/600x400/1e293b/f59e0b?text=MAJU+ENXOVAIS';
+      const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
+
+      grid.innerHTML = window.produtos.map(p => {
+        const preco = Number(p.precos?.[chaveEscala]) || 0;
+        const qtdAtual = window.carrinho[p.id] || 0;
+        
+        // Trata a lista de até 3 fotos
+        const fotos = [
+          p.foto1 || p.foto_url,
+          p.foto2,
+          p.foto3
+        ].filter(Boolean);
+
+        const imgPadrao = fotos[0] || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80';
+
+        // Monta as miniaturas se tiver mais de 1 foto
+        const miniaturasHtml = fotos.length > 1 ? `
+          <div class="flex gap-1.5 p-2 bg-slate-100 justify-center border-t border-slate-200">
+            ${fotos.map((f, idx) => `
+              <img src="${f}" onclick="trocarFotoPrincipal('${p.id}', '${f}')" class="w-8 h-8 object-cover rounded border border-slate-300 cursor-pointer hover:border-amber-500 transition">
+            `).join('')}
+          </div>
+        ` : '';
 
         return `
-          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition flex flex-col justify-between">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
             <div>
-              <!-- Image Banner -->
-              <div class="relative h-48 bg-slate-100 overflow-hidden">
-                <img src="${imgUrl}" onerror="this.src='https://placehold.co/600x400/1e293b/f59e0b?text=MAJU+ENXOVAIS'" alt="${p.nome}" class="w-full h-full object-cover">
-                <span class="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur">SKU: ${p.sku}</span>
-                <span class="absolute top-2 right-2 bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded shadow">Qtd Mín: ${p.qtd_minima || 1}</span>
+              <div class="h-44 bg-slate-100 overflow-hidden relative">
+                <img id="img-main-${p.id}" src="${imgPadrao}" alt="${p.nome}" class="w-full h-full object-cover">
               </div>
-
-              <!-- Product Info -->
-              <div class="p-4 space-y-2">
-                <p class="text-[10px] font-bold text-amber-700 uppercase tracking-wider">${p.categoria}</p>
-                <h3 class="font-bold text-slate-900 text-sm line-clamp-2 leading-snug">${p.nome}</h3>
-                <p class="text-xs text-slate-500 line-clamp-2">${p.descricao || 'Enxoval de alta qualidade da linha direto de fábrica MAJU.'}</p>
+              ${miniaturasHtml}
+              <div class="p-4 space-y-1.5">
+                <h3 class="font-bold text-slate-900 text-sm leading-snug">${p.nome}</h3>
+                <p class="text-xs text-slate-500 line-clamp-2">${p.descricao || 'Sem descrição.'}</p>
               </div>
             </div>
 
-            <!-- Price & Action Footer -->
-            <div class="p-4 pt-0 border-t border-slate-100 mt-2 space-y-3">
-              <div class="flex justify-between items-baseline pt-2">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Preço p/ Sua Escala:</span>
-                <div class="text-right">
-                  <span class="text-xl font-black text-slate-900">R$ ${Number(precoUn).toFixed(2).replace('.', ',')}</span>
-                  <span class="text-[10px] text-slate-400 block">/ unidade</span>
-                </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Preço Unitário</p>
+                <p class="text-base font-black text-slate-900">R$ ${preco.toFixed(2)}</p>
               </div>
 
-              <!-- Quantity Controls -->
-              <div class="flex items-center space-x-2">
-                <div class="flex items-center border border-slate-300 rounded-lg overflow-hidden flex-1 bg-slate-50">
-                  <button onclick="alterarQtdItem('${p.id}', -1, ${p.qtd_minima || 1})" class="px-3 py-1.5 text-slate-600 hover:bg-slate-200 font-bold">-</button>
-                  <input type="number" id="input-qtd-${p.id}" value="${qtdNoCarrinho}" min="0" onchange="definirQtdItem('${p.id}', this.value, ${p.qtd_minima || 1})" class="w-full text-center bg-transparent font-bold text-sm text-slate-900 focus:outline-none">
-                  <button onclick="alterarQtdItem('${p.id}', 1, ${p.qtd_minima || 1})" class="px-3 py-1.5 text-slate-600 hover:bg-slate-200 font-bold">+</button>
-                </div>
-                <button onclick="adicionarDirect('${p.id}', ${p.qtd_minima || 1})" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-3 py-2 rounded-lg text-xs shadow transition">
-                  <i class="fa-solid fa-cart-plus"></i>
-                </button>
+              <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1">
+                <button onclick="alterarQtdCarrinho('${p.id}', -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-800 font-black rounded text-xs flex items-center justify-center">-</button>
+                <span class="w-6 text-center font-bold text-xs text-slate-800">${qtdAtual}</span>
+                <button onclick="alterarQtdCarrinho('${p.id}', 1)" class="w-7 h-7 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded text-xs flex items-center justify-center">+</button>
               </div>
             </div>
           </div>
@@ -816,69 +386,50 @@
       }).join('');
     }
 
-    // CART LOGIC
-    window.alterarQtdItem = function(prodId, delta, qtdMinima) {
-      let atual = window.carrinho[prodId] || 0;
-      if(atual === 0 && delta > 0) {
-        atual = qtdMinima;
+    window.trocarFotoPrincipal = function(prodId, novaFotoUrl) {
+      const imgEl = document.getElementById(`img-main-${prodId}`);
+      if(imgEl) imgEl.src = novaFotoUrl;
+    };
+
+    window.alterarQtdCarrinho = function(prodId, delta) {
+      const atual = window.carrinho[prodId] || 0;
+      const novaQtd = Math.max(0, atual + delta);
+      
+      if(novaQtd === 0) {
+        delete window.carrinho[prodId];
       } else {
-        atual += delta;
+        window.carrinho[prodId] = novaQtd;
       }
 
-      if(atual < qtdMinima && atual > 0) atual = qtdMinima;
-      if(atual <= 0) delete window.carrinho[prodId];
-      else window.carrinho[prodId] = atual;
-
-      const input = document.getElementById(`input-qtd-${prodId}`);
-      if(input) input.value = window.carrinho[prodId] || 0;
-
+      renderCatalogo();
       atualizarResumoCarrinho();
-    };
-
-    window.definirQtdItem = function(prodId, valor, qtdMinima) {
-      let val = parseInt(valor) || 0;
-      if(val > 0 && val < qtdMinima) val = qtdMinima;
-
-      if(val <= 0) delete window.carrinho[prodId];
-      else window.carrinho[prodId] = val;
-
-      atualizarResumoCarrinho();
-    };
-
-    window.adicionarDirect = function(prodId, qtdMinima) {
-      if(!window.carrinho[prodId]) window.carrinho[prodId] = qtdMinima;
-      else window.carrinho[prodId] += 1;
-
-      const input = document.getElementById(`input-qtd-${prodId}`);
-      if(input) input.value = window.carrinho[prodId];
-
-      atualizarResumoCarrinho();
-      abrirModalCarrinho();
+      renderItensModalCarrinho();
     };
 
     function atualizarResumoCarrinho() {
-      let totalQtd = 0;
-      let totalValor = 0;
-      const escala = window.distribuidorLogado?.escala || 'escala_1';
+      if(!window.distribuidorLogado) return;
+      const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
 
-      Object.keys(window.carrinho).forEach(id => {
-        const qtd = window.carrinho[id];
-        const p = window.listaProdutos.find(prod => prod.id === id);
-        if(p) {
-          const pr = obterPrecoPorEscala(p, escala);
-          totalQtd += qtd;
-          totalValor += (qtd * pr);
+      let totalGeral = 0;
+      let qtdItensTotal = 0;
+
+      Object.keys(window.carrinho).forEach(prodId => {
+        const prod = window.produtos.find(p => p.id === prodId);
+        if(prod) {
+          const preco = Number(prod.precos?.[chaveEscala]) || 0;
+          const qtd = window.carrinho[prodId];
+          totalGeral += (preco * qtd);
+          qtdItensTotal += qtd;
         }
       });
 
-      document.getElementById('dist-summary-qtd').innerText = totalQtd;
-      document.getElementById('dist-summary-total').innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
-      document.getElementById('nav-cart-count').innerText = totalQtd;
-      document.getElementById('modal-cart-total').innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
+      document.getElementById('lbl-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
+      document.getElementById('modal-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
+      document.getElementById('badge-carrinho-qtd').innerText = qtdItensTotal;
     }
 
     window.abrirModalCarrinho = function() {
-      renderizarItensModalCarrinho();
+      renderItensModalCarrinho();
       document.getElementById('modal-carrinho').classList.remove('hidden');
     };
 
@@ -886,321 +437,206 @@
       document.getElementById('modal-carrinho').classList.add('hidden');
     };
 
-    function renderizarItensModalCarrinho() {
-      const container = document.getElementById('cart-items-container');
-      const escala = window.distribuidorLogado?.escala || 'escala_1';
-      document.getElementById('modal-cart-escala').innerText = formatarRotuloEscala(escala);
+    function renderItensModalCarrinho() {
+      const container = document.getElementById('container-itens-carrinho');
+      if(!container || !window.distribuidorLogado) return;
 
       const keys = Object.keys(window.carrinho);
-
       if(keys.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-slate-400">
-          <i class="fa-solid fa-cart-flatbed text-4xl mb-2 text-slate-300"></i>
-          <p class="font-bold">Seu carrinho está vazio.</p>
-          <p class="text-xs">Navegue pelo catálogo e adicione itens.</p>
-        </div>`;
+        container.innerHTML = '<div class="py-8 text-center text-slate-400 text-xs">Seu carrinho está vazio. Adicione itens do catálogo.</div>';
         return;
       }
 
-      container.innerHTML = keys.map(id => {
-        const qtd = window.carrinho[id];
-        const p = window.listaProdutos.find(item => item.id === id);
-        if(!p) return '';
+      const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
 
-        const precoUn = obterPrecoPorEscala(p, escala);
-        const subtotal = precoUn * qtd;
+      container.innerHTML = keys.map(prodId => {
+        const prod = window.produtos.find(p => p.id === prodId);
+        if(!prod) return '';
+        const qtd = window.carrinho[prodId];
+        const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
+        const subtotal = precoUnit * qtd;
 
         return `
-          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between gap-3">
+          <div class="py-3 flex items-center justify-between gap-3">
             <div class="flex-1">
-              <span class="text-[10px] font-bold bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded">${p.sku}</span>
-              <h4 class="font-bold text-slate-800 text-xs mt-1 leading-snug">${p.nome}</h4>
-              <p class="text-[11px] text-slate-500 mt-0.5">R$ ${precoUn.toFixed(2)} x ${qtd} = <strong class="text-emerald-700">R$ ${subtotal.toFixed(2)}</strong></p>
+              <h4 class="font-bold text-xs text-slate-800">${prod.nome}</h4>
+              <p class="text-[11px] text-slate-500">${qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-slate-900">R$ ${subtotal.toFixed(2)}</strong></p>
             </div>
-            <div class="flex items-center space-x-1">
-              <button onclick="alterarQtdItem('${p.id}', -1, ${p.qtd_minima || 1}); renderizarItensModalCarrinho();" class="w-6 h-6 bg-slate-200 rounded font-bold text-xs">-</button>
-              <span class="w-8 text-center text-xs font-bold">${qtd}</span>
-              <button onclick="alterarQtdItem('${p.id}', 1, ${p.qtd_minima || 1}); renderizarItensModalCarrinho();" class="w-6 h-6 bg-slate-200 rounded font-bold text-xs">+</button>
+            <div class="flex items-center gap-1">
+              <button onclick="alterarQtdCarrinho('${prod.id}', -1)" class="w-6 h-6 bg-slate-100 rounded text-xs font-bold">-</button>
+              <span class="w-6 text-center text-xs font-bold">${qtd}</span>
+              <button onclick="alterarQtdCarrinho('${prod.id}', 1)" class="w-6 h-6 bg-amber-500 rounded text-xs font-bold">+</button>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // FINALIZE ORDER & SEND TO WHATSAPP
-    window.finalizarPedidoWhatsApp = async function() {
+    window.enviarPedidoWhatsApp = async function() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) {
-        alert("Adicione pelo menos um produto ao carrinho antes de finalizar!");
+        alert("O carrinho está vazio!");
         return;
       }
 
-      const dist = window.distribuidorLogado;
-      const escala = dist.escala || 'escala_1';
-      const obs = document.getElementById('cart-obs')?.value || 'Sem observações';
-
+      const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
       let totalGeral = 0;
       let resumoItens = [];
-      let itensFormatadosWhats = "";
 
-      keys.forEach((id, idx) => {
-        const qtd = window.carrinho[id];
-        const p = window.listaProdutos.find(item => item.id === id);
-        if(p) {
-          const pr = obterPrecoPorEscala(p, escala);
-          const sub = pr * qtd;
-          totalGeral += sub;
+      keys.forEach(prodId => {
+        const prod = window.produtos.find(p => p.id === prodId);
+        if(prod) {
+          const qtd = window.carrinho[prodId];
+          const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
+          const subtotal = precoUnit * qtd;
+          totalGeral += subtotal;
 
           resumoItens.push({
-            sku: p.sku,
-            nome: p.nome,
+            nome: prod.nome,
             qtd: qtd,
-            preco_un: pr,
-            subtotal: sub
+            precoUnit: precoUnit,
+            subtotal: subtotal
           });
-
-          itensFormatadosWhats += `*${idx + 1}. ${p.nome}*\n   SKU: ${p.sku} | Qtd: *${qtd} un* | Un: R$ ${pr.toFixed(2)} -> Subtotal: *R$ ${sub.toFixed(2)}*\n`;
         }
       });
 
-      // Save Order to Firestore
-      const pedidoObj = {
-        data: new Date().toISOString(),
-        distribuidor_nome: dist.razao,
-        distribuidor_cnpj: dist.cnpj,
-        distribuidor_fone: dist.fone,
-        distribuidor_cidade: dist.cidade,
-        escala: escala,
-        itens: resumoItens,
-        total_valor: totalGeral,
-        observacoes: obs,
-        status: "Pendente"
-      };
-
       try {
-        await addDoc(collection(db, "pedidos_b2b"), pedidoObj);
-      } catch(e) {
-        console.error("Erro ao salvar no banco:", e);
+        await addDoc(collection(db, "b2b_pedidos"), {
+          distribuidor: window.distribuidorLogado.nome,
+          documento: window.distribuidorLogado.documento,
+          escala: chaveEscala,
+          data: new Date().toISOString(),
+          itens: resumoItens,
+          valorTotal: totalGeral
+        });
+      } catch(err) {
+        console.error("Erro ao registrar pedido na nuvem:", err);
       }
 
-      // Build WhatsApp Message
-      let msg = `📦 *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n`;
+      let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n`;
       msg += `-----------------------------------\n`;
-      msg += `🏢 *Cliente:* ${dist.razao}\n`;
-      msg += `🆔 *CNPJ/CPF:* ${dist.cnpj}\n`;
-      msg += `📍 *Cidade/UF:* ${dist.cidade || 'Não informada'}\n`;
-      msg += `🏷️ *Tabela:* ${formatarRotuloEscala(escala)}\n`;
+      msg += `🏢 *Distribuidor:* ${window.distribuidorLogado.nome}\n`;
+      msg += `📄 *Doc/CNPJ:* ${window.distribuidorLogado.documento}\n`;
+      msg += `🏷️ *Tabela:* ${chaveEscala.replace('_', ' ').toUpperCase()}\n`;
       msg += `-----------------------------------\n\n`;
-      msg += `📋 *ITENS DO PEDIDO:*\n${itensFormatadosWhats}\n`;
-      msg += `-----------------------------------\n`;
-      msg += `💰 *VALOR TOTAL: R$ ${totalGeral.toFixed(2).replace('.', ',')}*\n`;
-      msg += `📝 *Obs:* ${obs}\n`;
-      msg += `-----------------------------------\n`;
-      msg += `_Enviado através do Portal de Distribuidores MAJU ENXOVAIS_`;
+      msg += `📦 *ITENS DO PEDIDO:*\n`;
 
-      const linkWhats = `https://api.whatsapp.com/send?phone=${window.whatsappTarget}&text=${encodeURIComponent(msg)}`;
+      resumoItens.forEach((item, index) => {
+        msg += `${index + 1}. *${item.nome}*\n`;
+        msg += `   Qtd: ${item.qtd} UN | R$ ${item.precoUnit.toFixed(2)} cada\n`;
+        msg += `   Subtotal: *R$ ${item.subtotal.toFixed(2)}*\n`;
+      });
+
+      msg += `\n-----------------------------------\n`;
+      msg += `💰 *VALOR TOTAL DO PEDIDO: R$ ${totalGeral.toFixed(2)}*\n`;
+      msg += `-----------------------------------\n`;
+      msg += `Aguardando confirmação e prazo de faturamento.`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
       
-      // Clear Cart & Close Modal
       window.carrinho = {};
-      atualizarResumoCarrinho();
       fecharModalCarrinho();
-
-      window.open(linkWhats, '_blank');
+      renderCatalogo();
+      atualizarResumoCarrinho();
     };
 
-    // ADMIN GESTOR LOGIC
-    window.mudarAbaGestor = function(aba) {
-      document.getElementById('gestor-sec-pedidos').classList.toggle('hidden', aba !== 'pedidos');
-      document.getElementById('gestor-sec-distribuidores').classList.toggle('hidden', aba !== 'distribuidores');
-      document.getElementById('gestor-sec-produtos').classList.toggle('hidden', aba !== 'produtos');
+    window.cadastrarDistribuidor = async function(e) {
+      if(e) e.preventDefault();
+      const nome = document.getElementById('cad-dist-nome').value.trim();
+      const documento = document.getElementById('cad-dist-doc').value.trim();
+      const senha = document.getElementById('cad-dist-senha').value.trim();
+      const escala = document.getElementById('cad-dist-escala').value;
 
-      document.getElementById('tab-g-pedidos').className = aba === 'pedidos' ? "px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow" : "px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
-      document.getElementById('tab-g-distribuidores').className = aba === 'distribuidores' ? "px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow" : "px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
-      document.getElementById('tab-g-produtos').className = aba === 'produtos' ? "px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow" : "px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
-    };
-
-    function renderizarAdminPedidos() {
-      const tbody = document.getElementById('tb-gestor-pedidos');
-      const badge = document.getElementById('count-pedidos-badge');
-      if(!tbody) return;
-
-      if(badge) badge.innerText = window.listaPedidos.length;
-
-      if(window.listaPedidos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Nenhum pedido B2B recebido ainda.</td></tr>`;
-        return;
+      if(nome && documento && senha) {
+        await addDoc(collection(db, "b2b_distribuidores"), { nome, documento, senha, escala });
+        document.getElementById('cad-dist-nome').value = '';
+        document.getElementById('cad-dist-doc').value = '';
+        document.getElementById('cad-dist-senha').value = '';
+        alert('Distribuidor cadastrado com sucesso!');
       }
-
-      tbody.innerHTML = window.listaPedidos.map(p => {
-        const dt = new Date(p.data).toLocaleDateString('pt-BR') + ' ' + new Date(p.data).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-        const totalQtd = p.itens ? p.itens.reduce((acc, i) => acc + i.qtd, 0) : 0;
-
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="p-3 text-xs font-semibold text-slate-500">${dt}</td>
-            <td class="p-3">
-              <strong class="text-slate-900 block">${p.distribuidor_nome}</strong>
-              <span class="text-[10px] text-slate-400">${p.distribuidor_cnpj}</span>
-            </td>
-            <td class="p-3 text-center"><span class="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded">${p.escala}</span></td>
-            <td class="p-3 text-center font-bold">${totalQtd} un</td>
-            <td class="p-3 text-right font-black text-emerald-700">R$ ${Number(p.total_valor || 0).toFixed(2)}</td>
-            <td class="p-3 text-center">
-              <span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded">${p.status || 'Pendente'}</span>
-            </td>
-            <td class="p-3 text-right">
-              <button onclick="deletarPedido('${p.id}')" class="text-red-600 font-bold text-xs hover:underline"><i class="fa-solid fa-trash"></i></button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    window.deletarPedido = async function(id) {
-      if(confirm("Deseja apagar este registro de pedido?")) {
-        await deleteDoc(doc(db, "pedidos_b2b", id));
-      }
-    };
-
-    window.salvarDistribuidor = async function(e) {
-      e.preventDefault();
-      const id = document.getElementById('admin-dist-id').value;
-      const dados = {
-        razao: document.getElementById('admin-dist-nome').value.trim(),
-        cnpj: document.getElementById('admin-dist-cnpj').value.trim(),
-        fone: document.getElementById('admin-dist-fone').value.trim(),
-        cidade: document.getElementById('admin-dist-cidade').value.trim(),
-        senha: document.getElementById('admin-dist-senha').value.trim(),
-        escala: document.getElementById('admin-dist-escala').value
-      };
-
-      if(id) {
-        await setDoc(doc(db, "distribuidores", id), dados, { merge: true });
-      } else {
-        await addDoc(collection(db, "distribuidores"), dados);
-      }
-
-      document.getElementById('admin-dist-id').value = '';
-      e.target.reset();
-      alert("Distribuidor salvo com sucesso!");
-    };
-
-    function renderizarAdminDistribuidores() {
-      const tbody = document.getElementById('tb-gestor-distribuidores');
-      if(!tbody) return;
-
-      tbody.innerHTML = window.listaDistribuidores.map(d => `
-        <tr>
-          <td class="p-2.5">
-            <strong class="text-slate-900 block">${d.razao}</strong>
-            <span class="text-[11px] text-slate-500">${d.cnpj}</span>
-          </td>
-          <td class="p-2.5 text-xs text-slate-600">${d.cidade || '-'}</td>
-          <td class="p-2.5 text-center">
-            <select onchange="atualizarEscalaQuick('${d.id}', this.value)" class="text-xs border rounded p-1 font-bold bg-amber-50">
-              <option value="escala_1" ${d.escala === 'escala_1' ? 'selected' : ''}>Escala 1 (Varejo)</option>
-              <option value="escala_2" ${d.escala === 'escala_2' ? 'selected' : ''}>Escala 2 (Atacado)</option>
-              <option value="escala_3" ${d.escala === 'escala_3' ? 'selected' : ''}>Escala 3 (Master)</option>
-            </select>
-          </td>
-          <td class="p-2.5 text-center font-mono font-bold text-xs text-slate-700">${d.senha}</td>
-          <td class="p-2.5 text-right space-x-2">
-            <button onclick="editarDistribuidor('${d.id}')" class="text-indigo-600 font-bold text-xs hover:underline">Editar</button>
-            <button onclick="deletarDistribuidor('${d.id}')" class="text-red-600 font-bold text-xs hover:underline">Excluir</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    window.atualizarEscalaQuick = async function(id, novaEscala) {
-      await setDoc(doc(db, "distribuidores", id), { escala: novaEscala }, { merge: true });
-    };
-
-    window.editarDistribuidor = function(id) {
-      const d = window.listaDistribuidores.find(item => item.id === id);
-      if(!d) return;
-      document.getElementById('admin-dist-id').value = d.id;
-      document.getElementById('admin-dist-nome').value = d.razao;
-      document.getElementById('admin-dist-cnpj').value = d.cnpj;
-      document.getElementById('admin-dist-fone').value = d.fone || '';
-      document.getElementById('admin-dist-cidade').value = d.cidade || '';
-      document.getElementById('admin-dist-senha').value = d.senha;
-      document.getElementById('admin-dist-escala').value = d.escala || 'escala_1';
     };
 
     window.deletarDistribuidor = async function(id) {
-      if(confirm("Deseja remover este distribuidor?")) {
-        await deleteDoc(doc(db, "distribuidores", id));
+      if(confirm('Excluir este distribuidor?')) {
+        await deleteDoc(doc(db, "b2b_distribuidores", id));
       }
     };
 
-    window.salvarProduto = async function(e) {
-      e.preventDefault();
-      const id = document.getElementById('admin-prod-id').value;
-      const dados = {
-        sku: document.getElementById('admin-prod-sku').value.trim(),
-        categoria: document.getElementById('admin-prod-categoria').value,
-        nome: document.getElementById('admin-prod-nome').value.trim(),
-        descricao: document.getElementById('admin-prod-desc').value.trim(),
-        img: document.getElementById('admin-prod-img').value.trim(),
-        qtd_minima: parseInt(document.getElementById('admin-prod-qtdmin').value) || 1,
-        preco_1: parseFloat(document.getElementById('admin-prod-p1').value) || 0,
-        preco_2: parseFloat(document.getElementById('admin-prod-p2').value) || 0,
-        preco_3: parseFloat(document.getElementById('admin-prod-p3').value) || 0
-      };
+    function renderGestorDistribuidores() {
+      const ul = document.getElementById('lista-distribuidores');
+      if(!ul) return;
 
-      if(id) {
-        await setDoc(doc(db, "produtos", id), dados, { merge: true });
-      } else {
-        await addDoc(collection(db, "produtos"), dados);
-      }
-
-      document.getElementById('admin-prod-id').value = '';
-      e.target.reset();
-      alert("Produto salvo no catálogo!");
-    };
-
-    function renderizarAdminProdutos() {
-      const tbody = document.getElementById('tb-gestor-produtos');
-      if(!tbody) return;
-
-      tbody.innerHTML = window.listaProdutos.map(p => `
-        <tr>
-          <td class="p-2.5">
-            <span class="text-[10px] font-bold bg-slate-200 text-slate-800 px-1.5 py-0.5 rounded">${p.sku}</span>
-            <strong class="text-slate-900 block text-xs mt-0.5">${p.nome}</strong>
-          </td>
-          <td class="p-2.5 text-center font-bold text-slate-700">R$ ${Number(p.preco_1).toFixed(2)}</td>
-          <td class="p-2.5 text-center font-bold text-amber-700">R$ ${Number(p.preco_2).toFixed(2)}</td>
-          <td class="p-2.5 text-center font-bold text-emerald-700">R$ ${Number(p.preco_3).toFixed(2)}</td>
-          <td class="p-2.5 text-right space-x-2">
-            <button onclick="editarProduto('${p.id}')" class="text-indigo-600 font-bold text-xs hover:underline">Editar</button>
-            <button onclick="deletarProduto('${p.id}')" class="text-red-600 font-bold text-xs hover:underline">Excluir</button>
-          </td>
-        </tr>
+      ul.innerHTML = window.distribuidores.map(d => `
+        <li class="py-2 flex justify-between items-center">
+          <div>
+            <span class="font-bold text-slate-800">${d.nome}</span>
+            <p class="text-[10px] text-slate-500">Doc: ${d.documento} | Senha: ${d.senha} | <strong class="text-amber-600">${d.escala}</strong></p>
+          </div>
+          <button onclick="deletarDistribuidor('${d.id}')" class="text-red-600 font-bold text-xs hover:underline">Excluir</button>
+        </li>
       `).join('');
     }
 
-    window.editarProduto = function(id) {
-      const p = window.listaProdutos.find(item => item.id === id);
-      if(!p) return;
-      document.getElementById('admin-prod-id').value = p.id;
-      document.getElementById('admin-prod-sku').value = p.sku;
-      document.getElementById('admin-prod-categoria').value = p.categoria;
-      document.getElementById('admin-prod-nome').value = p.nome;
-      document.getElementById('admin-prod-desc').value = p.descricao || '';
-      document.getElementById('admin-prod-img').value = p.img || '';
-      document.getElementById('admin-prod-qtdmin').value = p.qtd_minima || 1;
-      document.getElementById('admin-prod-p1').value = p.preco_1 || '';
-      document.getElementById('admin-prod-p2').value = p.preco_2 || '';
-      document.getElementById('admin-prod-p3').value = p.preco_3 || '';
+    window.cadastrarProduto = async function(e) {
+      if(e) e.preventDefault();
+      const nome = document.getElementById('cad-prod-nome').value.trim();
+      const descricao = document.getElementById('cad-prod-desc').value.trim();
+      const foto1 = document.getElementById('cad-prod-foto1').value.trim();
+      const foto2 = document.getElementById('cad-prod-foto2').value.trim();
+      const foto3 = document.getElementById('cad-prod-foto3').value.trim();
+
+      const p1 = parseFloat(document.getElementById('cad-prod-p1').value) || 0;
+      const p2 = parseFloat(document.getElementById('cad-prod-p2').value) || 0;
+      const p3 = parseFloat(document.getElementById('cad-prod-p3').value) || 0;
+
+      if(nome) {
+        await addDoc(collection(db, "b2b_produtos"), {
+          nome,
+          descricao,
+          foto1,
+          foto2,
+          foto3,
+          precos: {
+            escala_1: p1,
+            escala_2: p2,
+            escala_3: p3
+          }
+        });
+
+        document.getElementById('cad-prod-nome').value = '';
+        document.getElementById('cad-prod-desc').value = '';
+        document.getElementById('cad-prod-foto1').value = '';
+        document.getElementById('cad-prod-foto2').value = '';
+        document.getElementById('cad-prod-foto3').value = '';
+        document.getElementById('cad-prod-p1').value = '';
+        document.getElementById('cad-prod-p2').value = '';
+        document.getElementById('cad-prod-p3').value = '';
+        alert('Produto cadastrado com sucesso!');
+      }
     };
 
     window.deletarProduto = async function(id) {
-      if(confirm("Deseja remover este produto do catálogo?")) {
-        await deleteDoc(doc(db, "produtos", id));
+      if(confirm('Excluir este produto do catálogo?')) {
+        await deleteDoc(doc(db, "b2b_produtos", id));
       }
     };
+
+    function renderGestorProdutos() {
+      const ul = document.getElementById('lista-produtos-gestor');
+      if(!ul) return;
+
+      ul.innerHTML = window.produtos.map(p => `
+        <li class="py-2 flex justify-between items-center">
+          <div>
+            <span class="font-bold text-slate-800">${p.nome}</span>
+            <p class="text-[10px] text-slate-500">E1: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | E2: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | E3: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
+          </div>
+          <button onclick="deletarProduto('${p.id}')" class="text-red-600 font-bold text-xs hover:underline">Excluir</button>
+        </li>
+      `).join('');
+    }
+
+    atualizarViews();
   </script>
 </body>
 </html>
