@@ -62,28 +62,65 @@
     </div>
 
     <!-- TELA DE AUTO-CADASTRO DO DISTRIBUIDOR -->
-    <div id="card-cadastro-distribuidor" class="hidden max-w-md mx-auto my-8 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200">
+    <div id="card-cadastro-distribuidor" class="hidden max-w-xl mx-auto my-6 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200">
       <div class="text-center mb-6">
         <div class="bg-slate-900 text-amber-500 w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center mx-auto mb-3 shadow-md">ME</div>
         <h2 class="text-2xl font-black text-slate-900">Cadastrar Distribuidor</h2>
-        <p class="text-xs text-slate-500 mt-1">Preencha seus dados abaixo para acessar nosso catálogo</p>
+        <p class="text-xs text-slate-500 mt-1">Preencha seus dados para cadastro e cálculo do frete</p>
       </div>
 
-      <form onsubmit="autoCadastrarDistribuidor(event)" class="space-y-4">
+      <form onsubmit="autoCadastrarDistribuidor(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">Razão Social / Nome Fantasia</label>
-          <input type="text" id="autocad-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-3 text-sm">
+          <input type="text" id="autocad-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-2.5 text-sm">
         </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ / Documento</label>
-          <input type="text" id="autocad-doc" required placeholder="Digite apenas os números" class="w-full border rounded-lg p-3 text-sm">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Crie uma Senha de Acesso</label>
-          <input type="password" id="autocad-senha" required placeholder="••••••••" class="w-full border rounded-lg p-3 text-sm">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ / Documento</label>
+            <input type="text" id="autocad-doc" required placeholder="Apenas números" class="w-full border rounded-lg p-2.5 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Crie uma Senha</label>
+            <input type="password" id="autocad-senha" required placeholder="••••••••" class="w-full border rounded-lg p-2.5 text-sm">
+          </div>
         </div>
 
-        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black p-3.5 rounded-xl shadow transition">Finalizar Cadastro</button>
+        <!-- ENDEREÇO PARA FRETE -->
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2.5">
+          <label class="block text-xs font-bold text-slate-700">📍 Endereço para Entrega / Cálculo de Frete</label>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-500 font-semibold">CEP</label>
+              <input type="text" id="autocad-cep" required placeholder="00000-000" class="w-full border rounded p-2 text-xs">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-[10px] text-slate-500 font-semibold">Endereço / Rua</label>
+              <input type="text" id="autocad-rua" required placeholder="Rua, Av..." class="w-full border rounded p-2 text-xs">
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-500 font-semibold">Número</label>
+              <input type="text" id="autocad-num" required placeholder="Ex: 123" class="w-full border rounded p-2 text-xs">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-[10px] text-slate-500 font-semibold">Bairro</label>
+              <input type="text" id="autocad-bairro" required placeholder="Bairro" class="w-full border rounded p-2 text-xs">
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="col-span-2">
+              <label class="block text-[10px] text-slate-500 font-semibold">Cidade</label>
+              <input type="text" id="autocad-cidade" required placeholder="Cidade" class="w-full border rounded p-2 text-xs">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 font-semibold">UF</label>
+              <input type="text" id="autocad-uf" maxlength="2" required placeholder="SP" class="w-full border rounded p-2 text-xs uppercase">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black p-3.5 rounded-xl shadow transition mt-2">Finalizar Cadastro</button>
       </form>
 
       <div class="mt-4 text-center">
@@ -96,7 +133,7 @@
       <div class="bg-white p-4 md:p-6 rounded-xl border border-slate-200 shadow-sm flex flex-wrap justify-between items-center gap-4">
         <div>
           <h2 class="text-xl font-black text-slate-900" id="lbl-distribuidor-nome">Distribuidor</h2>
-          <p class="text-xs text-slate-500">Tabela Ativa: <span id="lbl-distribuidor-escala" class="font-bold text-amber-600 uppercase">Escala 1</span></p>
+          <p class="text-xs text-slate-500">Tabela: <span id="lbl-distribuidor-escala" class="font-bold text-amber-600 uppercase">Escala 1</span> | Endereço: <span id="lbl-distribuidor-endereco" class="font-semibold text-slate-700"></span></p>
         </div>
         <div class="flex items-center gap-3">
           <div class="text-right">
@@ -116,45 +153,67 @@
       <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex justify-between items-center flex-wrap gap-2">
         <div>
           <h2 class="text-lg font-black text-amber-900">Painel do Gestor - MAJU ENXOVAIS</h2>
-          <p class="text-xs text-amber-700">Gerencie Distribuidores e Catálogo de Produtos</p>
+          <p class="text-xs text-amber-700">Gerencie Distribuidores, Fretes e Cores dos Produtos</p>
         </div>
         <button onclick="toggleModoGestor()" class="bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-lg shadow">Sair do Modo Gestor</button>
       </div>
 
       <!-- BOTÕES DE SELEÇÃO DE ABA -->
       <div class="flex gap-2 border-b border-slate-200 pb-2">
-        <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs">👥 Distribuidores</button>
-        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs">📦 Produtos (3 Fotos)</button>
+        <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs">👥 Distribuidores & Endereços</button>
+        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs">📦 Produtos & Cores</button>
       </div>
 
       <!-- ABA 1: DISTRIBUIDORES -->
       <div id="aba-distribuidores" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
-          <h3 class="text-base font-bold text-slate-800 border-b pb-2">Cadastrar / Alterar Escala do Distribuidor</h3>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+          <h3 class="text-base font-bold text-slate-800 border-b pb-2" id="titulo-form-distribuidor">Cadastrar / Alterar Distribuidor</h3>
           <form onsubmit="cadastrarDistribuidor(event)" class="space-y-3">
+            <input type="hidden" id="cad-dist-id" value="">
             <div>
               <label class="block text-xs font-semibold text-slate-600 mb-1">Razão Social / Nome Fantasia</label>
-              <input type="text" id="cad-dist-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-2.5 text-sm">
+              <input type="text" id="cad-dist-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-2 text-sm">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ / Documento</label>
-                <input type="text" id="cad-dist-doc" required placeholder="Apenas números" class="w-full border rounded-lg p-2.5 text-sm">
+                <input type="text" id="cad-dist-doc" required placeholder="Apenas números" class="w-full border rounded-lg p-2 text-sm">
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 mb-1">Senha de Acesso</label>
-                <input type="text" id="cad-dist-senha" required placeholder="Defina uma senha" class="w-full border rounded-lg p-2.5 text-sm">
+                <input type="text" id="cad-dist-senha" required placeholder="Defina uma senha" class="w-full border rounded-lg p-2 text-sm">
               </div>
             </div>
+
+            <!-- ENDEREÇO FRETE -->
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+              <label class="block text-xs font-bold text-slate-700">📍 Endereço de Entrega (Frete)</label>
+              <div class="grid grid-cols-3 gap-2">
+                <input type="text" id="cad-dist-cep" placeholder="CEP" class="border rounded p-1.5 text-xs">
+                <input type="text" id="cad-dist-rua" placeholder="Rua / Logradouro" class="col-span-2 border rounded p-1.5 text-xs">
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <input type="text" id="cad-dist-num" placeholder="Nº" class="border rounded p-1.5 text-xs">
+                <input type="text" id="cad-dist-bairro" placeholder="Bairro" class="col-span-2 border rounded p-1.5 text-xs">
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <input type="text" id="cad-dist-cidade" placeholder="Cidade" class="col-span-2 border rounded p-1.5 text-xs">
+                <input type="text" id="cad-dist-uf" placeholder="UF" maxlength="2" class="border rounded p-1.5 text-xs uppercase">
+              </div>
+            </div>
+
             <div>
               <label class="block text-xs font-semibold text-slate-600 mb-1">Tabela de Preço Atribuída</label>
-              <select id="cad-dist-escala" required class="w-full border rounded-lg p-2.5 text-sm font-semibold">
+              <select id="cad-dist-escala" required class="w-full border rounded-lg p-2 text-sm font-semibold">
                 <option value="escala_1">Escala 1 (Preço Padrão)</option>
                 <option value="escala_2">Escala 2 (Preço Intermediário)</option>
                 <option value="escala_3">Escala 3 (Preço Especial / Volume)</option>
               </select>
             </div>
-            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-3 rounded-lg text-sm shadow">Salvar Distribuidor</button>
+            <div class="flex gap-2">
+              <button type="submit" id="btn-salvar-dist" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-lg text-sm shadow">Salvar Distribuidor</button>
+              <button type="button" onclick="limparFormDistribuidor()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-2.5 rounded-lg text-xs">Limpar</button>
+            </div>
           </form>
         </div>
 
@@ -164,7 +223,7 @@
         </div>
       </div>
 
-      <!-- ABA 2: PRODUTOS COM 3 FOTOS -->
+      <!-- ABA 2: PRODUTOS COM VARIAÇÕES DE COR -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
           <h3 class="text-base font-bold text-slate-800 border-b pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
@@ -179,12 +238,13 @@
               <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border rounded-lg p-2.5 text-sm">
             </div>
 
-            <!-- FOTOS -->
+            <!-- VARIAÇÕES DE CORES E FOTOS -->
             <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <label class="block text-xs font-bold text-slate-700">Fotos do Produto (Cole os links das fotos)</label>
-              <input type="url" id="cad-prod-foto1" placeholder="URL Foto 1 (Principal)" class="w-full border rounded p-2 text-xs">
-              <input type="url" id="cad-prod-foto2" placeholder="URL Foto 2 (Opcional)" class="w-full border rounded p-2 text-xs">
-              <input type="url" id="cad-prod-foto3" placeholder="URL Foto 3 (Opcional)" class="w-full border rounded p-2 text-xs">
+              <div class="flex justify-between items-center">
+                <label class="block text-xs font-bold text-slate-700">🎨 Cores e Fotos do Produto</label>
+                <button type="button" onclick="adicionarLinhaCor()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2 py-1 rounded text-[11px]">+ Adicionar Cor</button>
+              </div>
+              <div id="container-cores" class="space-y-2"></div>
             </div>
             
             <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 grid grid-cols-3 gap-2">
@@ -263,6 +323,7 @@
     window.produtos = [];
     window.distribuidorLogado = null;
     window.carrinho = {};
+    window.coresSelecionadasGrid = {};
 
     onSnapshot(collection(db, "b2b_distribuidores"), (snapshot) => {
       window.distribuidores = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -291,6 +352,13 @@
       const documento = document.getElementById('autocad-doc').value.trim();
       const senha = document.getElementById('autocad-senha').value.trim();
 
+      const cep = document.getElementById('autocad-cep').value.trim();
+      const rua = document.getElementById('autocad-rua').value.trim();
+      const num = document.getElementById('autocad-num').value.trim();
+      const bairro = document.getElementById('autocad-bairro').value.trim();
+      const cidade = document.getElementById('autocad-cidade').value.trim();
+      const uf = document.getElementById('autocad-uf').value.trim().toUpperCase();
+
       if(nome && documento && senha) {
         const jaExiste = window.distribuidores.find(d => d.documento === documento);
         if(jaExiste) {
@@ -298,10 +366,13 @@
           return;
         }
 
-        const novo = { nome, documento, senha, escala: 'escala_1' };
+        const novo = { 
+          nome, documento, senha, escala: 'escala_1',
+          endereco: { cep, rua, num, bairro, cidade, uf }
+        };
+
         await addDoc(collection(db, "b2b_distribuidores"), novo);
-        
-        alert('Cadastro realizado com sucesso! Você já foi conectado automaticamente.');
+        alert('Cadastro realizado com sucesso!');
         window.distribuidorLogado = novo;
         atualizarViews();
       }
@@ -340,6 +411,9 @@
         abaProd.classList.remove('hidden');
         btnProd.className = "bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs";
         btnDist.className = "bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs";
+        if(document.getElementById('container-cores').children.length === 0) {
+          adicionarLinhaCor();
+        }
       }
     };
 
@@ -394,8 +468,12 @@
         btnGestor.innerText = "🔒 Gestor";
 
         document.getElementById('lbl-distribuidor-nome').innerText = window.distribuidorLogado.nome;
-        const escalaFormatada = window.distribuidorLogado.escala.replace('_', ' ');
+        const escalaFormatada = window.distribuidorLogado.escala ? window.distribuidorLogado.escala.replace('_', ' ') : 'Escala 1';
         document.getElementById('lbl-distribuidor-escala').innerText = escalaFormatada;
+
+        const end = window.distribuidorLogado.endereco;
+        const endStr = end ? `${end.cidade}/${end.uf} - CEP: ${end.cep}` : 'Não cadastrado';
+        document.getElementById('lbl-distribuidor-endereco').innerText = endStr;
 
         if(navStatus) navStatus.innerText = `Distribuidor: ${window.distribuidorLogado.nome}`;
         renderCatalogo();
@@ -420,16 +498,29 @@
 
       grid.innerHTML = window.produtos.map(p => {
         const preco = Number(p.precos?.[chaveEscala]) || 0;
-        const qtdAtual = window.carrinho[p.id] || 0;
-        
-        const fotos = [p.foto1 || p.foto_url, p.foto2, p.foto3].filter(Boolean);
-        const imgPadrao = fotos[0] || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80';
+        const listaCores = p.cores || [];
 
-        const miniaturasHtml = fotos.length > 1 ? `
-          <div class="flex gap-1.5 p-2 bg-slate-100 justify-center border-t border-slate-200">
-            ${fotos.map(f => `
-              <img src="${f}" onclick="trocarFotoPrincipal('${p.id}', '${f}')" class="w-9 h-9 object-cover rounded border border-slate-300 cursor-pointer hover:border-amber-500 transition">
-            `).join('')}
+        if(!window.coresSelecionadasGrid[p.id] && listaCores.length > 0) {
+          window.coresSelecionadasGrid[p.id] = listaCores[0].nome;
+        }
+
+        const corAtivaNome = window.coresSelecionadasGrid[p.id] || '';
+        const corObjAtiva = listaCores.find(c => c.nome === corAtivaNome) || listaCores[0] || {};
+        const imgExibida = corObjAtiva.foto || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80';
+
+        const chaveItemCarrinho = `${p.id}_${corAtivaNome}`;
+        const qtdAtual = window.carrinho[chaveItemCarrinho]?.qtd || 0;
+
+        const seletorCoresHtml = listaCores.length > 0 ? `
+          <div class="space-y-1.5 pt-1">
+            <label class="block text-[11px] font-bold text-slate-700">Cor / Variação:</label>
+            <div class="flex flex-wrap gap-1.5">
+              ${listaCores.map(c => `
+                <button onclick="selecionarCorProduto('${p.id}', '${c.nome}')" class="px-2.5 py-1 rounded text-xs font-bold border ${c.nome === corAtivaNome ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-sm' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
+                  ${c.nome}
+                </button>
+              `).join('')}
+            </div>
           </div>
         ` : '';
 
@@ -437,12 +528,12 @@
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
             <div>
               <div class="h-48 bg-slate-100 overflow-hidden relative">
-                <img id="img-main-${p.id}" src="${imgPadrao}" alt="${p.nome}" class="w-full h-full object-cover">
+                <img id="img-main-${p.id}" src="${imgExibida}" alt="${p.nome}" class="w-full h-full object-cover">
               </div>
-              ${miniaturasHtml}
-              <div class="p-4 space-y-1.5">
+              <div class="p-4 space-y-2">
                 <h3 class="font-bold text-slate-900 text-sm leading-snug">${p.nome}</h3>
                 <p class="text-xs text-slate-500 line-clamp-2">${p.descricao || 'Sem descrição.'}</p>
+                ${seletorCoresHtml}
               </div>
             </div>
 
@@ -453,9 +544,9 @@
               </div>
 
               <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1">
-                <button onclick="alterarQtdCarrinho('${p.id}', -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-800 font-black rounded text-xs flex items-center justify-center">-</button>
+                <button onclick="alterarQtdCarrinho('${p.id}', '${corAtivaNome}', -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-800 font-black rounded text-xs flex items-center justify-center">-</button>
                 <span class="w-6 text-center font-bold text-xs text-slate-800">${qtdAtual}</span>
-                <button onclick="alterarQtdCarrinho('${p.id}', 1)" class="w-7 h-7 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded text-xs flex items-center justify-center">+</button>
+                <button onclick="alterarQtdCarrinho('${p.id}', '${corAtivaNome}', 1)" class="w-7 h-7 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded text-xs flex items-center justify-center">+</button>
               </div>
             </div>
           </div>
@@ -463,16 +554,21 @@
       }).join('');
     }
 
-    window.trocarFotoPrincipal = function(prodId, novaFotoUrl) {
-      const imgEl = document.getElementById(`img-main-${prodId}`);
-      if(imgEl) imgEl.src = novaFotoUrl;
+    window.selecionarCorProduto = function(prodId, corNome) {
+      window.coresSelecionadasGrid[prodId] = corNome;
+      renderCatalogo();
     };
 
-    window.alterarQtdCarrinho = function(prodId, delta) {
-      const atual = window.carrinho[prodId] || 0;
-      const novaQtd = Math.max(0, atual + delta);
-      if(novaQtd === 0) delete window.carrinho[prodId];
-      else window.carrinho[prodId] = novaQtd;
+    window.alterarQtdCarrinho = function(prodId, corNome, delta) {
+      const chaveKey = `${prodId}_${corNome}`;
+      const itemAtual = window.carrinho[chaveKey] || { prodId, cor: corNome, qtd: 0 };
+      const novaQtd = Math.max(0, itemAtual.qtd + delta);
+
+      if(novaQtd === 0) {
+        delete window.carrinho[chaveKey];
+      } else {
+        window.carrinho[chaveKey] = { prodId, cor: corNome, qtd: novaQtd };
+      }
 
       renderCatalogo();
       atualizarResumoCarrinho();
@@ -486,13 +582,13 @@
       let totalGeral = 0;
       let qtdItensTotal = 0;
 
-      Object.keys(window.carrinho).forEach(prodId => {
-        const prod = window.produtos.find(p => p.id === prodId);
+      Object.keys(window.carrinho).forEach(chaveKey => {
+        const item = window.carrinho[chaveKey];
+        const prod = window.produtos.find(p => p.id === item.prodId);
         if(prod) {
           const preco = Number(prod.precos?.[chaveEscala]) || 0;
-          const qtd = window.carrinho[prodId];
-          totalGeral += (preco * qtd);
-          qtdItensTotal += qtd;
+          totalGeral += (preco * item.qtd);
+          qtdItensTotal += item.qtd;
         }
       });
 
@@ -522,23 +618,25 @@
 
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
 
-      container.innerHTML = keys.map(prodId => {
-        const prod = window.produtos.find(p => p.id === prodId);
+      container.innerHTML = keys.map(chaveKey => {
+        const item = window.carrinho[chaveKey];
+        const prod = window.produtos.find(p => p.id === item.prodId);
         if(!prod) return '';
-        const qtd = window.carrinho[prodId];
+
         const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
-        const subtotal = precoUnit * qtd;
+        const subtotal = precoUnit * item.qtd;
 
         return `
           <div class="py-3 flex items-center justify-between gap-3">
             <div class="flex-1">
               <h4 class="font-bold text-xs text-slate-800">${prod.nome}</h4>
-              <p class="text-[11px] text-slate-500">${qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-slate-900">R$ ${subtotal.toFixed(2)}</strong></p>
+              <p class="text-[11px] text-amber-700 font-bold">Cor: ${item.cor || 'Padrão'}</p>
+              <p class="text-[11px] text-slate-500">${item.qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-slate-900">R$ ${subtotal.toFixed(2)}</strong></p>
             </div>
             <div class="flex items-center gap-1">
-              <button onclick="alterarQtdCarrinho('${prod.id}', -1)" class="w-6 h-6 bg-slate-100 rounded text-xs font-bold">-</button>
-              <span class="w-6 text-center text-xs font-bold">${qtd}</span>
-              <button onclick="alterarQtdCarrinho('${prod.id}', 1)" class="w-6 h-6 bg-amber-500 rounded text-xs font-bold">+</button>
+              <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', -1)" class="w-6 h-6 bg-slate-100 rounded text-xs font-bold">-</button>
+              <span class="w-6 text-center text-xs font-bold">${item.qtd}</span>
+              <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', 1)" class="w-6 h-6 bg-amber-500 rounded text-xs font-bold">+</button>
             </div>
           </div>
         `;
@@ -553,22 +651,26 @@
       let totalGeral = 0;
       let resumoItens = [];
 
-      keys.forEach(prodId => {
-        const prod = window.produtos.find(p => p.id === prodId);
+      keys.forEach(chaveKey => {
+        const item = window.carrinho[chaveKey];
+        const prod = window.produtos.find(p => p.id === item.prodId);
         if(prod) {
-          const qtd = window.carrinho[prodId];
           const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
-          const subtotal = precoUnit * qtd;
+          const subtotal = precoUnit * item.qtd;
           totalGeral += subtotal;
 
-          resumoItens.push({ nome: prod.nome, qtd, precoUnit, subtotal });
+          resumoItens.push({ nome: prod.nome, cor: item.cor, qtd: item.qtd, precoUnit, subtotal });
         }
       });
+
+      const end = window.distribuidorLogado.endereco || {};
+      const endFormatado = end.cep ? `${end.rua}, Nº ${end.num} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP: ${end.cep})` : 'A combinar';
 
       try {
         await addDoc(collection(db, "b2b_pedidos"), {
           distribuidor: window.distribuidorLogado.nome,
           documento: window.distribuidorLogado.documento,
+          enderecoEntrega: endFormatado,
           escala: chaveEscala,
           data: new Date().toISOString(),
           itens: resumoItens,
@@ -579,13 +681,14 @@
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
       msg += `🏢 *Distribuidor:* ${window.distribuidorLogado.nome}\n`;
       msg += `📄 *Doc/CNPJ:* ${window.distribuidorLogado.documento}\n`;
-      msg += `🏷️ *Tabela:* ${chaveEscala.replace('_', ' ').toUpperCase()}\n-----------------------------------\n\n📦 *ITENS:* \n`;
+      msg += `🏷️ *Tabela:* ${chaveEscala.replace('_', ' ').toUpperCase()}\n`;
+      msg += `📍 *ENTREGA / FRETE:* ${endFormatado}\n-----------------------------------\n\n📦 *ITENS DO PEDIDO:* \n`;
 
       resumoItens.forEach((item, index) => {
-        msg += `${index + 1}. *${item.nome}* | Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
+        msg += `${index + 1}. *${item.nome}* (${item.cor})\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
       });
 
-      msg += `\n💰 *VALOR TOTAL: R$ ${totalGeral.toFixed(2)}*`;
+      msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${totalGeral.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
       
@@ -597,19 +700,72 @@
 
     window.cadastrarDistribuidor = async function(e) {
       if(e) e.preventDefault();
+      const idEdit = document.getElementById('cad-dist-id').value;
       const nome = document.getElementById('cad-dist-nome').value.trim();
       const documento = document.getElementById('cad-dist-doc').value.trim();
       const senha = document.getElementById('cad-dist-senha').value.trim();
       const escala = document.getElementById('cad-dist-escala').value;
 
-      if(nome && documento && senha) {
-        await addDoc(collection(db, "b2b_distribuidores"), { nome, documento, senha, escala });
-        document.getElementById('cad-dist-nome').value = '';
-        document.getElementById('cad-dist-doc').value = '';
-        document.getElementById('cad-dist-senha').value = '';
-        alert('Distribuidor cadastrado/atualizado com sucesso!');
+      const cep = document.getElementById('cad-dist-cep').value.trim();
+      const rua = document.getElementById('cad-dist-rua').value.trim();
+      const num = document.getElementById('cad-dist-num').value.trim();
+      const bairro = document.getElementById('cad-dist-bairro').value.trim();
+      const cidade = document.getElementById('cad-dist-cidade').value.trim();
+      const uf = document.getElementById('cad-dist-uf').value.trim().toUpperCase();
+
+      const dados = { 
+        nome, documento, senha, escala,
+        endereco: { cep, rua, num, bairro, cidade, uf }
+      };
+
+      if(idEdit) {
+        await updateDoc(doc(db, "b2b_distribuidores", idEdit), dados);
+        alert('Distribuidor atualizado com sucesso!');
+      } else {
+        await addDoc(collection(db, "b2b_distribuidores"), dados);
+        alert('Distribuidor cadastrado com sucesso!');
       }
+
+      limparFormDistribuidor();
     };
+
+    window.prepararEdicaoDistribuidor = function(id) {
+      const d = window.distribuidores.find(dist => dist.id === id);
+      if(!d) return;
+
+      document.getElementById('cad-dist-id').value = d.id;
+      document.getElementById('cad-dist-nome').value = d.nome || '';
+      document.getElementById('cad-dist-doc').value = d.documento || '';
+      document.getElementById('cad-dist-senha').value = d.senha || '';
+      document.getElementById('cad-dist-escala').value = d.escala || 'escala_1';
+
+      const end = d.endereco || {};
+      document.getElementById('cad-dist-cep').value = end.cep || '';
+      document.getElementById('cad-dist-rua').value = end.rua || '';
+      document.getElementById('cad-dist-num').value = end.num || '';
+      document.getElementById('cad-dist-bairro').value = end.bairro || '';
+      document.getElementById('cad-dist-cidade').value = end.cidade || '';
+      document.getElementById('cad-dist-uf').value = end.uf || '';
+
+      document.getElementById('titulo-form-distribuidor').innerText = "Editar Distribuidor";
+      document.getElementById('btn-salvar-dist').innerText = "Atualizar Distribuidor";
+    };
+
+    function limparFormDistribuidor() {
+      document.getElementById('cad-dist-id').value = '';
+      document.getElementById('cad-dist-nome').value = '';
+      document.getElementById('cad-dist-doc').value = '';
+      document.getElementById('cad-dist-senha').value = '';
+      document.getElementById('cad-dist-escala').value = 'escala_1';
+      document.getElementById('cad-dist-cep').value = '';
+      document.getElementById('cad-dist-rua').value = '';
+      document.getElementById('cad-dist-num').value = '';
+      document.getElementById('cad-dist-bairro').value = '';
+      document.getElementById('cad-dist-cidade').value = '';
+      document.getElementById('cad-dist-uf').value = '';
+      document.getElementById('titulo-form-distribuidor').innerText = "Cadastrar / Alterar Distribuidor";
+      document.getElementById('btn-salvar-dist').innerText = "Salvar Distribuidor";
+    }
 
     window.deletarDistribuidor = async function(id) {
       if(confirm('Excluir este distribuidor?')) {
@@ -621,32 +777,59 @@
       const ul = document.getElementById('lista-distribuidores');
       if(!ul) return;
 
-      ul.innerHTML = window.distribuidores.map(d => `
-        <li class="py-2.5 flex justify-between items-center border-b border-slate-100">
-          <div>
-            <span class="font-bold text-slate-900 text-sm">${d.nome}</span>
-            <p class="text-[11px] text-slate-500">Doc/CNPJ: ${d.documento} | Senha: ${d.senha} | <strong class="text-amber-600">${d.escala ? d.escala.replace('_',' ') : 'escala 1'}</strong></p>
-          </div>
-          <button onclick="deletarDistribuidor('${d.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded">Excluir</button>
-        </li>
-      `).join('');
+      ul.innerHTML = window.distribuidores.map(d => {
+        const end = d.endereco || {};
+        const endStr = end.cep ? `${end.cidade}/${end.uf} (${end.cep})` : 'Sem endereço';
+        return `
+          <li class="py-2.5 flex justify-between items-center border-b border-slate-100">
+            <div>
+              <span class="font-bold text-slate-900 text-sm">${d.nome}</span>
+              <p class="text-[11px] text-slate-500">Doc: ${d.documento} | Senha: ${d.senha} | <strong class="text-amber-600">${d.escala ? d.escala.replace('_',' ') : 'escala 1'}</strong></p>
+              <p class="text-[10px] text-slate-400">📍 ${endStr}</p>
+            </div>
+            <div class="flex gap-1">
+              <button onclick="prepararEdicaoDistribuidor('${d.id}')" class="text-amber-700 font-bold text-xs bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded">Editar</button>
+              <button onclick="deletarDistribuidor('${d.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded">Excluir</button>
+            </div>
+          </li>
+        `;
+      }).join('');
     }
+
+    window.adicionarLinhaCor = function(nome = '', foto = '') {
+      const container = document.getElementById('container-cores');
+      const div = document.createElement('div');
+      div.className = "flex gap-2 items-center linha-cor-item";
+      div.innerHTML = `
+        <input type="text" placeholder="Nome da Cor (Ex: Azul)" value="${nome}" class="cor-nome-input border rounded p-1.5 text-xs w-1/3">
+        <input type="url" placeholder="URL da Foto desta Cor" value="${foto}" class="cor-foto-input border rounded p-1.5 text-xs w-2/3">
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-600 font-bold text-xs px-2">✕</button>
+      `;
+      container.appendChild(div);
+    };
 
     window.cadastrarProduto = async function(e) {
       if(e) e.preventDefault();
       const idEdit = document.getElementById('cad-prod-id').value;
       const nome = document.getElementById('cad-prod-nome').value.trim();
       const descricao = document.getElementById('cad-prod-desc').value.trim();
-      const foto1 = document.getElementById('cad-prod-foto1').value.trim();
-      const foto2 = document.getElementById('cad-prod-foto2').value.trim();
-      const foto3 = document.getElementById('cad-prod-foto3').value.trim();
 
       const p1 = parseFloat(document.getElementById('cad-prod-p1').value) || 0;
       const p2 = parseFloat(document.getElementById('cad-prod-p2').value) || 0;
       const p3 = parseFloat(document.getElementById('cad-prod-p3').value) || 0;
 
+      const linhasCor = document.querySelectorAll('.linha-cor-item');
+      const cores = [];
+      linhasCor.forEach(linha => {
+        const cNome = linha.querySelector('.cor-nome-input').value.trim();
+        const cFoto = linha.querySelector('.cor-foto-input').value.trim();
+        if(cNome) {
+          cores.push({ nome: cNome, foto: cFoto });
+        }
+      });
+
       const dados = {
-        nome, descricao, foto1, foto2, foto3,
+        nome, descricao, cores,
         precos: { escala_1: p1, escala_2: p2, escala_3: p3 }
       };
 
@@ -668,13 +851,18 @@
       document.getElementById('cad-prod-id').value = p.id;
       document.getElementById('cad-prod-nome').value = p.nome;
       document.getElementById('cad-prod-desc').value = p.descricao || '';
-      document.getElementById('cad-prod-foto1').value = p.foto1 || p.foto_url || '';
-      document.getElementById('cad-prod-foto2').value = p.foto2 || '';
-      document.getElementById('cad-prod-foto3').value = p.foto3 || '';
 
       document.getElementById('cad-prod-p1').value = p.precos?.escala_1 || '';
       document.getElementById('cad-prod-p2').value = p.precos?.escala_2 || '';
       document.getElementById('cad-prod-p3').value = p.precos?.escala_3 || '';
+
+      const container = document.getElementById('container-cores');
+      container.innerHTML = '';
+      if(p.cores && p.cores.length > 0) {
+        p.cores.forEach(c => adicionarLinhaCor(c.nome, c.foto));
+      } else {
+        adicionarLinhaCor();
+      }
 
       document.getElementById('titulo-form-produto').innerText = "Editar Produto";
       document.getElementById('btn-salvar-prod').innerText = "Atualizar Produto";
@@ -684,12 +872,11 @@
       document.getElementById('cad-prod-id').value = '';
       document.getElementById('cad-prod-nome').value = '';
       document.getElementById('cad-prod-desc').value = '';
-      document.getElementById('cad-prod-foto1').value = '';
-      document.getElementById('cad-prod-foto2').value = '';
-      document.getElementById('cad-prod-foto3').value = '';
       document.getElementById('cad-prod-p1').value = '';
       document.getElementById('cad-prod-p2').value = '';
       document.getElementById('cad-prod-p3').value = '';
+      document.getElementById('container-cores').innerHTML = '';
+      adicionarLinhaCor();
       document.getElementById('titulo-form-produto').innerText = "Cadastrar Produto";
       document.getElementById('btn-salvar-prod').innerText = "Salvar Produto";
     }
@@ -704,18 +891,21 @@
       const ul = document.getElementById('lista-produtos-gestor');
       if(!ul) return;
 
-      ul.innerHTML = window.produtos.map(p => `
-        <li class="py-2.5 flex justify-between items-center border-b border-slate-100">
-          <div>
-            <span class="font-bold text-slate-800 text-sm">${p.nome}</span>
-            <p class="text-[10px] text-slate-500">E1: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | E2: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | E3: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
-          </div>
-          <div class="flex gap-1">
-            <button onclick="prepararEdicaoProduto('${p.id}')" class="text-amber-700 font-bold text-xs bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded">Editar</button>
-            <button onclick="deletarProduto('${p.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded">Excluir</button>
-          </div>
-        </li>
-      `).join('');
+      ul.innerHTML = window.produtos.map(p => {
+        const qtdCores = p.cores ? p.cores.length : 0;
+        return `
+          <li class="py-2.5 flex justify-between items-center border-b border-slate-100">
+            <div>
+              <span class="font-bold text-slate-800 text-sm">${p.nome}</span>
+              <p class="text-[10px] text-slate-500">E1: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Cores: ${qtdCores}</p>
+            </div>
+            <div class="flex gap-1">
+              <button onclick="prepararEdicaoProduto('${p.id}')" class="text-amber-700 font-bold text-xs bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded">Editar</button>
+              <button onclick="deletarProduto('${p.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded">Excluir</button>
+            </div>
+          </li>
+        `;
+      }).join('');
     }
 
     atualizarViews();
