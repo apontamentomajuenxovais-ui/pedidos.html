@@ -153,7 +153,7 @@
       <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex justify-between items-center flex-wrap gap-2">
         <div>
           <h2 class="text-lg font-black text-amber-900">Painel do Gestor - MAJU ENXOVAIS</h2>
-          <p class="text-xs text-amber-700">Gerencie Distribuidores, Fretes e Cores dos Produtos</p>
+          <p class="text-xs text-amber-700">Gerencie Distribuidores, Fretes, Fotos e Cores</p>
         </div>
         <button onclick="toggleModoGestor()" class="bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-lg shadow">Sair do Modo Gestor</button>
       </div>
@@ -161,7 +161,7 @@
       <!-- BOTÕES DE SELEÇÃO DE ABA -->
       <div class="flex gap-2 border-b border-slate-200 pb-2">
         <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs">👥 Distribuidores & Endereços</button>
-        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs">📦 Produtos & Cores</button>
+        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs">📦 Produtos, Fotos & Cores</button>
       </div>
 
       <!-- ABA 1: DISTRIBUIDORES -->
@@ -223,7 +223,7 @@
         </div>
       </div>
 
-      <!-- ABA 2: PRODUTOS COM VARIAÇÕES DE COR -->
+      <!-- ABA 2: PRODUTOS COM FOTOS FIXAS E VARIAÇÕES DE COR -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
           <h3 class="text-base font-bold text-slate-800 border-b pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
@@ -238,10 +238,18 @@
               <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border rounded-lg p-2.5 text-sm">
             </div>
 
-            <!-- VARIAÇÕES DE CORES E FOTOS -->
+            <!-- FOTOS GERAIS (3 FOTOS FIXAS) -->
+            <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
+              <label class="block text-xs font-bold text-slate-700">🖼️ Fotos do Produto (Links/URLs)</label>
+              <input type="url" id="cad-prod-foto1" placeholder="URL Foto 1 (Principal)" class="w-full border rounded p-2 text-xs">
+              <input type="url" id="cad-prod-foto2" placeholder="URL Foto 2 (Opcional)" class="w-full border rounded p-2 text-xs">
+              <input type="url" id="cad-prod-foto3" placeholder="URL Foto 3 (Opcional)" class="w-full border rounded p-2 text-xs">
+            </div>
+
+            <!-- VARIAÇÕES DE CORES (OPCIONAL) -->
             <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
               <div class="flex justify-between items-center">
-                <label class="block text-xs font-bold text-slate-700">🎨 Cores e Fotos do Produto</label>
+                <label class="block text-xs font-bold text-slate-700">🎨 Cores com Fotos Específicas (Opcional)</label>
                 <button type="button" onclick="adicionarLinhaCor()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2 py-1 rounded text-[11px]">+ Adicionar Cor</button>
               </div>
               <div id="container-cores" class="space-y-2"></div>
@@ -262,7 +270,10 @@
               </div>
             </div>
 
-            <button type="submit" id="btn-salvar-prod" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-3 rounded-lg text-sm shadow">Salvar Produto</button>
+            <div class="flex gap-2">
+              <button type="submit" id="btn-salvar-prod" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold p-3 rounded-lg text-sm shadow">Salvar Produto</button>
+              <button type="button" onclick="limparFormProduto()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-3 rounded-lg text-xs">Limpar</button>
+            </div>
           </form>
         </div>
 
@@ -411,9 +422,6 @@
         abaProd.classList.remove('hidden');
         btnProd.className = "bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs";
         btnDist.className = "bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs";
-        if(document.getElementById('container-cores').children.length === 0) {
-          adicionarLinhaCor();
-        }
       }
     };
 
@@ -499,24 +507,37 @@
       grid.innerHTML = window.produtos.map(p => {
         const preco = Number(p.precos?.[chaveEscala]) || 0;
         const listaCores = p.cores || [];
+        const fotosPrincipais = [p.foto1 || p.foto_url, p.foto2, p.foto3].filter(Boolean);
 
+        // Define a cor selecionada atualmente se houver cores
         if(!window.coresSelecionadasGrid[p.id] && listaCores.length > 0) {
           window.coresSelecionadasGrid[p.id] = listaCores[0].nome;
         }
 
         const corAtivaNome = window.coresSelecionadasGrid[p.id] || '';
-        const corObjAtiva = listaCores.find(c => c.nome === corAtivaNome) || listaCores[0] || {};
-        const imgExibida = corObjAtiva.foto || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80';
+        const corObjAtiva = listaCores.find(c => c.nome === corAtivaNome);
+        
+        // Foto exibida (prioriza a da cor ativa, senão usa a foto1 do produto)
+        const imgExibida = (corObjAtiva && corObjAtiva.foto) ? corObjAtiva.foto : (fotosPrincipais[0] || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80');
 
         const chaveItemCarrinho = `${p.id}_${corAtivaNome}`;
         const qtdAtual = window.carrinho[chaveItemCarrinho]?.qtd || 0;
+
+        // Miniaturas das fotos gerais do produto
+        const miniaturasHtml = fotosPrincipais.length > 1 ? `
+          <div class="flex gap-1.5 p-2 bg-slate-100 justify-center border-t border-slate-200">
+            ${fotosPrincipais.map(f => `
+              <img src="${f}" onclick="trocarFotoPrincipal('${p.id}', '${f}')" class="w-8 h-8 object-cover rounded border border-slate-300 cursor-pointer hover:border-amber-500 transition">
+            `).join('')}
+          </div>
+        ` : '';
 
         const seletorCoresHtml = listaCores.length > 0 ? `
           <div class="space-y-1.5 pt-1">
             <label class="block text-[11px] font-bold text-slate-700">Cor / Variação:</label>
             <div class="flex flex-wrap gap-1.5">
               ${listaCores.map(c => `
-                <button onclick="selecionarCorProduto('${p.id}', '${c.nome}')" class="px-2.5 py-1 rounded text-xs font-bold border ${c.nome === corAtivaNome ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-sm' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
+                <button onclick="selecionarCorProduto('${p.id}', '${c.nome}')" class="px-2 py-0.5 rounded text-xs font-bold border ${c.nome === corAtivaNome ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-sm' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
                   ${c.nome}
                 </button>
               `).join('')}
@@ -530,6 +551,7 @@
               <div class="h-48 bg-slate-100 overflow-hidden relative">
                 <img id="img-main-${p.id}" src="${imgExibida}" alt="${p.nome}" class="w-full h-full object-cover">
               </div>
+              ${miniaturasHtml}
               <div class="p-4 space-y-2">
                 <h3 class="font-bold text-slate-900 text-sm leading-snug">${p.nome}</h3>
                 <p class="text-xs text-slate-500 line-clamp-2">${p.descricao || 'Sem descrição.'}</p>
@@ -553,6 +575,11 @@
         `;
       }).join('');
     }
+
+    window.trocarFotoPrincipal = function(prodId, novaFotoUrl) {
+      const imgEl = document.getElementById(`img-main-${prodId}`);
+      if(imgEl) imgEl.src = novaFotoUrl;
+    };
 
     window.selecionarCorProduto = function(prodId, corNome) {
       window.coresSelecionadasGrid[prodId] = corNome;
@@ -630,7 +657,7 @@
           <div class="py-3 flex items-center justify-between gap-3">
             <div class="flex-1">
               <h4 class="font-bold text-xs text-slate-800">${prod.nome}</h4>
-              <p class="text-[11px] text-amber-700 font-bold">Cor: ${item.cor || 'Padrão'}</p>
+              <p class="text-[11px] text-amber-700 font-bold">${item.cor ? 'Cor: ' + item.cor : 'Opção Padrão'}</p>
               <p class="text-[11px] text-slate-500">${item.qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-slate-900">R$ ${subtotal.toFixed(2)}</strong></p>
             </div>
             <div class="flex items-center gap-1">
@@ -685,7 +712,7 @@
       msg += `📍 *ENTREGA / FRETE:* ${endFormatado}\n-----------------------------------\n\n📦 *ITENS DO PEDIDO:* \n`;
 
       resumoItens.forEach((item, index) => {
-        msg += `${index + 1}. *${item.nome}* (${item.cor})\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
+        msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
       });
 
       msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${totalGeral.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
@@ -813,6 +840,9 @@
       const idEdit = document.getElementById('cad-prod-id').value;
       const nome = document.getElementById('cad-prod-nome').value.trim();
       const descricao = document.getElementById('cad-prod-desc').value.trim();
+      const foto1 = document.getElementById('cad-prod-foto1').value.trim();
+      const foto2 = document.getElementById('cad-prod-foto2').value.trim();
+      const foto3 = document.getElementById('cad-prod-foto3').value.trim();
 
       const p1 = parseFloat(document.getElementById('cad-prod-p1').value) || 0;
       const p2 = parseFloat(document.getElementById('cad-prod-p2').value) || 0;
@@ -829,7 +859,7 @@
       });
 
       const dados = {
-        nome, descricao, cores,
+        nome, descricao, foto1, foto2, foto3, cores,
         precos: { escala_1: p1, escala_2: p2, escala_3: p3 }
       };
 
@@ -851,6 +881,9 @@
       document.getElementById('cad-prod-id').value = p.id;
       document.getElementById('cad-prod-nome').value = p.nome;
       document.getElementById('cad-prod-desc').value = p.descricao || '';
+      document.getElementById('cad-prod-foto1').value = p.foto1 || p.foto_url || '';
+      document.getElementById('cad-prod-foto2').value = p.foto2 || '';
+      document.getElementById('cad-prod-foto3').value = p.foto3 || '';
 
       document.getElementById('cad-prod-p1').value = p.precos?.escala_1 || '';
       document.getElementById('cad-prod-p2').value = p.precos?.escala_2 || '';
@@ -860,8 +893,6 @@
       container.innerHTML = '';
       if(p.cores && p.cores.length > 0) {
         p.cores.forEach(c => adicionarLinhaCor(c.nome, c.foto));
-      } else {
-        adicionarLinhaCor();
       }
 
       document.getElementById('titulo-form-produto').innerText = "Editar Produto";
@@ -872,11 +903,13 @@
       document.getElementById('cad-prod-id').value = '';
       document.getElementById('cad-prod-nome').value = '';
       document.getElementById('cad-prod-desc').value = '';
+      document.getElementById('cad-prod-foto1').value = '';
+      document.getElementById('cad-prod-foto2').value = '';
+      document.getElementById('cad-prod-foto3').value = '';
       document.getElementById('cad-prod-p1').value = '';
       document.getElementById('cad-prod-p2').value = '';
       document.getElementById('cad-prod-p3').value = '';
       document.getElementById('container-cores').innerHTML = '';
-      adicionarLinhaCor();
       document.getElementById('titulo-form-produto').innerText = "Cadastrar Produto";
       document.getElementById('btn-salvar-prod').innerText = "Salvar Produto";
     }
