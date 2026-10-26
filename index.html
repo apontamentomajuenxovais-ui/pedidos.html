@@ -837,10 +837,7 @@
         await addDoc(collection(db, "b2b_pedidos"), objetoPedido);
       } catch(err) { console.error(err); }
 
-      // 1. Abre a janela do PDF / Comprovante
-      gerarPDFComprovantePedido(objetoPedido);
-
-      // 2. Monta a mensagem formatada para o WhatsApp
+      // 1. Monta a mensagem formatada para o WhatsApp
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
       msg += `🏢 *Distribuidor:* ${window.distribuidorLogado.nome}\n`;
       msg += `📄 *Doc/CNPJ:* ${window.distribuidorLogado.documento}\n`;
@@ -857,8 +854,12 @@
 
       msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${totalGeral.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
 
+      // 2. Dispara o WhatsApp (Abrindo o link diretamente)
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
       
+      // 3. Abre a janela do PDF / Comprovante impresso
+      gerarPDFComprovantePedido(objetoPedido);
+
       window.carrinho = {};
       if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
       fecharModalCarrinho();
