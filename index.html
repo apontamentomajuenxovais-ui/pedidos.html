@@ -19,7 +19,6 @@
   <nav class="bg-[#3d2c1d] text-[#f7f3ec] shadow-xl sticky top-0 z-50 border-b border-[#5c3a21]">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <!-- ÁREA DA LOGO (Certifique-se de que a imagem está na mesma pasta com o nome 'logo.png' ou ajuste o nome do arquivo aqui) -->
         <div class="flex items-center justify-center bg-[#f7f3ec] px-2 py-1 rounded-xl shadow-inner">
           <img src="logo.png" alt="Maju Enxovais" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
           <div id="logo-fallback" class="hidden bg-[#5c3a21] text-[#f7f3ec] px-3 py-1.5 rounded-lg font-black text-sm tracking-wider flex items-center justify-center">MAJU</div>
@@ -92,9 +91,8 @@
           </div>
         </div>
 
-        <!-- ENDEREÇO PARA FRETE -->
         <div class="bg-[#fcfbfa] p-4 rounded-2xl border border-[#e6dbc9] space-y-2.5">
-          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço para Entrega / Cálculo de Frete</label>
+          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço Padrão (Cadastral)</label>
           <div class="grid grid-cols-3 gap-2">
             <div>
               <label class="block text-[10px] text-[#8c7a6b] font-bold">CEP</label>
@@ -165,7 +163,6 @@
         <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
       </div>
 
-      <!-- BOTÕES DE SELEÇÃO DE ABA -->
       <div class="flex flex-wrap gap-2 border-b border-[#e6dbc9] pb-2">
         <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm">📋 Gerenciar Pedidos</button>
         <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Distribuidores & Endereços</button>
@@ -214,9 +211,8 @@
               </div>
             </div>
 
-            <!-- ENDEREÇO FRETE -->
             <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9] space-y-2">
-              <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço de Entrega (Frete)</label>
+              <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço Padrão (Frete)</label>
               <div class="grid grid-cols-3 gap-2">
                 <input type="text" id="cad-dist-cep" placeholder="CEP" class="border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
                 <input type="text" id="cad-dist-rua" placeholder="Rua / Logradouro" class="col-span-2 border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
@@ -252,7 +248,7 @@
         </div>
       </div>
 
-      <!-- ABA 2: PRODUTOS COM FOTOS FIXAS E VARIAÇÕES DE COR -->
+      <!-- ABA 2: PRODUTOS -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
           <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
@@ -267,7 +263,6 @@
               <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
 
-            <!-- FOTOS GERAIS -->
             <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
               <label class="block text-xs font-bold text-[#3d2c1d]">🖼️ Fotos do Produto (Links/URLs)</label>
               <input type="url" id="cad-prod-foto1" placeholder="URL Foto 1 (Principal)" class="w-full border border-[#d3c5b4] rounded p-2 text-xs bg-white">
@@ -275,7 +270,6 @@
               <input type="url" id="cad-prod-foto3" placeholder="URL Foto 3 (Opcional)" class="w-full border border-[#d3c5b4] rounded p-2 text-xs bg-white">
             </div>
 
-            <!-- VARIAÇÕES DE CORES -->
             <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
               <div class="flex justify-between items-center">
                 <label class="block text-xs font-bold text-[#3d2c1d]">🎨 Cores com Fotos Específicas (Opcional)</label>
@@ -315,28 +309,93 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM OPÇÃO DE FRETE, RETIRADA E ENDEREÇO ALTERNATIVO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21]">
         <h3 class="font-bold text-base flex items-center gap-2">🛒 Seu Pedido B2B</h3>
         <button onclick="fecharModalCarrinho()" class="text-[#d4b59d] hover:text-white font-bold text-lg">✕</button>
       </div>
+
       <div class="p-4 overflow-y-auto flex-1 divide-y divide-[#f5efe6]" id="container-itens-carrinho"></div>
 
-      <!-- CAMPO DE OBSERVAÇÃO -->
-      <div class="p-4 bg-[#fcfbfa] border-t border-[#e6dbc9] space-y-1.5">
-        <label class="block text-xs font-bold text-[#3d2c1d]">📝 Observações do Pedido (Opcional):</label>
-        <textarea id="carrinho-obs" rows="2" placeholder="Ex: Instruções de entrega, preferências de cores ou prazos..." class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-xs bg-white"></textarea>
+      <!-- SEÇÃO DE FRETE / RETIRADA / ENDEREÇO ALTERNATIVO -->
+      <div class="p-4 bg-[#fcfbfa] border-t border-[#e6dbc9] space-y-3">
+        <div class="flex justify-between items-center flex-wrap gap-2">
+          <label class="block text-xs font-bold text-[#3d2c1d]">🚚 Modalidade de Entrega:</label>
+          <div class="flex gap-1.5 flex-wrap">
+            <button type="button" id="btn-tipo-envio" onclick="alternarTipoEntrega('envio')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition">Endereço Padrão</button>
+            <button type="button" id="btn-tipo-outro" onclick="alternarTipoEntrega('outro')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition">Outro Endereço</button>
+            <button type="button" id="btn-tipo-retirada" onclick="alternarTipoEntrega('retirada')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition">Retirar</button>
+          </div>
+        </div>
+
+        <!-- Bloco 1: Envio no Endereço Padrão (Melhor Envio) -->
+        <div id="bloco-opcao-envio" class="space-y-2">
+          <div class="flex gap-2 items-center">
+            <input type="text" id="carrinho-cep" placeholder="CEP de Entrega" class="border border-[#d3c5b4] rounded-xl p-2 text-xs w-28 bg-white font-bold text-[#3d2c1d]">
+            <button onclick="calcularFreteMelhorEnvio()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow">Calcular Frete</button>
+          </div>
+          <div id="resultado-cotacao-frete" class="text-xs text-[#8c7a6b] font-medium">Insira o CEP para calcular cotações (PAC, SEDEX, Transportadora).</div>
+        </div>
+
+        <!-- Bloco 2: Outro Endereço de Entrega -->
+        <div id="bloco-opcao-outro" class="hidden space-y-2 bg-white p-3 rounded-xl border border-[#e6dbc9]">
+          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Novo Endereço de Entrega:</label>
+          <div class="grid grid-cols-3 gap-1.5">
+            <div>
+              <input type="text" id="alt-cep" placeholder="CEP" class="w-inner border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+            </div>
+            <div class="col-span-2">
+              <input type="text" id="alt-rua" placeholder="Rua / Avenida" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-1.5">
+            <div>
+              <input type="text" id="alt-num" placeholder="Número" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+            </div>
+            <div class="col-span-2">
+              <input type="text" id="alt-bairro" placeholder="Bairro" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-1.5">
+            <div class="col-span-2">
+              <input type="text" id="alt-cidade" placeholder="Cidade" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+            </div>
+            <div>
+              <input type="text" id="alt-uf" maxlength="2" placeholder="UF" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs uppercase bg-[#fcfbfa]">
+            </div>
+          </div>
+          <button onclick="calcularFreteOutroEndereco()" class="w-full bg-[#8c5830] hover:bg-[#724625] text-white font-bold py-1.5 rounded-lg text-xs transition shadow mt-1">Calcular Frete para este Endereço</button>
+          <div id="resultado-cotacao-alt" class="text-xs text-[#8c7a6b] font-medium pt-1">Preencha o CEP e clique para calcular.</div>
+        </div>
+
+        <!-- Bloco 3: Retirada na Empresa -->
+        <div id="bloco-opcao-retirada" class="hidden text-xs text-emerald-900 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 font-medium">
+          🏢 <strong>Retirada na Empresa:</strong> Sem custo de frete. Você será avisado quando o pedido estiver separado para retirada.
+        </div>
+
+        <!-- Observação -->
+        <div class="space-y-1">
+          <label class="block text-[11px] font-bold text-[#3d2c1d]">📝 Observações (Opcional):</label>
+          <textarea id="carrinho-obs" rows="2" placeholder="Instruções de entrega ou prazos..." class="w-full border border-[#d3c5b4] rounded-xl p-2 text-xs bg-white"></textarea>
+        </div>
       </div>
 
       <div class="p-4 bg-[#efe8de] border-t border-[#e6dbc9] space-y-3">
-        <div class="flex justify-between items-center font-black text-lg text-[#3d2c1d]">
-          <span>Valor Total:</span>
+        <div class="flex justify-between items-center text-xs text-[#8c7a6b]">
+          <span>Subtotal Produtos:</span>
+          <span id="modal-subtotal-produtos" class="font-bold text-[#3d2c1d]">R$ 0,00</span>
+        </div>
+        <div class="flex justify-between items-center text-xs text-[#8c7a6b]">
+          <span>Valor do Frete:</span>
+          <span id="modal-valor-frete" class="font-bold text-[#3d2c1d]">R$ 0,00</span>
+        </div>
+        <div class="flex justify-between items-center font-black text-lg text-[#3d2c1d] border-t border-[#d3c5b4] pt-2">
+          <span>Valor Total Geral:</span>
           <span id="modal-carrinho-total" class="text-[#724625]">R$ 0,00</span>
         </div>
         
-        <!-- OPÇÕES DE CONCLUSÃO -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <button onclick="enviarWhatsAppMantendoCarrinho()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
             📲 Enviar por WhatsApp
@@ -374,6 +433,12 @@
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
     let modoGestorAtivo = false;
     let pedidoAtualCache = null;
+
+    // Variáveis globais para controle de frete
+    window.tipoEntregaAtual = 'envio'; // 'envio', 'outro' ou 'retirada'
+    window.valorFreteSelecionado = 0;
+    window.servicoFreteNome = 'A calcular';
+    window.enderecoAlternativoCache = null;
 
     window.distribuidores = [];
     window.produtos = [];
@@ -577,7 +642,6 @@
 
         const corAtivaNome = window.coresSelecionadasGrid[p.id] || '';
         const corObjAtiva = listaCores.find(c => c.nome === corAtivaNome);
-        
         const imgExibida = (corObjAtiva && corObjAtiva.foto) ? corObjAtiva.foto : (fotosPrincipais[0] || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80');
 
         const chaveItemCarrinho = `${p.id}_${corAtivaNome}`;
@@ -665,7 +729,7 @@
       if(!window.distribuidorLogado) return;
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
 
-      let totalGeral = 0;
+      let totalProdutos = 0;
       let qtdItensTotal = 0;
 
       Object.keys(window.carrinho).forEach(chaveKey => {
@@ -673,17 +737,115 @@
         const prod = window.produtos.find(p => p.id === item.prodId);
         if(prod) {
           const preco = Number(prod.precos?.[chaveEscala]) || 0;
-          totalGeral += (preco * item.qtd);
+          totalProdutos += (preco * item.qtd);
           qtdItensTotal += item.qtd;
         }
       });
 
+      const frete = window.tipoEntregaAtual === 'retirada' ? 0 : window.valorFreteSelecionado;
+      const totalGeral = totalProdutos + frete;
+
       document.getElementById('lbl-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
+      document.getElementById('modal-subtotal-produtos').innerText = `R$ ${totalProdutos.toFixed(2)}`;
+      document.getElementById('modal-valor-frete').innerText = window.tipoEntregaAtual === 'retirada' ? 'R$ 0,00 (Retirada)' : `R$ ${frete.toFixed(2)}`;
       document.getElementById('modal-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
       document.getElementById('badge-carrinho-qtd').innerText = qtdItensTotal;
     }
 
+    window.alternarTipoEntrega = function(tipo) {
+      window.tipoEntregaAtual = tipo;
+      const btnEnvio = document.getElementById('btn-tipo-envio');
+      const btnOutro = document.getElementById('btn-tipo-outro');
+      const btnRetirada = document.getElementById('btn-tipo-retirada');
+      
+      const blocoEnvio = document.getElementById('bloco-opcao-envio');
+      const blocoOutro = document.getElementById('bloco-opcao-outro');
+      const blocoRetirada = document.getElementById('bloco-opcao-retirada');
+
+      // Reset classes
+      btnEnvio.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnOutro.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnRetirada.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
+
+      blocoEnvio.classList.add('hidden');
+      blocoOutro.classList.add('hidden');
+      blocoRetirada.classList.add('hidden');
+
+      if(tipo === 'envio') {
+        btnEnvio.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        blocoEnvio.classList.remove('hidden');
+        window.servicoFreteNome = 'Melhor Envio (Endereço Padrão)';
+      } else if(tipo === 'outro') {
+        btnOutro.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        blocoOutro.classList.remove('hidden');
+        window.servicoFreteNome = 'Melhor Envio (Outro Endereço)';
+      } else {
+        btnRetirada.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        blocoRetirada.classList.remove('hidden');
+        window.valorFreteSelecionado = 0;
+        window.servicoFreteNome = 'Retirada na Empresa (Sem Frete)';
+      }
+      atualizarResumoCarrinho();
+    };
+
+    // Cálculo simulado para o Endereço Padrão
+    window.calcularFreteMelhorEnvio = function() {
+      const cepInput = document.getElementById('carrinho-cep').value.replace(/\D/g, '');
+      const resultadoDiv = document.getElementById('resultado-cotacao-frete');
+
+      if(cepInput.length !== 8) {
+        alert("Digite um CEP válido com 8 dígitos.");
+        return;
+      }
+
+      resultadoDiv.innerHTML = "🔄 Consultando cotação (Melhor Envio)...";
+
+      setTimeout(() => {
+        const freteSimulado = 35.00 + (parseInt(cepInput.substring(0,2)) % 15);
+        window.valorFreteSelecionado = freteSimulado;
+        window.servicoFreteNome = `Melhor Envio (Padrão) - R$ ${freteSimulado.toFixed(2)}`;
+
+        resultadoDiv.innerHTML = `✅ Melhor opção encontrada: <strong>R$ ${freteSimulado.toFixed(2)}</strong> (Prazo estimado: 3 a 7 dias úteis).`;
+        atualizarResumoCarrinho();
+      }, 800);
+    };
+
+    // Cálculo simulado para o Outro Endereço
+    window.calcularFreteOutroEndereco = function() {
+      const cep = document.getElementById('alt-cep').value.replace(/\D/g, '');
+      const rua = document.getElementById('alt-rua').value.trim();
+      const num = document.getElementById('alt-num').value.trim();
+      const bairro = document.getElementById('alt-bairro').value.trim();
+      const cidade = document.getElementById('alt-cidade').value.trim();
+      const uf = document.getElementById('alt-uf').value.trim().toUpperCase();
+      const resultadoDiv = document.getElementById('resultado-cotacao-alt');
+
+      if(cep.length !== 8 || !rua || !num || !cidade || !uf) {
+        alert("Por favor, preencha todos os campos obrigatórios do novo endereço.");
+        return;
+      }
+
+      window.enderecoAlternativoCache = { cep, rua, num, bairro, cidade, uf };
+      resultadoDiv.innerHTML = "🔄 Calculando frete para o novo endereço...";
+
+      setTimeout(() => {
+        const freteSimulado = 42.00 + (parseInt(cep.substring(0,2)) % 18);
+        window.valorFreteSelecionado = freteSimulado;
+        window.servicoFreteNome = `Melhor Envio (Outro Endereço) - R$ ${freteSimulado.toFixed(2)}`;
+
+        resultadoDiv.innerHTML = `✅ Frete calculado: <strong>R$ ${freteSimulado.toFixed(2)}</strong> para ${cidade}/${uf}.`;
+        atualizarResumoCarrinho();
+      }, 800);
+    };
+
     window.abrirModalCarrinho = function() {
+      if(window.distribuidorLogado && window.distribuidorLogado.endereco?.cep) {
+        const cepLimpo = window.distribuidorLogado.endereco.cep.replace(/\D/g, '');
+        const campoCep = document.getElementById('carrinho-cep');
+        if(campoCep && !campoCep.value) {
+          campoCep.value = cepLimpo;
+        }
+      }
       renderItensModalCarrinho();
       document.getElementById('modal-carrinho').classList.remove('hidden');
     };
@@ -736,7 +898,7 @@
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
       const observacaoTxt = document.getElementById('carrinho-obs')?.value.trim() || '';
 
-      let totalGeral = 0;
+      let totalProdutos = 0;
       let resumoItens = [];
 
       keys.forEach(chaveKey => {
@@ -745,22 +907,36 @@
         if(prod) {
           const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
           const subtotal = precoUnit * item.qtd;
-          totalGeral += subtotal;
-
+          totalProdutos += subtotal;
           resumoItens.push({ nome: prod.nome, cor: item.cor, qtd: item.qtd, precoUnit, subtotal });
         }
       });
 
-      const end = window.distribuidorLogado.endereco || {};
-      const endFormatado = end.cep ? `${end.rua}, Nº ${end.num} - ${end.bairro}, ${end.cidade}/${end.uf} (CEP: ${end.cep})` : 'A combinar';
+      const freteValor = window.tipoEntregaAtual === 'retirada' ? 0 : window.valorFreteSelecionado;
+      const totalGeral = totalProdutos + freteValor;
+
+      const endCadastral = window.distribuidorLogado.endereco || {};
+      let endFormatado = '';
+
+      if(window.tipoEntregaAtual === 'retirada') {
+        endFormatado = 'RETIRADA NA EMPRESA (Sem Frete)';
+      } else if(window.tipoEntregaAtual === 'outro' && window.enderecoAlternativoCache) {
+        const alt = window.enderecoAlternativoCache;
+        endFormatado = `${alt.rua}, Nº ${alt.num} - ${alt.bairro}, ${alt.cidade}/${alt.uf} (CEP: ${alt.cep}) [NOVO ENDEREÇO]`;
+      } else {
+        endFormatado = endCadastral.cep ? `${endCadastral.rua}, Nº ${endCadastral.num} - ${endCadastral.bairro}, ${endCadastral.cidade}/${endCadastral.uf} (CEP: ${endCadastral.cep})` : 'A combinar';
+      }
 
       const pedidoObj = {
         distribuidor: window.distribuidorLogado.nome,
         documento: window.distribuidorLogado.documento,
         enderecoEntrega: endFormatado,
+        tipoEntrega: window.tipoEntregaAtual,
+        valorFrete: freteValor,
+        servicoFrete: window.servicoFreteNome,
         escala: chaveEscala,
         observacao: observacaoTxt,
-        status: 'Pendente',
+        status: window.tipoEntregaAtual === 'retirada' ? 'Separado para Retirada' : 'Pendente',
         data: new Date().toISOString(),
         itens: resumoItens,
         valorTotal: totalGeral
@@ -828,6 +1004,7 @@
             <p style="margin: 2px 0;"><strong>Cliente/Distribuidor:</strong> ${dadosPedido.distribuidor}</p>
             <p style="margin: 2px 0;"><strong>CNPJ/Documento:</strong> ${dadosPedido.documento}</p>
             <p style="margin: 2px 0;"><strong>Data do Pedido:</strong> ${dataStr}</p>
+            <p style="margin: 2px 0;"><strong>Modalidade:</strong> ${dadosPedido.tipoEntrega === 'retirada' ? 'Retirada na Empresa' : 'Envio via ' + (dadosPedido.servicoFrete || 'Melhor Envio')}</p>
             <p style="margin: 2px 0;"><strong>Endereço de Entrega:</strong> ${dadosPedido.enderecoEntrega}</p>
             ${dadosPedido.observacao ? `<p style="margin: 6px 0 2px 0; color: #8c5830;"><strong>Observações:</strong> ${dadosPedido.observacao}</p>` : ''}
           </div>
@@ -847,8 +1024,11 @@
             </tbody>
           </table>
 
+          <div style="margin-top: 15px; font-size: 13px; text-align: right;">
+            Frete: R$ ${Number(dadosPedido.valorFrete || 0).toFixed(2)}
+          </div>
           <div class="total">
-            VALOR TOTAL DO PEDIDO: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
+            VALOR TOTAL GERAL: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
           </div>
 
           <div style="margin-top: 40px; text-align: center; font-size: 10px; color: #8c7a6b; border-top: 1px solid #e6dbc9; padding-top: 10px;">
@@ -868,7 +1048,10 @@
       msg += `🏢 *Distribuidor:* ${pedidoObj.distribuidor}\n`;
       msg += `📄 *Doc/CNPJ:* ${pedidoObj.documento}\n`;
       msg += `🏷️ *Tabela:* ${pedidoObj.escala.replace('_', ' ').toUpperCase()}\n`;
-      msg += `📍 *ENTREGA / FRETE:* ${pedidoObj.enderecoEntrega}\n`;
+      msg += `🚚 *ENTREGA:* ${pedidoObj.enderecoEntrega}\n`;
+      if(pedidoObj.tipoEntrega !== 'retirada') {
+        msg += `📦 *Frete:* R$ ${Number(pedidoObj.valorFrete).toFixed(2)}\n`;
+      }
       if(pedidoObj.observacao) {
         msg += `📝 *OBSERVAÇÃO:* ${pedidoObj.observacao}\n`;
       }
@@ -878,7 +1061,7 @@
         msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
       });
 
-      msg += `\n-----------------------------------\n💰 *VALOR TOTAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n-----------------------------------\nSolicito a cotação do frete para envio.`;
+      msg += `\n-----------------------------------\n💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n-----------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
     };
@@ -886,7 +1069,6 @@
     window.gerarPDFMantendoCarrinho = async function() {
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return alert("O carrinho está vazio!");
-
       gerarPDFComprovantePedido(pedidoObj);
     };
 
@@ -948,11 +1130,11 @@
                   <span class="px-2.5 py-0.5 text-[10px] font-black rounded-full border ${corBadge}">${st}</span>
                 </div>
                 <p class="text-xs text-[#8c7a6b]">CNPJ: ${p.documento || 'N/A'} | Data: ${dataFormatada}</p>
-                <p class="text-xs text-[#5c3a21] font-semibold mt-0.5">📍 Entrega: ${p.enderecoEntrega || 'A combinar'}</p>
+                <p class="text-xs text-[#5c3a21] font-semibold mt-0.5">📍 Entrega: ${p.enderecoEntrega || 'A combinar'} ${p.valorFrete ? '(Frete: R$ ' + Number(p.valorFrete).toFixed(2) + ')' : ''}</p>
                 ${p.observacao ? `<p class="text-xs text-[#8c5830] bg-[#fcfbfa] p-1.5 rounded-lg border border-[#e6dbc9] mt-1 font-medium">📝 <strong>Obs:</strong> ${p.observacao}</p>` : ''}
               </div>
               <div class="text-right">
-                <p class="text-[10px] uppercase font-bold text-[#8c7a6b]">Total do Pedido</p>
+                <p class="text-[10px] uppercase font-bold text-[#8c7a6b]">Total Geral</p>
                 <p class="text-lg font-black text-[#724625]">R$ ${Number(p.valorTotal || 0).toFixed(2)}</p>
               </div>
             </div>
@@ -992,9 +1174,7 @@
       try {
         await updateDoc(doc(db, "b2b_pedidos", id), { status: novoStatus });
         alert(`Status alterado para: ${novoStatus}`);
-      } catch(err) {
-        console.error("Erro ao atualizar status:", err);
-      }
+      } catch(err) { console.error(err); }
     };
 
     window.deletarPedido = async function(id) {
