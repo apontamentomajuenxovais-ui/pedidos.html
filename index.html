@@ -45,7 +45,7 @@
     <div id="card-login-distribuidor" class="max-w-md mx-auto my-8 bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#e6dbc9]">
       <div class="text-center mb-6">
         <div class="bg-[#3d2c1d] text-[#d4b59d] w-20 h-20 rounded-3xl font-black text-2xl flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-[#5c3a21]">MAJU</div>
-        <h2 class="text-2xl font-black text-[#3d2c1d]">Portal do Distribuidor</h2>
+        <h2 class="text-2xl font-black text-[#3d2c1d]">Portal de Parceiros</h2>
         <p class="text-xs text-[#8c7a6b] mt-1">Acesse com seus dados para visualizar sua tabela exclusiva</p>
       </div>
 
@@ -58,31 +58,31 @@
           <label class="block text-xs font-bold text-[#5c3a21] mb-1">Senha de Acesso</label>
           <input type="password" id="login-senha" required placeholder="••••••••" class="w-full border border-[#d3c5b4] focus:border-[#5c3a21] focus:ring-1 focus:ring-[#5c3a21] rounded-xl p-3 text-sm outline-none transition bg-[#fcfbfa]">
         </div>
-        <button type="submit" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black p-3.5 rounded-xl shadow-md transition transform active:scale-[0.99]">Entrar no Portal B2B</button>
+        <button type="submit" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black p-3.5 rounded-xl shadow-md transition transform active:scale-[0.99]">Entrar no Portal</button>
       </form>
 
       <div class="mt-6 pt-4 border-t border-[#e6dbc9] text-center">
         <p class="text-xs text-[#8c7a6b] mb-2">Ainda não tem cadastro?</p>
-        <button onclick="mostrarFormularioCadastro()" class="w-full bg-[#efe8de] hover:bg-[#e4dacb] text-[#3d2c1d] font-bold p-2.5 rounded-xl text-xs transition">Criar Conta de Distribuidor</button>
+        <button onclick="mostrarFormularioCadastro()" class="w-full bg-[#efe8de] hover:bg-[#e4dacb] text-[#3d2c1d] font-bold p-2.5 rounded-xl text-xs transition">Criar Conta de Afiliado</button>
       </div>
     </div>
 
-    <!-- TELA DE AUTO-CADASTRO DO DISTRIBUIDOR -->
+    <!-- TELA DE AUTO-CADASTRO DO DISTRIBUIDOR (AGORA COMO AFILIADO) -->
     <div id="card-cadastro-distribuidor" class="hidden max-w-xl mx-auto my-6 bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#e6dbc9]">
       <div class="text-center mb-6">
         <div class="bg-[#3d2c1d] text-[#d4b59d] w-16 h-16 rounded-2xl font-black text-xl flex items-center justify-center mx-auto mb-3 shadow-md">MAJU</div>
-        <h2 class="text-2xl font-black text-[#3d2c1d]">Cadastrar Distribuidor</h2>
-        <p class="text-xs text-[#8c7a6b] mt-1">Preencha seus dados para cadastro e cálculo do frete</p>
+        <h2 class="text-2xl font-black text-[#3d2c1d]">Cadastrar como Afiliado</h2>
+        <p class="text-xs text-[#8c7a6b] mt-1">Preencha seus dados para criar sua conta de afiliado</p>
       </div>
 
       <form onsubmit="autoCadastrarDistribuidor(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-[#5c3a21] mb-1">Razão Social / Nome Fantasia</label>
-          <input type="text" id="autocad-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-sm bg-[#fcfbfa]">
+          <label class="block text-xs font-bold text-[#5c3a21] mb-1">Nome Completo / Razão Social</label>
+          <input type="text" id="autocad-nome" required placeholder="Ex: Maria Silva" class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-sm bg-[#fcfbfa]">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-xs font-bold text-[#5c3a21] mb-1">CNPJ / Documento</label>
+            <label class="block text-xs font-bold text-[#5c3a21] mb-1">CPF / CNPJ</label>
             <input type="text" id="autocad-doc" required placeholder="Apenas números" class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-sm bg-[#fcfbfa]">
           </div>
           <div>
@@ -92,7 +92,7 @@
         </div>
 
         <div class="bg-[#fcfbfa] p-4 rounded-2xl border border-[#e6dbc9] space-y-2.5">
-          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço Padrão (Cadastral)</label>
+          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço Padrão (Frete)</label>
           <div class="grid grid-cols-3 gap-2">
             <div>
               <label class="block text-[10px] text-[#8c7a6b] font-bold">CEP</label>
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <button type="submit" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black p-3.5 rounded-xl shadow transition mt-2">Finalizar Cadastro</button>
+        <button type="submit" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black p-3.5 rounded-xl shadow transition mt-2">Finalizar Cadastro de Afiliado</button>
       </form>
 
       <div class="mt-4 text-center">
@@ -138,7 +138,8 @@
       <div class="bg-white p-5 md:p-6 rounded-2xl border border-[#e6dbc9] shadow-sm flex flex-wrap justify-between items-center gap-4">
         <div>
           <h2 class="text-xl font-black text-[#3d2c1d]" id="lbl-distribuidor-nome">Distribuidor</h2>
-          <p class="text-xs text-[#8c7a6b]">Tabela: <span id="lbl-distribuidor-escala" class="font-bold text-[#8c5830] uppercase">Escala 1</span> | Endereço: <span id="lbl-distribuidor-endereco" class="font-semibold text-[#5c3a21]"></span></p>
+          <p class="text-xs text-[#8c7a6b]">Perfil / Tabela: <span id="lbl-distribuidor-escala" class="font-bold text-[#8c5830] uppercase">Afiliados</span> <span id="lbl-info-comissao" class="hidden text-emerald-800 font-bold ml-2"></span></p>
+          <p class="text-xs text-[#8c7a6b] mt-0.5">Endereço: <span id="lbl-distribuidor-endereco" class="font-semibold text-[#5c3a21]"></span></p>
         </div>
         <div class="flex items-center gap-4">
           <div class="text-right">
@@ -158,14 +159,14 @@
       <div class="bg-[#3d2c1d] text-[#f7f3ec] p-5 rounded-2xl flex justify-between items-center flex-wrap gap-2 shadow-md border border-[#5c3a21]">
         <div>
           <h2 class="text-lg font-black text-[#d4b59d]">Painel do Gestor - MAJU ENXOVAIS</h2>
-          <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Distribuidores e Produtos</p>
+          <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Perfis e Produtos</p>
         </div>
         <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
       </div>
 
       <div class="flex flex-wrap gap-2 border-b border-[#e6dbc9] pb-2">
         <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm">📋 Gerenciar Pedidos</button>
-        <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Distribuidores & Endereços</button>
+        <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Perfis, Atacado & Afiliados</button>
         <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">📦 Produtos, Fotos & Cores</button>
       </div>
 
@@ -190,19 +191,19 @@
         <div id="lista-pedidos-gestor" class="space-y-3"></div>
       </div>
 
-      <!-- ABA 1: DISTRIBUIDORES -->
+      <!-- ABA 1: PERFIS -->
       <div id="aba-distribuidores" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
-          <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-distribuidor">Cadastrar / Alterar Distribuidor</h3>
+          <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-distribuidor">Cadastrar / Alterar Perfil</h3>
           <form onsubmit="cadastrarDistribuidor(event)" class="space-y-3">
             <input type="hidden" id="cad-dist-id" value="">
             <div>
-              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Razão Social / Nome Fantasia</label>
-              <input type="text" id="cad-dist-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome / Razão Social</label>
+              <input type="text" id="cad-dist-nome" required placeholder="Ex: Parceiro" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">CNPJ / Documento</label>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">CPF / CNPJ</label>
                 <input type="text" id="cad-dist-doc" required placeholder="Apenas números" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
               </div>
               <div>
@@ -227,23 +228,30 @@
               </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Tabela de Preço Atribuída</label>
-              <select id="cad-dist-escala" required class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm font-semibold bg-[#fcfbfa]">
-                <option value="escala_1">Escala 1 (Preço Padrão)</option>
-                <option value="escala_2">Escala 2 (Preço Intermediário)</option>
-                <option value="escala_3">Escala 3 (Preço Especial / Volume)</option>
-              </select>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Tipo de Perfil</label>
+                <select id="cad-dist-escala" onchange="verificarSeAfiliado()" required class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm font-semibold bg-[#fcfbfa]">
+                  <option value="escala_1">E-commerce</option>
+                  <option value="escala_2">Atacado (Mín. 15 pçs)</option>
+                  <option value="escala_3" selected>Afiliados</option>
+                </select>
+              </div>
+              <div id="div-comissao" class="">
+                <label class="block text-xs font-semibold text-emerald-900 mb-1">Comissão Afiliado (%)</label>
+                <input type="number" step="0.1" id="cad-dist-comissao" placeholder="Ex: 10.0" value="10" class="w-full border border-emerald-300 rounded-lg p-2 text-sm font-bold bg-emerald-50 text-emerald-900">
+              </div>
             </div>
+
             <div class="flex gap-2">
-              <button type="submit" id="btn-salvar-dist" class="flex-1 bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-bold p-2.5 rounded-xl text-sm shadow">Salvar Distribuidor</button>
+              <button type="submit" id="btn-salvar-dist" class="flex-1 bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-bold p-2.5 rounded-xl text-sm shadow">Salvar Perfil</button>
               <button type="button" onclick="limparFormDistribuidor()" class="bg-[#efe8de] hover:bg-[#e4dacb] text-[#5c3a21] font-bold px-3 py-2.5 rounded-xl text-xs">Limpar</button>
             </div>
           </form>
         </div>
 
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm">
-          <h4 class="text-xs font-bold text-[#5c3a21] uppercase border-b border-[#e6dbc9] pb-2 mb-3">Distribuidores Cadastrados</h4>
+          <h4 class="text-xs font-bold text-[#5c3a21] uppercase border-b border-[#e6dbc9] pb-2 mb-3">Cadastrados no Sistema</h4>
           <ul id="lista-distribuidores" class="divide-y divide-[#f5efe6] text-xs max-h-96 overflow-y-auto"></ul>
         </div>
       </div>
@@ -256,11 +264,11 @@
             <input type="hidden" id="cad-prod-id" value="">
             <div>
               <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome do Produto</label>
-              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 100% Algodão" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
             <div>
               <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
-              <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+              <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
 
             <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
@@ -280,15 +288,15 @@
             
             <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9] grid grid-cols-3 gap-2">
               <div>
-                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Escala 1</label>
+                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço E-commerce</label>
                 <input type="number" step="0.01" id="cad-prod-p1" required placeholder="85.00" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs font-bold text-[#3d2c1d] bg-white">
               </div>
               <div>
-                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Escala 2</label>
+                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Atacado</label>
                 <input type="number" step="0.01" id="cad-prod-p2" required placeholder="78.00" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs font-bold text-[#8c5830] bg-white">
               </div>
               <div>
-                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Escala 3</label>
+                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Afiliados</label>
                 <input type="number" step="0.01" id="cad-prod-p3" required placeholder="70.00" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs font-bold text-emerald-800 bg-white">
               </div>
             </div>
@@ -309,15 +317,21 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM OPÇÃO DE FRETE REAL (MELHOR ENVIO), RETIRADA E ENDEREÇO ALTERNATIVO -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM OPÇÃO DE FRETE REAL (MELHOR ENVIO), RETIRADA E VALIDAÇÃO DE ATACADO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21]">
-        <h3 class="font-bold text-base flex items-center gap-2">🛒 Seu Pedido B2B</h3>
+        <h3 class="font-bold text-base flex items-center gap-2">🛒 Seu Pedido</h3>
         <button onclick="fecharModalCarrinho()" class="text-[#d4b59d] hover:text-white font-bold text-lg">✕</button>
       </div>
 
       <div class="p-4 overflow-y-auto flex-1 divide-y divide-[#f5efe6]" id="container-itens-carrinho"></div>
+
+      <!-- AVISO DE ATACADO (MÍNIMO 15 PEÇAS) -->
+      <div id="aviso-atacado-minimo" class="hidden bg-amber-50 border-t border-amber-200 p-2.5 text-xs text-amber-900 font-bold flex justify-between items-center">
+        <span>⚠️ Pedido no Atacado exige mínimo de 15 peças.</span>
+        <span id="contador-pecas-atacado" class="bg-amber-200 px-2 py-0.5 rounded">0 / 15 pçs</span>
+      </div>
 
       <!-- SEÇÃO DE FRETE / RETIRADA / ENDEREÇO ALTERNATIVO -->
       <div class="p-4 bg-[#fcfbfa] border-t border-[#e6dbc9] space-y-3">
@@ -431,7 +445,7 @@
 
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
     const CEP_ORIGEM = "14940450"; // Ibitinga - SP
-    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2ViaG9vayIsIm1jcDp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
+    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGlugi1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2ViaG9vayIsIm1jcDp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
     let modoGestorAtivo = false;
@@ -490,17 +504,18 @@
       if(nome && documento && senha) {
         const jaExiste = window.distribuidores.find(d => d.documento === documento);
         if(jaExiste) {
-          alert('Este CNPJ/Documento já está cadastrado no sistema!');
+          alert('Este CPF/CNPJ já está cadastrado no sistema!');
           return;
         }
 
+        // Configurado para entrar automaticamente como Afiliado (escala_3) com comissão padrão de 10%
         const novo = { 
-          nome, documento, senha, escala: 'escala_1',
+          nome, documento, senha, escala: 'escala_3', comissao: 10,
           endereco: { cep, rua, num, bairro, cidade, uf }
         };
 
         await addDoc(collection(db, "b2b_distribuidores"), novo);
-        alert('Cadastro realizado com sucesso!');
+        alert('Cadastro de afiliado realizado com sucesso!');
         window.distribuidorLogado = novo;
         atualizarViews();
       }
@@ -564,7 +579,7 @@
         modoGestorAtivo = false;
         atualizarViews();
       } else {
-        alert("CNPJ/Documento ou Senha incorretos.");
+        alert("CPF/CNPJ ou Senha incorretos.");
       }
     };
 
@@ -595,7 +610,7 @@
       if(modoGestorAtivo) {
         secGestor.classList.remove('hidden');
         btnGestor.innerText = "🔒 Sair do Gestor";
-        if(navStatus) navStatus.innerText = "Modo Gestor - Configurações B2B";
+        if(navStatus) navStatus.innerText = "Modo Gestor - Configurações";
         renderGestorPedidos();
       } else if(window.distribuidorLogado) {
         secCatalogo.classList.remove('hidden');
@@ -604,20 +619,33 @@
         btnGestor.innerText = "🔒 Gestor";
 
         document.getElementById('lbl-distribuidor-nome').innerText = window.distribuidorLogado.nome;
-        const escalaFormatada = window.distribuidorLogado.escala ? window.distribuidorLogado.escala.replace('_', ' ') : 'Escala 1';
-        document.getElementById('lbl-distribuidor-escala').innerText = escalaFormatada;
+        
+        let perfilNome = 'E-commerce';
+        const tipoEscala = window.distribuidorLogado.escala || 'escala_1';
+        if(tipoEscala === 'escala_2') perfilNome = 'Atacado';
+        if(tipoEscala === 'escala_3') perfilNome = 'Afiliados';
+
+        document.getElementById('lbl-distribuidor-escala').innerText = perfilNome;
+
+        const lblComissao = document.getElementById('lbl-info-comissao');
+        if(tipoEscala === 'escala_3' && window.distribuidorLogado.comissao) {
+          lblComissao.innerText = `(Comissão: ${window.distribuidorLogado.comissao}%)`;
+          lblComissao.classList.remove('hidden');
+        } else {
+          lblComissao.classList.add('hidden');
+        }
 
         const end = window.distribuidorLogado.endereco;
         const endStr = end ? `${end.cidade}/${end.uf} - CEP: ${end.cep}` : 'Não cadastrado';
         document.getElementById('lbl-distribuidor-endereco').innerText = endStr;
 
-        if(navStatus) navStatus.innerText = `Distribuidor: ${window.distribuidorLogado.nome}`;
+        if(navStatus) navStatus.innerText = `Parceiro: ${window.distribuidorLogado.nome}`;
         renderCatalogo();
         atualizarResumoCarrinho();
       } else {
         cardLogin.classList.remove('hidden');
         btnGestor.innerText = "🔒 Gestor";
-        if(navStatus) navStatus.innerText = "Portal de Vendas B2B";
+        if(navStatus) navStatus.innerText = "Portal B2B";
       }
     }
 
@@ -751,6 +779,23 @@
       document.getElementById('modal-valor-frete').innerText = window.tipoEntregaAtual === 'retirada' ? 'R$ 0,00 (Retirada)' : `R$ ${frete.toFixed(2)}`;
       document.getElementById('modal-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
       document.getElementById('badge-carrinho-qtd').innerText = qtdItensTotal;
+
+      // Validação visual de Atacado (Mínimo 15 peças)
+      const avisoAtacado = document.getElementById('aviso-atacado-minimo');
+      const contadorPecas = document.getElementById('contador-pecas-atacado');
+      if(chaveEscala === 'escala_2') {
+        avisoAtacado.classList.remove('hidden');
+        contadorPecas.innerText = `${qtdItensTotal} / 15 pçs`;
+        if(qtdItensTotal >= 15) {
+          avisoAtacado.className = "bg-emerald-50 border-t border-emerald-200 p-2.5 text-xs text-emerald-900 font-bold flex justify-between items-center";
+          contadorPecas.className = "bg-emerald-200 px-2 py-0.5 rounded text-emerald-900";
+        } else {
+          avisoAtacado.className = "bg-amber-50 border-t border-amber-200 p-2.5 text-xs text-amber-900 font-bold flex justify-between items-center";
+          contadorPecas.className = "bg-amber-200 px-2 py-0.5 rounded text-amber-900";
+        }
+      } else {
+        avisoAtacado.classList.add('hidden');
+      }
     }
 
     window.alternarTipoEntrega = function(tipo) {
@@ -788,7 +833,6 @@
       atualizarResumoCarrinho();
     };
 
-    // Função de Cotação Real via API do Melhor Envio
     async function consultarAPIHubMelhorEnvio(cepDestino) {
       let pesoTotalKg = 0.5;
       let qtdItens = 0;
@@ -823,27 +867,23 @@
             "Accept": "application/json",
             "Content-Type": "application/json",
             "Authorization": `Bearer ${MELHOR_ENVIO_TOKEN}`,
-            "User-Agent": "MajuEnxovaisB2B (advocaciadigitalinteligente@gmail.com)"
+            "User-Agent": "MajuEnxovaisB2B"
           },
           body: JSON.stringify(payload)
         });
 
-        if(!response.ok) {
-          throw new Error("Erro na comunicação com a API do Melhor Envio.");
-        }
+        if(!response.ok) throw new Error("Erro na comunicação com a API.");
 
         const data = await response.json();
         const cotacoesValidas = data.filter(c => !c.error);
         
-        if(cotacoesValidas.length === 0) {
-          throw new Error("Nenhuma transportadora disponível para este CEP.");
-        }
+        if(cotacoesValidas.length === 0) throw new Error("Nenhuma transportadora disponível.");
 
         cotacoesValidas.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
         return cotacoesValidas[0];
 
       } catch(err) {
-        console.warn("Aviso na API do Melhor Envio (Fallback ativado):", err);
+        console.warn("Fallback ativado:", err);
         return { name: "PAC / Transportadora Padrão", price: (35.00 + (qtdItens * 5)).toFixed(2), delivery_time: 5 };
       }
     }
@@ -952,12 +992,21 @@
       }).join('');
     }
 
-    // Função blindada para salvar e garantir o registro no Firestore
     async function garantirPedidoSalvo() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return null;
 
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
+
+      // Validação rigorosa do mínimo de 15 peças para Atacado
+      let qtdItensTotal = 0;
+      keys.forEach(k => { qtdItensTotal += window.carrinho[k].qtd; });
+
+      if(chaveEscala === 'escala_2' && qtdItensTotal < 15) {
+        alert(`⚠️ O perfil de Atacado exige um pedido mínimo de 15 peças. Você tem apenas ${qtdItensTotal} peça(s) no carrinho.`);
+        return null;
+      }
+
       const observacaoTxt = document.getElementById('carrinho-obs')?.value.trim() || '';
 
       let totalProdutos = 0;
@@ -989,14 +1038,19 @@
         endFormatado = endCadastral.cep ? `${endCadastral.rua}, Nº ${endCadastral.num} - ${endCadastral.bairro}, ${endCadastral.cidade}/${endCadastral.uf} (CEP: ${endCadastral.cep})` : 'A combinar';
       }
 
+      let perfilNome = 'E-commerce';
+      if(chaveEscala === 'escala_2') perfilNome = 'Atacado';
+      if(chaveEscala === 'escala_3') perfilNome = `Afiliado (${window.distribuidorLogado.comissao || 0}% de comissão)`;
+
       const pedidoObj = {
         distribuidor: window.distribuidorLogado.nome,
         documento: window.distribuidorLogado.documento,
+        perfil: perfilNome,
+        comissaoAfiliado: chaveEscala === 'escala_3' ? (window.distribuidorLogado.comissao || 0) : 0,
         enderecoEntrega: endFormatado,
         tipoEntrega: window.tipoEntregaAtual,
         valorFrete: freteValor,
         servicoFrete: window.servicoFreteNome,
-        escala: chaveEscala,
         observacao: observacaoTxt,
         status: window.tipoEntregaAtual === 'retirada' ? 'Separado para Retirada' : 'Pendente',
         data: new Date().toISOString(),
@@ -1008,8 +1062,8 @@
         const docRef = await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
         return { id: docRef.id, ...pedidoObj };
       } catch(err) {
-        console.error("Erro ao salvar pedido no Firebase:", err);
-        alert("Erro ao salvar pedido. Verifique sua conexão.");
+        console.error("Erro ao salvar:", err);
+        alert("Erro ao salvar pedido.");
         return null;
       }
     }
@@ -1017,7 +1071,7 @@
     function gerarPDFComprovantePedido(dadosPedido) {
       const win = window.open('', '_blank');
       if(!win) {
-        alert("O navegador bloqueou a janela do PDF. Por favor, permita pop-ups.");
+        alert("O navegador bloqueou a janela do PDF.");
         return;
       }
 
@@ -1057,14 +1111,15 @@
           <div class="header">
             <div>
               <h2 style="margin:0; color: #3d2c1d;">MAJU ENXOVAIS</h2>
-              <p style="margin:2px 0 0 0; font-size: 12px; color: #8c7a6b;">Comprovante / Espelho de Pedido B2B</p>
+              <p style="margin:2px 0 0 0; font-size: 12px; color: #8c7a6b;">Comprovante de Pedido</p>
             </div>
             <div class="logo">MAJU</div>
           </div>
 
           <div class="box">
-            <p style="margin: 2px 0;"><strong>Cliente/Distribuidor:</strong> ${dadosPedido.distribuidor}</p>
-            <p style="margin: 2px 0;"><strong>CNPJ/Documento:</strong> ${dadosPedido.documento}</p>
+            <p style="margin: 2px 0;"><strong>Parceiro / Cliente:</strong> ${dadosPedido.distribuidor}</p>
+            <p style="margin: 2px 0;"><strong>CPF/CNPJ:</strong> ${dadosPedido.documento}</p>
+            <p style="margin: 2px 0;"><strong>Perfil:</strong> ${dadosPedido.perfil}</p>
             <p style="margin: 2px 0;"><strong>Data do Pedido:</strong> ${dataStr}</p>
             <p style="margin: 2px 0;"><strong>Modalidade:</strong> ${dadosPedido.tipoEntrega === 'retirada' ? 'Retirada na Empresa' : 'Envio via ' + (dadosPedido.servicoFrete || 'Melhor Envio')}</p>
             <p style="margin: 2px 0;"><strong>Endereço de Entrega:</strong> ${dadosPedido.enderecoEntrega}</p>
@@ -1092,10 +1147,6 @@
           <div class="total">
             VALOR TOTAL GERAL: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
           </div>
-
-          <div style="margin-top: 40px; text-align: center; font-size: 10px; color: #8c7a6b; border-top: 1px solid #e6dbc9; padding-top: 10px;">
-            MAJU ENXOVAIS - Pedido gerado via Portal de Vendas B2B
-          </div>
         </body>
         </html>
       `);
@@ -1106,10 +1157,10 @@
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return;
 
-      let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
-      msg += `🏢 *Distribuidor:* ${pedidoObj.distribuidor}\n`;
-      msg += `📄 *Doc/CNPJ:* ${pedidoObj.documento}\n`;
-      msg += `🏷️ *Tabela:* ${pedidoObj.escala.replace('_', ' ').toUpperCase()}\n`;
+      let msg = `🛍️ *NOVO PEDIDO - MAJU ENXOVAIS*\n-----------------------------------\n`;
+      msg += `🏢 *Cliente/Parceiro:* ${pedidoObj.distribuidor}\n`;
+      msg += `👤 *Perfil:* ${pedidoObj.perfil}\n`;
+      msg += `📄 *Doc:* ${pedidoObj.documento}\n`;
       msg += `🚚 *ENTREGA:* ${pedidoObj.enderecoEntrega}\n`;
       if(pedidoObj.tipoEntrega !== 'retirada') {
         msg += `📦 *Frete:* R$ ${Number(pedidoObj.valorFrete).toFixed(2)}\n`;
@@ -1145,17 +1196,16 @@
         fecharModalCarrinho();
         renderCatalogo();
         atualizarResumoCarrinho();
-        alert("Pedido finalizado e salvo com sucesso no painel do gestor!");
+        alert("Pedido finalizado e salvo com sucesso!");
       }
     };
 
-    // Função para gerar etiqueta diretamente no Melhor Envio pelo Painel do Gestor
     window.gerarEtiquetaMelhorEnvioGestor = async function(pedidoId) {
       const p = window.pedidos.find(x => x.id === pedidoId);
       if(!p) return alert("Pedido não encontrado.");
 
       if(p.tipoEntrega === 'retirada') {
-        return alert("Este pedido é de retirada na empresa, não requer etiqueta de envio.");
+        return alert("Este pedido é de retirada na empresa.");
       }
 
       alert("📦 Enviando dados para o seu carrinho no Melhor Envio...");
@@ -1178,7 +1228,7 @@
         to: {
           name: p.distribuidor,
           phone: "11999999999",
-          email: "distribuidor@maju.com",
+          email: "parceiro@maju.com",
           document: p.documento || "00000000000",
           address: p.enderecoEntrega,
           number: "S/N",
@@ -1210,16 +1260,14 @@
         });
 
         if(response.ok) {
-          alert("✅ Etiqueta gerada e adicionada com sucesso ao carrinho do seu painel no Melhor Envio! Acesse lá para pagar e imprimir.");
+          alert("✅ Etiqueta gerada e adicionada ao carrinho do Melhor Envio!");
           await updateDoc(doc(db, "b2b_pedidos", pedidoId), { status: "Aguardando Pagamento" });
         } else {
-          const errData = await response.json();
-          console.error("Retorno Melhor Envio:", errData);
           alert("⚠️ Dados enviados, verifique o painel do Melhor Envio.");
         }
       } catch(e) {
         console.error(e);
-        alert("Erro de conexão ao tentar gerar a etiqueta.");
+        alert("Erro de conexão ao gerar etiqueta.");
       }
     };
 
@@ -1235,7 +1283,7 @@
       }
 
       if(listaFiltrada.length === 0) {
-        container.innerHTML = '<div class="bg-white p-8 text-center text-[#8c7a6b] font-medium rounded-2xl border border-[#e6dbc9]">Nenhum pedido encontrado com este status.</div>';
+        container.innerHTML = '<div class="bg-white p-8 text-center text-[#8c7a6b] font-medium rounded-2xl border border-[#e6dbc9]">Nenhum pedido encontrado.</div>';
         return;
       }
 
@@ -1263,6 +1311,8 @@
           <button onclick="gerarEtiquetaMelhorEnvioGestor('${p.id}')" class="text-white font-bold text-xs bg-[#8c5830] hover:bg-[#724625] px-3 py-1.5 rounded-lg shadow transition">🏷️ Gerar Etiqueta Melhor Envio</button>
         ` : '';
 
+        const infoAfiliado = p.comissaoAfiliado ? `<span class="bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded text-[10px] font-bold ml-2">Comissão: ${p.comissaoAfiliado}%</span>` : '';
+
         return `
           <div class="bg-white p-4 md:p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
             <div class="flex justify-between items-start flex-wrap gap-2 border-b border-[#f5efe6] pb-2">
@@ -1270,8 +1320,10 @@
                 <div class="flex items-center gap-2">
                   <h4 class="font-black text-[#3d2c1d] text-base">${p.distribuidor}</h4>
                   <span class="px-2.5 py-0.5 text-[10px] font-black rounded-full border ${corBadge}">${st}</span>
+                  <span class="text-xs font-bold text-[#8c5830]">(${p.perfil || 'E-commerce'})</span>
+                  ${infoAfiliado}
                 </div>
-                <p class="text-xs text-[#8c7a6b]">CNPJ: ${p.documento || 'N/A'} | Data: ${dataFormatada}</p>
+                <p class="text-xs text-[#8c7a6b]">Doc: ${p.documento || 'N/A'} | Data: ${dataFormatada}</p>
                 <p class="text-xs text-[#5c3a21] font-semibold mt-0.5">📍 Entrega: ${p.enderecoEntrega || 'A combinar'} ${p.valorFrete ? '(Frete: R$ ' + Number(p.valorFrete).toFixed(2) + ')' : ''}</p>
                 ${p.observacao ? `<p class="text-xs text-[#8c5830] bg-[#fcfbfa] p-1.5 rounded-lg border border-[#e6dbc9] mt-1 font-medium">📝 <strong>Obs:</strong> ${p.observacao}</p>` : ''}
               </div>
@@ -1288,7 +1340,7 @@
 
             <div class="flex justify-between items-center flex-wrap gap-2 pt-1">
               <div class="flex items-center gap-2">
-                <label class="text-xs font-bold text-[#5c3a21]">Alterar Status:</label>
+                <label class="text-xs font-bold text-[#5c3a21]">Status:</label>
                 <select onchange="atualizarStatusPedido('${p.id}', this.value)" class="border border-[#d3c5b4] rounded-lg p-1.5 text-xs font-bold text-[#3d2c1d] bg-[#fcfbfa]">
                   <option value="Pendente" ${st === 'Pendente' ? 'selected' : ''}>🟡 Pendente</option>
                   <option value="Separado para Retirada" ${st === 'Separado para Retirada' ? 'selected' : ''}>📦 Separado para Retirada</option>
@@ -1321,8 +1373,19 @@
     };
 
     window.deletarPedido = async function(id) {
-      if(confirm("Excluir este pedido do histórico permanentemente?")) {
+      if(confirm("Excluir este pedido?")) {
         await deleteDoc(doc(db, "b2b_pedidos", id));
+      }
+    };
+
+    window.verificarSeAfiliado = function() {
+      const tipo = document.getElementById('cad-dist-escala').value;
+      const divComissao = document.getElementById('div-comissao');
+      if(tipo === 'escala_3') {
+        divComissao.classList.remove('hidden');
+      } else {
+        divComissao.classList.add('hidden');
+        document.getElementById('cad-dist-comissao').value = '';
       }
     };
 
@@ -1333,6 +1396,7 @@
       const documento = document.getElementById('cad-dist-doc').value.trim();
       const senha = document.getElementById('cad-dist-senha').value.trim();
       const escala = document.getElementById('cad-dist-escala').value;
+      const comissao = escala === 'escala_3' ? (parseFloat(document.getElementById('cad-dist-comissao').value) || 0) : 0;
 
       const cep = document.getElementById('cad-dist-cep').value.trim();
       const rua = document.getElementById('cad-dist-rua').value.trim();
@@ -1342,16 +1406,16 @@
       const uf = document.getElementById('cad-dist-uf').value.trim().toUpperCase();
 
       const dados = { 
-        nome, documento, senha, escala,
+        nome, documento, senha, escala, comissao,
         endereco: { cep, rua, num, bairro, cidade, uf }
       };
 
       if(idEdit) {
         await updateDoc(doc(db, "b2b_distribuidores", idEdit), dados);
-        alert('Distribuidor atualizado com sucesso!');
+        alert('Perfil atualizado com sucesso!');
       } else {
         await addDoc(collection(db, "b2b_distribuidores"), dados);
-        alert('Distribuidor cadastrado com sucesso!');
+        alert('Cadastro realizado com sucesso!');
       }
 
       limparFormDistribuidor();
@@ -1366,6 +1430,9 @@
       document.getElementById('cad-dist-doc').value = d.documento || '';
       document.getElementById('cad-dist-senha').value = d.senha || '';
       document.getElementById('cad-dist-escala').value = d.escala || 'escala_1';
+      document.getElementById('cad-dist-comissao').value = d.comissao || '';
+
+      verificarSeAfiliado();
 
       const end = d.endereco || {};
       document.getElementById('cad-dist-cep').value = end.cep || '';
@@ -1375,8 +1442,8 @@
       document.getElementById('cad-dist-cidade').value = end.cidade || '';
       document.getElementById('cad-dist-uf').value = end.uf || '';
 
-      document.getElementById('titulo-form-distribuidor').innerText = "Editar Distribuidor";
-      document.getElementById('btn-salvar-dist').innerText = "Atualizar Distribuidor";
+      document.getElementById('titulo-form-distribuidor').innerText = "Editar Perfil";
+      document.getElementById('btn-salvar-dist').innerText = "Atualizar Perfil";
     };
 
     function limparFormDistribuidor() {
@@ -1385,18 +1452,20 @@
       document.getElementById('cad-dist-doc').value = '';
       document.getElementById('cad-dist-senha').value = '';
       document.getElementById('cad-dist-escala').value = 'escala_1';
+      document.getElementById('cad-dist-comissao').value = '';
+      document.getElementById('div-comissao').classList.add('hidden');
       document.getElementById('cad-dist-cep').value = '';
       document.getElementById('cad-dist-rua').value = '';
       document.getElementById('cad-dist-num').value = '';
       document.getElementById('cad-dist-bairro').value = '';
       document.getElementById('cad-dist-cidade').value = '';
       document.getElementById('cad-dist-uf').value = '';
-      document.getElementById('titulo-form-distribuidor').innerText = "Cadastrar / Alterar Distribuidor";
-      document.getElementById('btn-salvar-dist').innerText = "Salvar Distribuidor";
+      document.getElementById('titulo-form-distribuidor').innerText = "Cadastrar / Alterar Perfil";
+      document.getElementById('btn-salvar-dist').innerText = "Salvar Perfil";
     }
 
     window.deletarDistribuidor = async function(id) {
-      if(confirm('Excluir este distribuidor?')) {
+      if(confirm('Excluir este cadastro?')) {
         await deleteDoc(doc(db, "b2b_distribuidores", id));
       }
     };
@@ -1408,11 +1477,16 @@
       ul.innerHTML = window.distribuidores.map(d => {
         const end = d.endereco || {};
         const endStr = end.cep ? `${end.cidade}/${end.uf} (${end.cep})` : 'Sem endereço';
+        
+        let perfilLabel = 'E-commerce';
+        if(d.escala === 'escala_2') perfilLabel = 'Atacado';
+        if(d.escala === 'escala_3') perfilLabel = `Afiliados (${d.comissao || 0}%)`;
+
         return `
           <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
             <div>
               <span class="font-bold text-[#3d2c1d] text-sm">${d.nome}</span>
-              <p class="text-[11px] text-[#8c7a6b]">Doc: ${d.documento} | Senha: ${d.senha} | <strong class="text-[#8c5830]">${d.escala ? d.escala.replace('_',' ') : 'escala 1'}</strong></p>
+              <p class="text-[11px] text-[#8c7a6b]">Doc: ${d.documento} | <strong class="text-[#8c5830]">${perfilLabel}</strong></p>
               <p class="text-[10px] text-[#8c7a6b]">📍 ${endStr}</p>
             </div>
             <div class="flex gap-1">
@@ -1516,7 +1590,7 @@
     }
 
     window.deletarProduto = async function(id) {
-      if(confirm('Excluir este produto do catálogo?')) {
+      if(confirm('Excluir este produto?')) {
         await deleteDoc(doc(db, "b2b_produtos", id));
       }
     };
@@ -1531,7 +1605,7 @@
           <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
             <div>
               <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span>
-              <p class="text-[10px] text-[#8c7a6b]">E1: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Cores: ${qtdCores}</p>
+              <p class="text-[10px] text-[#8c7a6b]">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
             </div>
             <div class="flex gap-1">
               <button onclick="prepararEdicaoProduto('${p.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
