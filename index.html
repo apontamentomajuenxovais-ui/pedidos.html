@@ -8,27 +8,34 @@
   <style>
     html, body { overflow-x: hidden; touch-action: manipulation; }
     input, select, textarea { font-size: 16px !important; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f5f5f4; }
+    ::-webkit-scrollbar-thumb { background: #5c3a21; border-radius: 4px; }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen pb-12">
+<body class="bg-[#f7f3ec] text-[#3d2c1d] font-sans min-h-screen pb-12">
 
-  <!-- NAVBAR -->
-  <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+  <!-- NAVBAR COM A IDENTIDADE VISUAL MARROM DA MARCA -->
+  <nav class="bg-[#3d2c1d] text-[#f7f3ec] shadow-xl sticky top-0 z-50 border-b border-[#5c3a21]">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <div class="bg-amber-500 text-slate-950 p-2 rounded-lg font-black text-xl">ME</div>
+        <!-- ÁREA DA LOGO (Certifique-se de que a imagem está na mesma pasta com o nome 'logo.png' ou ajuste o nome do arquivo aqui) -->
+        <div class="flex items-center justify-center bg-[#f7f3ec] px-2 py-1 rounded-xl shadow-inner">
+          <img src="logo.png" alt="Maju Enxovais" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
+          <div id="logo-fallback" class="hidden bg-[#5c3a21] text-[#f7f3ec] px-3 py-1.5 rounded-lg font-black text-sm tracking-wider flex items-center justify-center">MAJU</div>
+        </div>
         <div>
-          <h1 class="font-bold text-base md:text-lg leading-tight">MAJU ENXOVAIS</h1>
-          <p class="text-xs text-amber-400" id="nav-user-status">Portal de Vendas B2B</p>
+          <h1 class="font-black text-sm md:text-base leading-tight tracking-wide text-[#f7f3ec]">MAJU ENXOVAIS</h1>
+          <p class="text-[11px] text-[#d4b59d] font-medium" id="nav-user-status">Portal de Vendas B2B</p>
         </div>
       </div>
       <div class="flex items-center space-x-2">
-        <button id="btn-carrinho" onclick="abrirModalCarrinho()" class="hidden bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs md:text-sm flex items-center gap-1.5 shadow">
+        <button id="btn-carrinho" onclick="abrirModalCarrinho()" class="hidden bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3.5 py-2 rounded-xl text-xs md:text-sm flex items-center gap-2 shadow-md transition">
           <span>🛒 Carrinho</span>
-          <span id="badge-carrinho-qtd" class="bg-slate-950 text-white text-[10px] px-1.5 py-0.5 rounded-full font-black">0</span>
+          <span id="badge-carrinho-qtd" class="bg-[#3d2c1d] text-[#d4b59d] text-[11px] px-2 py-0.5 rounded-full font-black">0</span>
         </button>
-        <button id="btn-gestor" onclick="toggleModoGestor()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-3 py-2 rounded-lg text-xs shadow">🔒 Entrar como Gestor</button>
-        <button id="btn-logout" onclick="fazerLogout()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-xs font-bold">Sair</button>
+        <button id="btn-gestor" onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#4a2e1a] text-[#d4b59d] font-bold px-3 py-2 rounded-xl text-xs shadow border border-[#724625] transition">🔒 Gestor</button>
+        <button id="btn-logout" onclick="fazerLogout()" class="hidden bg-red-900 hover:bg-red-950 text-stone-100 px-3 py-2 rounded-xl text-xs font-bold transition">Sair</button>
       </div>
     </div>
   </nav>
@@ -36,111 +43,111 @@
   <main class="max-w-7xl mx-auto p-4 md:p-6">
 
     <!-- TELA DE LOGIN DO DISTRIBUIDOR -->
-    <div id="card-login-distribuidor" class="max-w-md mx-auto my-8 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200">
+    <div id="card-login-distribuidor" class="max-w-md mx-auto my-8 bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#e6dbc9]">
       <div class="text-center mb-6">
-        <div class="bg-amber-500 text-slate-950 w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center mx-auto mb-3 shadow-md">ME</div>
-        <h2 class="text-2xl font-black text-slate-900">Portal do Distribuidor</h2>
-        <p class="text-xs text-slate-500 mt-1">Acesse com seus dados para visualizar sua tabela exclusiva</p>
+        <div class="bg-[#3d2c1d] text-[#d4b59d] w-20 h-20 rounded-3xl font-black text-2xl flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-[#5c3a21]">MAJU</div>
+        <h2 class="text-2xl font-black text-[#3d2c1d]">Portal do Distribuidor</h2>
+        <p class="text-xs text-[#8c7a6b] mt-1">Acesse com seus dados para visualizar sua tabela exclusiva</p>
       </div>
 
       <form onsubmit="fazerLoginDistribuidor(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ ou Identificação</label>
-          <input type="text" id="login-doc" required placeholder="Digite seu CNPJ cadastrado" class="w-full border rounded-lg p-3 text-sm">
+          <label class="block text-xs font-bold text-[#5c3a21] mb-1">CNPJ ou Identificação</label>
+          <input type="text" id="login-doc" required placeholder="Digite seu CNPJ cadastrado" class="w-full border border-[#d3c5b4] focus:border-[#5c3a21] focus:ring-1 focus:ring-[#5c3a21] rounded-xl p-3 text-sm outline-none transition bg-[#fcfbfa]">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Senha de Acesso</label>
-          <input type="password" id="login-senha" required placeholder="••••••••" class="w-full border rounded-lg p-3 text-sm">
+          <label class="block text-xs font-bold text-[#5c3a21] mb-1">Senha de Acesso</label>
+          <input type="password" id="login-senha" required placeholder="••••••••" class="w-full border border-[#d3c5b4] focus:border-[#5c3a21] focus:ring-1 focus:ring-[#5c3a21] rounded-xl p-3 text-sm outline-none transition bg-[#fcfbfa]">
         </div>
-        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black p-3.5 rounded-xl shadow transition">Entrar no Portal B2B</button>
+        <button type="submit" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black p-3.5 rounded-xl shadow-md transition transform active:scale-[0.99]">Entrar no Portal B2B</button>
       </form>
 
-      <div class="mt-6 pt-4 border-t text-center">
-        <p class="text-xs text-slate-600 mb-2">Ainda não tem cadastro?</p>
-        <button onclick="mostrarFormularioCadastro()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold p-2.5 rounded-xl text-xs">Criar Conta de Distribuidor</button>
+      <div class="mt-6 pt-4 border-t border-[#e6dbc9] text-center">
+        <p class="text-xs text-[#8c7a6b] mb-2">Ainda não tem cadastro?</p>
+        <button onclick="mostrarFormularioCadastro()" class="w-full bg-[#efe8de] hover:bg-[#e4dacb] text-[#3d2c1d] font-bold p-2.5 rounded-xl text-xs transition">Criar Conta de Distribuidor</button>
       </div>
     </div>
 
     <!-- TELA DE AUTO-CADASTRO DO DISTRIBUIDOR -->
-    <div id="card-cadastro-distribuidor" class="hidden max-w-xl mx-auto my-6 bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-200">
+    <div id="card-cadastro-distribuidor" class="hidden max-w-xl mx-auto my-6 bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#e6dbc9]">
       <div class="text-center mb-6">
-        <div class="bg-slate-900 text-amber-500 w-16 h-16 rounded-2xl font-black text-3xl flex items-center justify-center mx-auto mb-3 shadow-md">ME</div>
-        <h2 class="text-2xl font-black text-slate-900">Cadastrar Distribuidor</h2>
-        <p class="text-xs text-slate-500 mt-1">Preencha seus dados para cadastro e cálculo do frete</p>
+        <div class="bg-[#3d2c1d] text-[#d4b59d] w-16 h-16 rounded-2xl font-black text-xl flex items-center justify-center mx-auto mb-3 shadow-md">MAJU</div>
+        <h2 class="text-2xl font-black text-[#3d2c1d]">Cadastrar Distribuidor</h2>
+        <p class="text-xs text-[#8c7a6b] mt-1">Preencha seus dados para cadastro e cálculo do frete</p>
       </div>
 
       <form onsubmit="autoCadastrarDistribuidor(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">Razão Social / Nome Fantasia</label>
-          <input type="text" id="autocad-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-2.5 text-sm">
+          <label class="block text-xs font-bold text-[#5c3a21] mb-1">Razão Social / Nome Fantasia</label>
+          <input type="text" id="autocad-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-sm bg-[#fcfbfa]">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ / Documento</label>
-            <input type="text" id="autocad-doc" required placeholder="Apenas números" class="w-full border rounded-lg p-2.5 text-sm">
+            <label class="block text-xs font-bold text-[#5c3a21] mb-1">CNPJ / Documento</label>
+            <input type="text" id="autocad-doc" required placeholder="Apenas números" class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-sm bg-[#fcfbfa]">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">Crie uma Senha</label>
-            <input type="password" id="autocad-senha" required placeholder="••••••••" class="w-full border rounded-lg p-2.5 text-sm">
+            <label class="block text-xs font-bold text-[#5c3a21] mb-1">Crie uma Senha</label>
+            <input type="password" id="autocad-senha" required placeholder="••••••••" class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-sm bg-[#fcfbfa]">
           </div>
         </div>
 
         <!-- ENDEREÇO PARA FRETE -->
-        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2.5">
-          <label class="block text-xs font-bold text-slate-700">📍 Endereço para Entrega / Cálculo de Frete</label>
+        <div class="bg-[#fcfbfa] p-4 rounded-2xl border border-[#e6dbc9] space-y-2.5">
+          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço para Entrega / Cálculo de Frete</label>
           <div class="grid grid-cols-3 gap-2">
             <div>
-              <label class="block text-[10px] text-slate-500 font-semibold">CEP</label>
-              <input type="text" id="autocad-cep" required placeholder="00000-000" class="w-full border rounded p-2 text-xs">
+              <label class="block text-[10px] text-[#8c7a6b] font-bold">CEP</label>
+              <input type="text" id="autocad-cep" required placeholder="00000-000" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-xs bg-white">
             </div>
             <div class="col-span-2">
-              <label class="block text-[10px] text-slate-500 font-semibold">Endereço / Rua</label>
-              <input type="text" id="autocad-rua" required placeholder="Rua, Av..." class="w-full border rounded p-2 text-xs">
+              <label class="block text-[10px] text-[#8c7a6b] font-bold">Endereço / Rua</label>
+              <input type="text" id="autocad-rua" required placeholder="Rua, Av..." class="w-full border border-[#d3c5b4] rounded-lg p-2 text-xs bg-white">
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2">
             <div>
-              <label class="block text-[10px] text-slate-500 font-semibold">Número</label>
-              <input type="text" id="autocad-num" required placeholder="Ex: 123" class="w-full border rounded p-2 text-xs">
+              <label class="block text-[10px] text-[#8c7a6b] font-bold">Número</label>
+              <input type="text" id="autocad-num" required placeholder="Ex: 123" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-xs bg-white">
             </div>
             <div class="col-span-2">
-              <label class="block text-[10px] text-slate-500 font-semibold">Bairro</label>
-              <input type="text" id="autocad-bairro" required placeholder="Bairro" class="w-full border rounded p-2 text-xs">
+              <label class="block text-[10px] text-[#8c7a6b] font-bold">Bairro</label>
+              <input type="text" id="autocad-bairro" required placeholder="Bairro" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-xs bg-white">
             </div>
           </div>
           <div class="grid grid-cols-3 gap-2">
             <div class="col-span-2">
-              <label class="block text-[10px] text-slate-500 font-semibold">Cidade</label>
-              <input type="text" id="autocad-cidade" required placeholder="Cidade" class="w-full border rounded p-2 text-xs">
+              <label class="block text-[10px] text-[#8c7a6b] font-bold">Cidade</label>
+              <input type="text" id="autocad-cidade" required placeholder="Cidade" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-xs bg-white">
             </div>
             <div>
-              <label class="block text-[10px] text-slate-500 font-semibold">UF</label>
-              <input type="text" id="autocad-uf" maxlength="2" required placeholder="SP" class="w-full border rounded p-2 text-xs uppercase">
+              <label class="block text-[10px] text-[#8c7a6b] font-bold">UF</label>
+              <input type="text" id="autocad-uf" maxlength="2" required placeholder="SP" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-xs uppercase bg-white">
             </div>
           </div>
         </div>
 
-        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black p-3.5 rounded-xl shadow transition mt-2">Finalizar Cadastro</button>
+        <button type="submit" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black p-3.5 rounded-xl shadow transition mt-2">Finalizar Cadastro</button>
       </form>
 
       <div class="mt-4 text-center">
-        <button onclick="mostrarFormularioLogin()" class="text-xs text-amber-600 font-bold hover:underline">Já tenho cadastro (Voltar para o Login)</button>
+        <button onclick="mostrarFormularioLogin()" class="text-xs text-[#8c5830] font-bold hover:underline">Já tenho cadastro (Voltar para o Login)</button>
       </div>
     </div>
 
     <!-- PAINEL B2B (CATÁLOGO DE PRODUTOS) -->
     <div id="sec-catalogo" class="hidden space-y-6">
-      <div class="bg-white p-4 md:p-6 rounded-xl border border-slate-200 shadow-sm flex flex-wrap justify-between items-center gap-4">
+      <div class="bg-white p-5 md:p-6 rounded-2xl border border-[#e6dbc9] shadow-sm flex flex-wrap justify-between items-center gap-4">
         <div>
-          <h2 class="text-xl font-black text-slate-900" id="lbl-distribuidor-nome">Distribuidor</h2>
-          <p class="text-xs text-slate-500">Tabela: <span id="lbl-distribuidor-escala" class="font-bold text-amber-600 uppercase">Escala 1</span> | Endereço: <span id="lbl-distribuidor-endereco" class="font-semibold text-slate-700"></span></p>
+          <h2 class="text-xl font-black text-[#3d2c1d]" id="lbl-distribuidor-nome">Distribuidor</h2>
+          <p class="text-xs text-[#8c7a6b]">Tabela: <span id="lbl-distribuidor-escala" class="font-bold text-[#8c5830] uppercase">Escala 1</span> | Endereço: <span id="lbl-distribuidor-endereco" class="font-semibold text-[#5c3a21]"></span></p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-4">
           <div class="text-right">
-            <p class="text-[10px] text-slate-500 font-semibold uppercase">Total no Carrinho</p>
-            <p class="text-lg font-black text-emerald-600" id="lbl-carrinho-total">R$ 0,00</p>
+            <p class="text-[10px] text-[#8c7a6b] font-bold uppercase">Total no Carrinho</p>
+            <p class="text-xl font-black text-[#724625]" id="lbl-carrinho-total">R$ 0,00</p>
           </div>
-          <button onclick="abrirModalCarrinho()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs md:text-sm shadow flex items-center gap-2">
+          <button onclick="abrirModalCarrinho()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-black px-4 py-2.5 rounded-xl text-xs md:text-sm shadow-md flex items-center gap-2 transition">
             🛒 Ver Pedido
           </button>
         </div>
@@ -150,28 +157,28 @@
 
     <!-- PAINEL COMPLETO DO GESTOR -->
     <div id="sec-gestor" class="hidden space-y-6">
-      <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex justify-between items-center flex-wrap gap-2">
+      <div class="bg-[#3d2c1d] text-[#f7f3ec] p-5 rounded-2xl flex justify-between items-center flex-wrap gap-2 shadow-md border border-[#5c3a21]">
         <div>
-          <h2 class="text-lg font-black text-amber-900">Painel do Gestor - MAJU ENXOVAIS</h2>
-          <p class="text-xs text-amber-700">Gerencie Pedidos, Distribuidores e Produtos</p>
+          <h2 class="text-lg font-black text-[#d4b59d]">Painel do Gestor - MAJU ENXOVAIS</h2>
+          <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Distribuidores e Produtos</p>
         </div>
-        <button onclick="toggleModoGestor()" class="bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-lg shadow">Sair do Modo Gestor</button>
+        <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
       </div>
 
       <!-- BOTÕES DE SELEÇÃO DE ABA -->
-      <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
-        <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs">📋 Gerenciar Pedidos</button>
-        <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs">👥 Distribuidores & Endereços</button>
-        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs">📦 Produtos, Fotos & Cores</button>
+      <div class="flex flex-wrap gap-2 border-b border-[#e6dbc9] pb-2">
+        <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm">📋 Gerenciar Pedidos</button>
+        <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Distribuidores & Endereços</button>
+        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">📦 Produtos, Fotos & Cores</button>
       </div>
 
       <!-- ABA 0: LISTA DE PEDIDOS -->
       <div id="aba-pedidos" class="space-y-4">
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center flex-wrap gap-3">
-          <h3 class="font-bold text-slate-800 text-sm">Histórico e Controle de Expedição</h3>
+        <div class="bg-white p-4 rounded-2xl border border-[#e6dbc9] shadow-sm flex justify-between items-center flex-wrap gap-3">
+          <h3 class="font-bold text-[#3d2c1d] text-sm">Histórico e Controle de Expedição</h3>
           <div class="flex items-center gap-2">
-            <label class="text-xs font-semibold text-slate-600">Filtrar por Status:</label>
-            <select id="filtro-status-pedido" onchange="renderGestorPedidos()" class="border rounded p-1.5 text-xs font-bold text-slate-800 bg-slate-50">
+            <label class="text-xs font-semibold text-[#5c3a21]">Filtrar por Status:</label>
+            <select id="filtro-status-pedido" onchange="renderGestorPedidos()" class="border border-[#d3c5b4] rounded-lg p-1.5 text-xs font-bold text-[#3d2c1d] bg-[#fcfbfa]">
               <option value="todos">Todos os Pedidos</option>
               <option value="Pendente">🟡 Pendente</option>
               <option value="Separado para Retirada">📦 Separado para Retirada</option>
@@ -188,120 +195,120 @@
 
       <!-- ABA 1: DISTRIBUIDORES -->
       <div id="aba-distribuidores" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-          <h3 class="text-base font-bold text-slate-800 border-b pb-2" id="titulo-form-distribuidor">Cadastrar / Alterar Distribuidor</h3>
+        <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
+          <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-distribuidor">Cadastrar / Alterar Distribuidor</h3>
           <form onsubmit="cadastrarDistribuidor(event)" class="space-y-3">
             <input type="hidden" id="cad-dist-id" value="">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Razão Social / Nome Fantasia</label>
-              <input type="text" id="cad-dist-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border rounded-lg p-2 text-sm">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Razão Social / Nome Fantasia</label>
+              <input type="text" id="cad-dist-nome" required placeholder="Ex: Distribuidora Silva LTDA" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">CNPJ / Documento</label>
-                <input type="text" id="cad-dist-doc" required placeholder="Apenas números" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">CNPJ / Documento</label>
+                <input type="text" id="cad-dist-doc" required placeholder="Apenas números" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Senha de Acesso</label>
-                <input type="text" id="cad-dist-senha" required placeholder="Defina uma senha" class="w-full border rounded-lg p-2 text-sm">
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Senha de Acesso</label>
+                <input type="text" id="cad-dist-senha" required placeholder="Defina uma senha" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
               </div>
             </div>
 
             <!-- ENDEREÇO FRETE -->
-            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
-              <label class="block text-xs font-bold text-slate-700">📍 Endereço de Entrega (Frete)</label>
+            <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9] space-y-2">
+              <label class="block text-xs font-bold text-[#3d2c1d]">📍 Endereço de Entrega (Frete)</label>
               <div class="grid grid-cols-3 gap-2">
-                <input type="text" id="cad-dist-cep" placeholder="CEP" class="border rounded p-1.5 text-xs">
-                <input type="text" id="cad-dist-rua" placeholder="Rua / Logradouro" class="col-span-2 border rounded p-1.5 text-xs">
+                <input type="text" id="cad-dist-cep" placeholder="CEP" class="border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
+                <input type="text" id="cad-dist-rua" placeholder="Rua / Logradouro" class="col-span-2 border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
               </div>
               <div class="grid grid-cols-3 gap-2">
-                <input type="text" id="cad-dist-num" placeholder="Nº" class="border rounded p-1.5 text-xs">
-                <input type="text" id="cad-dist-bairro" placeholder="Bairro" class="col-span-2 border rounded p-1.5 text-xs">
+                <input type="text" id="cad-dist-num" placeholder="Nº" class="border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
+                <input type="text" id="cad-dist-bairro" placeholder="Bairro" class="col-span-2 border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
               </div>
               <div class="grid grid-cols-3 gap-2">
-                <input type="text" id="cad-dist-cidade" placeholder="Cidade" class="col-span-2 border rounded p-1.5 text-xs">
-                <input type="text" id="cad-dist-uf" placeholder="UF" maxlength="2" class="border rounded p-1.5 text-xs uppercase">
+                <input type="text" id="cad-dist-cidade" placeholder="Cidade" class="col-span-2 border border-[#d3c5b4] rounded p-1.5 text-xs bg-white">
+                <input type="text" id="cad-dist-uf" placeholder="UF" maxlength="2" class="border border-[#d3c5b4] rounded p-1.5 text-xs uppercase bg-white">
               </div>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Tabela de Preço Atribuída</label>
-              <select id="cad-dist-escala" required class="w-full border rounded-lg p-2 text-sm font-semibold">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Tabela de Preço Atribuída</label>
+              <select id="cad-dist-escala" required class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm font-semibold bg-[#fcfbfa]">
                 <option value="escala_1">Escala 1 (Preço Padrão)</option>
                 <option value="escala_2">Escala 2 (Preço Intermediário)</option>
                 <option value="escala_3">Escala 3 (Preço Especial / Volume)</option>
               </select>
             </div>
             <div class="flex gap-2">
-              <button type="submit" id="btn-salvar-dist" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-lg text-sm shadow">Salvar Distribuidor</button>
-              <button type="button" onclick="limparFormDistribuidor()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-2.5 rounded-lg text-xs">Limpar</button>
+              <button type="submit" id="btn-salvar-dist" class="flex-1 bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-bold p-2.5 rounded-xl text-sm shadow">Salvar Distribuidor</button>
+              <button type="button" onclick="limparFormDistribuidor()" class="bg-[#efe8de] hover:bg-[#e4dacb] text-[#5c3a21] font-bold px-3 py-2.5 rounded-xl text-xs">Limpar</button>
             </div>
           </form>
         </div>
 
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h4 class="text-xs font-bold text-slate-600 uppercase border-b pb-2 mb-3">Distribuidores Cadastrados</h4>
-          <ul id="lista-distribuidores" class="divide-y text-xs max-h-96 overflow-y-auto"></ul>
+        <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm">
+          <h4 class="text-xs font-bold text-[#5c3a21] uppercase border-b border-[#e6dbc9] pb-2 mb-3">Distribuidores Cadastrados</h4>
+          <ul id="lista-distribuidores" class="divide-y divide-[#f5efe6] text-xs max-h-96 overflow-y-auto"></ul>
         </div>
       </div>
 
       <!-- ABA 2: PRODUTOS COM FOTOS FIXAS E VARIAÇÕES DE COR -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
-          <h3 class="text-base font-bold text-slate-800 border-b pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
+        <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
+          <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
           <form onsubmit="cadastrarProduto(event)" class="space-y-3">
             <input type="hidden" id="cad-prod-id" value="">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Nome do Produto</label>
-              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 100% Algodão" class="w-full border rounded-lg p-2.5 text-sm">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome do Produto</label>
+              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 100% Algodão" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Descrição Curta</label>
-              <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border rounded-lg p-2.5 text-sm">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
+              <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças em tecido 200 fios" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
 
             <!-- FOTOS GERAIS -->
-            <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <label class="block text-xs font-bold text-slate-700">🖼️ Fotos do Produto (Links/URLs)</label>
-              <input type="url" id="cad-prod-foto1" placeholder="URL Foto 1 (Principal)" class="w-full border rounded p-2 text-xs">
-              <input type="url" id="cad-prod-foto2" placeholder="URL Foto 2 (Opcional)" class="w-full border rounded p-2 text-xs">
-              <input type="url" id="cad-prod-foto3" placeholder="URL Foto 3 (Opcional)" class="w-full border rounded p-2 text-xs">
+            <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
+              <label class="block text-xs font-bold text-[#3d2c1d]">🖼️ Fotos do Produto (Links/URLs)</label>
+              <input type="url" id="cad-prod-foto1" placeholder="URL Foto 1 (Principal)" class="w-full border border-[#d3c5b4] rounded p-2 text-xs bg-white">
+              <input type="url" id="cad-prod-foto2" placeholder="URL Foto 2 (Opcional)" class="w-full border border-[#d3c5b4] rounded p-2 text-xs bg-white">
+              <input type="url" id="cad-prod-foto3" placeholder="URL Foto 3 (Opcional)" class="w-full border border-[#d3c5b4] rounded p-2 text-xs bg-white">
             </div>
 
             <!-- VARIAÇÕES DE CORES -->
-            <div class="space-y-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
               <div class="flex justify-between items-center">
-                <label class="block text-xs font-bold text-slate-700">🎨 Cores com Fotos Específicas (Opcional)</label>
-                <button type="button" onclick="adicionarLinhaCor()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-2 py-1 rounded text-[11px]">+ Adicionar Cor</button>
+                <label class="block text-xs font-bold text-[#3d2c1d]">🎨 Cores com Fotos Específicas (Opcional)</label>
+                <button type="button" onclick="adicionarLinhaCor()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-2.5 py-1 rounded-lg text-[11px]">+ Adicionar Cor</button>
               </div>
               <div id="container-cores" class="space-y-2"></div>
             </div>
             
-            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 grid grid-cols-3 gap-2">
+            <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9] grid grid-cols-3 gap-2">
               <div>
-                <label class="block text-[10px] text-slate-500 font-bold uppercase">Preço Escala 1</label>
-                <input type="number" step="0.01" id="cad-prod-p1" required placeholder="85.00" class="w-full border rounded p-1.5 text-xs font-bold text-slate-800">
+                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Escala 1</label>
+                <input type="number" step="0.01" id="cad-prod-p1" required placeholder="85.00" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs font-bold text-[#3d2c1d] bg-white">
               </div>
               <div>
-                <label class="block text-[10px] text-slate-500 font-bold uppercase">Preço Escala 2</label>
-                <input type="number" step="0.01" id="cad-prod-p2" required placeholder="78.00" class="w-full border rounded p-1.5 text-xs font-bold text-amber-700">
+                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Escala 2</label>
+                <input type="number" step="0.01" id="cad-prod-p2" required placeholder="78.00" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs font-bold text-[#8c5830] bg-white">
               </div>
               <div>
-                <label class="block text-[10px] text-slate-500 font-bold uppercase">Preço Escala 3</label>
-                <input type="number" step="0.01" id="cad-prod-p3" required placeholder="70.00" class="w-full border rounded p-1.5 text-xs font-bold text-emerald-700">
+                <label class="block text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Escala 3</label>
+                <input type="number" step="0.01" id="cad-prod-p3" required placeholder="70.00" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs font-bold text-emerald-800 bg-white">
               </div>
             </div>
 
             <div class="flex gap-2">
-              <button type="submit" id="btn-salvar-prod" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold p-3 rounded-lg text-sm shadow">Salvar Produto</button>
-              <button type="button" onclick="limparFormProduto()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-3 py-3 rounded-lg text-xs">Limpar</button>
+              <button type="submit" id="btn-salvar-prod" class="flex-1 bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-bold p-3 rounded-xl text-sm shadow">Salvar Produto</button>
+              <button type="button" onclick="limparFormProduto()" class="bg-[#efe8de] hover:bg-[#e4dacb] text-[#5c3a21] font-bold px-3 py-3 rounded-xl text-xs">Limpar</button>
             </div>
           </form>
         </div>
 
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-          <h4 class="text-xs font-bold text-slate-600 uppercase border-b pb-2 mb-3">Produtos no Catálogo</h4>
-          <ul id="lista-produtos-gestor" class="divide-y text-xs max-h-96 overflow-y-auto"></ul>
+        <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm">
+          <h4 class="text-xs font-bold text-[#5c3a21] uppercase border-b border-[#e6dbc9] pb-2 mb-3">Produtos no Catálogo</h4>
+          <ul id="lista-produtos-gestor" class="divide-y divide-[#f5efe6] text-xs max-h-96 overflow-y-auto"></ul>
         </div>
       </div>
     </div>
@@ -309,38 +316,38 @@
   </main>
 
   <!-- MODAL DO CARRINHO DE COMPRAS -->
-  <div id="modal-carrinho" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
+  <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21]">
         <h3 class="font-bold text-base flex items-center gap-2">🛒 Seu Pedido B2B</h3>
-        <button onclick="fecharModalCarrinho()" class="text-slate-400 hover:text-white font-bold text-lg">✕</button>
+        <button onclick="fecharModalCarrinho()" class="text-[#d4b59d] hover:text-white font-bold text-lg">✕</button>
       </div>
-      <div class="p-4 overflow-y-auto flex-1 divide-y" id="container-itens-carrinho"></div>
+      <div class="p-4 overflow-y-auto flex-1 divide-y divide-[#f5efe6]" id="container-itens-carrinho"></div>
 
       <!-- CAMPO DE OBSERVAÇÃO -->
-      <div class="p-4 bg-amber-50 border-t border-amber-200 space-y-1.5">
-        <label class="block text-xs font-bold text-amber-900">📝 Observações do Pedido (Opcional):</label>
-        <textarea id="carrinho-obs" rows="2" placeholder="Ex: Instruções de entrega, preferências de cores ou prazos..." class="w-full border rounded-lg p-2 text-xs bg-white"></textarea>
+      <div class="p-4 bg-[#fcfbfa] border-t border-[#e6dbc9] space-y-1.5">
+        <label class="block text-xs font-bold text-[#3d2c1d]">📝 Observações do Pedido (Opcional):</label>
+        <textarea id="carrinho-obs" rows="2" placeholder="Ex: Instruções de entrega, preferências de cores ou prazos..." class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-xs bg-white"></textarea>
       </div>
 
-      <div class="p-4 bg-slate-50 border-t space-y-3">
-        <div class="flex justify-between items-center font-black text-lg text-slate-900">
+      <div class="p-4 bg-[#efe8de] border-t border-[#e6dbc9] space-y-3">
+        <div class="flex justify-between items-center font-black text-lg text-[#3d2c1d]">
           <span>Valor Total:</span>
-          <span id="modal-carrinho-total" class="text-emerald-600">R$ 0,00</span>
+          <span id="modal-carrinho-total" class="text-[#724625]">R$ 0,00</span>
         </div>
         
-        <!-- OPÇÕES DE CONCLUSÃO (WHATSAPP E PDF LADO A LADO) -->
+        <!-- OPÇÕES DE CONCLUSÃO -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <button onclick="enviarWhatsAppMantendoCarrinho()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          <button onclick="enviarWhatsAppMantendoCarrinho()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
             📲 Enviar por WhatsApp
           </button>
-          <button onclick="gerarPDFMantendoCarrinho()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          <button onclick="gerarPDFMantendoCarrinho()" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
             🖨️ Gerar Espelho / PDF
           </button>
         </div>
         <div class="flex gap-2">
-          <button onclick="concluirEstatisticasPedido()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow">Finalizar e Limpar Pedido</button>
-          <button onclick="fecharModalCarrinho()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-2.5 rounded-xl text-xs">Voltar</button>
+          <button onclick="concluirEstatisticasPedido()" class="flex-1 bg-[#8c5830] hover:bg-[#724625] text-white font-black py-2.5 rounded-xl text-xs shadow transition">Finalizar e Limpar Pedido</button>
+          <button onclick="fecharModalCarrinho()" class="bg-[#e4dacb] hover:bg-[#d8ccbc] text-[#3d2c1d] font-bold px-4 py-2.5 rounded-xl text-xs transition">Voltar</button>
         </div>
       </div>
     </div>
@@ -463,19 +470,19 @@
       abaDist.classList.add('hidden');
       abaProd.classList.add('hidden');
 
-      btnPed.className = "bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs";
-      btnDist.className = "bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs";
-      btnProd.className = "bg-slate-200 text-slate-700 hover:bg-slate-300 px-4 py-2 rounded-lg font-bold text-xs";
+      btnPed.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
+      btnDist.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
+      btnProd.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
 
       if(aba === 'pedidos') {
         abaPed.classList.remove('hidden');
-        btnPed.className = "bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs";
+        btnPed.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
       } else if(aba === 'distribuidores') {
         abaDist.classList.remove('hidden');
-        btnDist.className = "bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs";
+        btnDist.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
       } else {
         abaProd.classList.remove('hidden');
-        btnProd.className = "bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs";
+        btnProd.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
       }
     };
 
@@ -543,7 +550,7 @@
         atualizarResumoCarrinho();
       } else {
         cardLogin.classList.remove('hidden');
-        btnGestor.innerText = "🔒 Entrar como Gestor";
+        btnGestor.innerText = "🔒 Gestor";
         if(navStatus) navStatus.innerText = "Portal de Vendas B2B";
       }
     }
@@ -553,7 +560,7 @@
       if(!grid || !window.distribuidorLogado) return;
 
       if(window.produtos.length === 0) {
-        grid.innerHTML = '<div class="col-span-full p-8 text-center text-slate-400 font-medium">Nenhum produto disponível no catálogo.</div>';
+        grid.innerHTML = '<div class="col-span-full p-8 text-center text-[#8c7a6b] font-medium">Nenhum produto disponível no catálogo.</div>';
         return;
       }
 
@@ -577,19 +584,19 @@
         const qtdAtual = window.carrinho[chaveItemCarrinho]?.qtd || 0;
 
         const miniaturasHtml = fotosPrincipais.length > 1 ? `
-          <div class="flex gap-1.5 p-2 bg-slate-100 justify-center border-t border-slate-200">
+          <div class="flex gap-1.5 p-2 bg-[#fcfbfa] justify-center border-t border-[#e6dbc9]">
             ${fotosPrincipais.map(f => `
-              <img src="${f}" onclick="trocarFotoPrincipal('${p.id}', '${f}')" class="w-8 h-8 object-cover rounded border border-slate-300 cursor-pointer hover:border-amber-500 transition">
+              <img src="${f}" onclick="trocarFotoPrincipal('${p.id}', '${f}')" class="w-8 h-8 object-cover rounded border border-[#d3c5b4] cursor-pointer hover:border-[#8c5830] transition">
             `).join('')}
           </div>
         ` : '';
 
         const seletorCoresHtml = listaCores.length > 0 ? `
           <div class="space-y-1.5 pt-1">
-            <label class="block text-[11px] font-bold text-slate-700">Cor / Variação:</label>
+            <label class="block text-[11px] font-bold text-[#3d2c1d]">Cor / Variação:</label>
             <div class="flex flex-wrap gap-1.5">
               ${listaCores.map(c => `
-                <button onclick="selecionarCorProduto('${p.id}', '${c.nome}')" class="px-2 py-0.5 rounded text-xs font-bold border ${c.nome === corAtivaNome ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-sm' : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'}">
+                <button onclick="selecionarCorProduto('${p.id}', '${c.nome}')" class="px-2 py-0.5 rounded text-xs font-bold border ${c.nome === corAtivaNome ? 'bg-[#5c3a21] text-[#f7f3ec] border-[#3d2c1d] shadow-sm' : 'bg-[#efe8de] text-[#5c3a21] border-[#d3c5b4] hover:bg-[#e4dacb]'}">
                   ${c.nome}
                 </button>
               `).join('')}
@@ -598,29 +605,29 @@
         ` : '';
 
         return `
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div class="bg-white rounded-2xl border border-[#e6dbc9] shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between">
             <div>
-              <div class="h-48 bg-slate-100 overflow-hidden relative">
+              <div class="h-48 bg-[#efe8de] overflow-hidden relative">
                 <img id="img-main-${p.id}" src="${imgExibida}" alt="${p.nome}" class="w-full h-full object-cover">
               </div>
               ${miniaturasHtml}
               <div class="p-4 space-y-2">
-                <h3 class="font-bold text-slate-900 text-sm leading-snug">${p.nome}</h3>
-                <p class="text-xs text-slate-500 line-clamp-2">${p.descricao || 'Sem descrição.'}</p>
+                <h3 class="font-bold text-[#3d2c1d] text-sm leading-snug">${p.nome}</h3>
+                <p class="text-xs text-[#8c7a6b] line-clamp-2">${p.descricao || 'Sem descrição.'}</p>
                 ${seletorCoresHtml}
               </div>
             </div>
 
-            <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+            <div class="p-4 bg-[#fcfbfa] border-t border-[#e6dbc9] flex items-center justify-between gap-2">
               <div>
-                <p class="text-[10px] text-slate-400 font-bold uppercase">Preço Unitário</p>
-                <p class="text-base font-black text-slate-900">R$ ${preco.toFixed(2)}</p>
+                <p class="text-[10px] text-[#8c7a6b] font-bold uppercase">Preço Unitário</p>
+                <p class="text-base font-black text-[#3d2c1d]">R$ ${preco.toFixed(2)}</p>
               </div>
 
-              <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg p-1">
-                <button onclick="alterarQtdCarrinho('${p.id}', '${corAtivaNome}', -1)" class="w-7 h-7 bg-slate-100 hover:bg-slate-200 text-slate-800 font-black rounded text-xs flex items-center justify-center">-</button>
-                <span class="w-6 text-center font-bold text-xs text-slate-800">${qtdAtual}</span>
-                <button onclick="alterarQtdCarrinho('${p.id}', '${corAtivaNome}', 1)" class="w-7 h-7 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded text-xs flex items-center justify-center">+</button>
+              <div class="flex items-center gap-1.5 bg-white border border-[#d3c5b4] rounded-xl p-1 shadow-inner">
+                <button onclick="alterarQtdCarrinho('${p.id}', '${corAtivaNome}', -1)" class="w-7 h-7 bg-[#efe8de] hover:bg-[#e4dacb] text-[#3d2c1d] font-black rounded-lg text-xs flex items-center justify-center transition">-</button>
+                <span class="w-6 text-center font-bold text-xs text-[#3d2c1d]">${qtdAtual}</span>
+                <button onclick="alterarQtdCarrinho('${p.id}', '${corAtivaNome}', 1)" class="w-7 h-7 bg-[#8c5830] hover:bg-[#724625] text-white font-black rounded-lg text-xs flex items-center justify-center transition">+</button>
               </div>
             </div>
           </div>
@@ -691,7 +698,7 @@
 
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) {
-        container.innerHTML = '<div class="py-8 text-center text-slate-400 text-xs">Seu carrinho está vazio.</div>';
+        container.innerHTML = '<div class="py-8 text-center text-[#8c7a6b] text-xs font-medium">Seu carrinho está vazio.</div>';
         return;
       }
 
@@ -708,21 +715,20 @@
         return `
           <div class="py-3 flex items-center justify-between gap-3">
             <div class="flex-1">
-              <h4 class="font-bold text-xs text-slate-800">${prod.nome}</h4>
-              <p class="text-[11px] text-amber-700 font-bold">${item.cor ? 'Cor: ' + item.cor : 'Opção Padrão'}</p>
-              <p class="text-[11px] text-slate-500">${item.qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-slate-900">R$ ${subtotal.toFixed(2)}</strong></p>
+              <h4 class="font-bold text-xs text-[#3d2c1d]">${prod.nome}</h4>
+              <p class="text-[11px] text-[#8c5830] font-bold">${item.cor ? 'Cor: ' + item.cor : 'Opção Padrão'}</p>
+              <p class="text-[11px] text-[#8c7a6b]">${item.qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-[#3d2c1d]">R$ ${subtotal.toFixed(2)}</strong></p>
             </div>
             <div class="flex items-center gap-1">
-              <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', -1)" class="w-6 h-6 bg-slate-100 rounded text-xs font-bold">-</button>
+              <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', -1)" class="w-6 h-6 bg-[#efe8de] rounded text-xs font-bold text-[#3d2c1d]">-</button>
               <span class="w-6 text-center text-xs font-bold">${item.qtd}</span>
-              <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', 1)" class="w-6 h-6 bg-amber-500 rounded text-xs font-bold">+</button>
+              <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', 1)" class="w-6 h-6 bg-[#8c5830] text-white rounded text-xs font-bold">+</button>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // MONTA E SALVA O PEDIDO NO BANCO (MANTENDO O CARRINHO ATIVO)
     async function garantirPedidoSalvo() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return null;
@@ -760,7 +766,6 @@
         valorTotal: totalGeral
       };
 
-      // Se já salvou este carrinho exato, não duplica no banco
       if(!pedidoAtualCache) {
         try {
           const docRef = await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
@@ -771,7 +776,6 @@
       return pedidoAtualCache || pedidoObj;
     }
 
-    // GERAÇÃO DO COMPROVANTE / PDF
     function gerarPDFComprovantePedido(dadosPedido) {
       const win = window.open('', '_blank');
       if(!win) {
@@ -781,12 +785,12 @@
 
       const dataStr = new Date(dadosPedido.data).toLocaleString('pt-BR');
       const itensHtml = dadosPedido.itens.map((i, idx) => `
-        <tr style="border-bottom: 1px solid #e2e8f0;">
+        <tr style="border-bottom: 1px solid #e6dbc9;">
           <td style="padding: 8px; font-size: 12px;">${idx + 1}</td>
           <td style="padding: 8px; font-size: 12px;"><strong>${i.nome}</strong> ${i.cor ? '(' + i.cor + ')' : ''}</td>
           <td style="padding: 8px; font-size: 12px; text-align: center;">${i.qtd}</td>
           <td style="padding: 8px; font-size: 12px; text-align: right;">R$ ${Number(i.precoUnit).toFixed(2)}</td>
-          <td style="padding: 8px; font-size: 12px; text-align: right; font-weight: bold;">R$ ${Number(i.subtotal).toFixed(2)}</td>
+          <td style="padding: 8px; font-size: 12px; text-align: right; font-weight: bold; color: #3d2c1d;">R$ ${Number(i.subtotal).toFixed(2)}</td>
         </tr>
       `).join('');
 
@@ -796,28 +800,28 @@
         <head>
           <title>Espelho do Pedido - MAJU ENXOVAIS</title>
           <style>
-            body { font-family: sans-serif; padding: 20px; color: #1e293b; max-width: 800px; margin: auto; }
-            .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 20px; }
-            .logo { background: #f59e0b; color: #0f172a; padding: 10px 15px; font-weight: 900; font-size: 20px; border-radius: 8px; }
-            .box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 12px; }
+            body { font-family: sans-serif; padding: 20px; color: #3d2c1d; max-width: 800px; margin: auto; background: #fff; }
+            .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #3d2c1d; padding-bottom: 15px; margin-bottom: 20px; }
+            .logo { background: #3d2c1d; color: #d4b59d; padding: 10px 15px; font-weight: 900; font-size: 20px; border-radius: 8px; }
+            .box { background: #fcfbfa; border: 1px solid #e6dbc9; padding: 14px; border-radius: 12px; margin-bottom: 15px; font-size: 12px; }
             table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-            th { background: #0f172a; color: white; padding: 8px; font-size: 12px; text-align: left; }
-            .total { text-align: right; font-size: 16px; font-weight: bold; margin-top: 15px; color: #059669; }
+            th { background: #3d2c1d; color: #d4b59d; padding: 10px 8px; font-size: 12px; text-align: left; }
+            .total { text-align: right; font-size: 16px; font-weight: bold; margin-top: 15px; color: #724625; }
             .no-print { margin-bottom: 20px; text-align: center; }
             @media print { .no-print { display: none; } }
           </style>
         </head>
         <body>
           <div class="no-print">
-            <button onclick="window.print()" style="background: #0f172a; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">🖨️ Imprimir / Salvar em PDF</button>
+            <button onclick="window.print()" style="background: #3d2c1d; color: #d4b59d; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">🖨️ Imprimir / Salvar em PDF</button>
           </div>
 
           <div class="header">
             <div>
-              <h2 style="margin:0;">MAJU ENXOVAIS</h2>
-              <p style="margin:2px 0 0 0; font-size: 12px; color: #64748b;">Comprovante / Espelho de Pedido B2B</p>
+              <h2 style="margin:0; color: #3d2c1d;">MAJU ENXOVAIS</h2>
+              <p style="margin:2px 0 0 0; font-size: 12px; color: #8c7a6b;">Comprovante / Espelho de Pedido B2B</p>
             </div>
-            <div class="logo">ME</div>
+            <div class="logo">MAJU</div>
           </div>
 
           <div class="box">
@@ -825,7 +829,7 @@
             <p style="margin: 2px 0;"><strong>CNPJ/Documento:</strong> ${dadosPedido.documento}</p>
             <p style="margin: 2px 0;"><strong>Data do Pedido:</strong> ${dataStr}</p>
             <p style="margin: 2px 0;"><strong>Endereço de Entrega:</strong> ${dadosPedido.enderecoEntrega}</p>
-            ${dadosPedido.observacao ? `<p style="margin: 6px 0 2px 0; color: #b45309;"><strong>Observações:</strong> ${dadosPedido.observacao}</p>` : ''}
+            ${dadosPedido.observacao ? `<p style="margin: 6px 0 2px 0; color: #8c5830;"><strong>Observações:</strong> ${dadosPedido.observacao}</p>` : ''}
           </div>
 
           <table>
@@ -847,7 +851,7 @@
             VALOR TOTAL DO PEDIDO: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
           </div>
 
-          <div style="margin-top: 40px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+          <div style="margin-top: 40px; text-align: center; font-size: 10px; color: #8c7a6b; border-top: 1px solid #e6dbc9; padding-top: 10px;">
             MAJU ENXOVAIS - Pedido gerado via Portal de Vendas B2B
           </div>
         </body>
@@ -856,7 +860,6 @@
       win.document.close();
     }
 
-    // BOTÃO 1: ENVIAR WHATSAPP MANTENDO CARRINHO ATIVO
     window.enviarWhatsAppMantendoCarrinho = async function() {
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return alert("O carrinho está vazio!");
@@ -880,7 +883,6 @@
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
     };
 
-    // BOTÃO 2: GERAR PDF MANTENDO CARRINHO ATIVO
     window.gerarPDFMantendoCarrinho = async function() {
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return alert("O carrinho está vazio!");
@@ -888,7 +890,6 @@
       gerarPDFComprovantePedido(pedidoObj);
     };
 
-    // BOTÃO 3: FINALIZAR E LIMPAR O CARRINHO
     window.concluirEstatisticasPedido = function() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return alert("O carrinho está vazio!");
@@ -902,7 +903,6 @@
       alert("Pedido finalizado com sucesso!");
     };
 
-    // LÓGICA DO GESTOR DE PEDIDOS
     window.renderGestorPedidos = function() {
       const container = document.getElementById('lista-pedidos-gestor');
       if(!container) return;
@@ -915,7 +915,7 @@
       }
 
       if(listaFiltrada.length === 0) {
-        container.innerHTML = '<div class="bg-white p-8 text-center text-slate-400 font-medium rounded-xl border">Nenhum pedido encontrado com este status.</div>';
+        container.innerHTML = '<div class="bg-white p-8 text-center text-[#8c7a6b] font-medium rounded-2xl border border-[#e6dbc9]">Nenhum pedido encontrado com este status.</div>';
         return;
       }
 
@@ -925,7 +925,7 @@
         const dataFormatada = new Date(p.data).toLocaleString('pt-BR');
         const st = p.status || 'Pendente';
 
-        let corBadge = 'bg-amber-100 text-amber-900 border-amber-300';
+        let corBadge = 'bg-[#efe8de] text-[#5c3a21] border-[#d3c5b4]';
         if(st === 'Separado para Retirada') corBadge = 'bg-blue-100 text-blue-900 border-blue-300';
         if(st === 'Enviado') corBadge = 'bg-indigo-100 text-indigo-900 border-indigo-300';
         if(st === 'Aguardando Pagamento') corBadge = 'bg-purple-100 text-purple-900 border-purple-300';
@@ -933,39 +933,39 @@
         if(st === 'Cancelado') corBadge = 'bg-red-100 text-red-900 border-red-300';
 
         const itensHtml = (p.itens || []).map(i => `
-          <div class="text-xs text-slate-700 py-0.5 border-b border-slate-100 flex justify-between">
+          <div class="text-xs text-[#5c3a21] py-0.5 border-b border-[#f5efe6] flex justify-between">
             <span>• <strong>${i.nome}</strong> ${i.cor ? '(' + i.cor + ')' : ''} x${i.qtd}</span>
-            <span class="font-semibold">R$ ${Number(i.subtotal || 0).toFixed(2)}</span>
+            <span class="font-semibold text-[#8c5830]">R$ ${Number(i.subtotal || 0).toFixed(2)}</span>
           </div>
         `).join('');
 
         return `
-          <div class="bg-white p-4 md:p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
-            <div class="flex justify-between items-start flex-wrap gap-2 border-b pb-2">
+          <div class="bg-white p-4 md:p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
+            <div class="flex justify-between items-start flex-wrap gap-2 border-b border-[#f5efe6] pb-2">
               <div>
                 <div class="flex items-center gap-2">
-                  <h4 class="font-black text-slate-900 text-base">${p.distribuidor}</h4>
+                  <h4 class="font-black text-[#3d2c1d] text-base">${p.distribuidor}</h4>
                   <span class="px-2.5 py-0.5 text-[10px] font-black rounded-full border ${corBadge}">${st}</span>
                 </div>
-                <p class="text-xs text-slate-500">CNPJ: ${p.documento || 'N/A'} | Data: ${dataFormatada}</p>
-                <p class="text-xs text-slate-600 font-semibold mt-0.5">📍 Entrega: ${p.enderecoEntrega || 'A combinar'}</p>
-                ${p.observacao ? `<p class="text-xs text-amber-800 bg-amber-50 p-1.5 rounded border border-amber-200 mt-1 font-medium">📝 <strong>Obs:</strong> ${p.observacao}</p>` : ''}
+                <p class="text-xs text-[#8c7a6b]">CNPJ: ${p.documento || 'N/A'} | Data: ${dataFormatada}</p>
+                <p class="text-xs text-[#5c3a21] font-semibold mt-0.5">📍 Entrega: ${p.enderecoEntrega || 'A combinar'}</p>
+                ${p.observacao ? `<p class="text-xs text-[#8c5830] bg-[#fcfbfa] p-1.5 rounded-lg border border-[#e6dbc9] mt-1 font-medium">📝 <strong>Obs:</strong> ${p.observacao}</p>` : ''}
               </div>
               <div class="text-right">
-                <p class="text-[10px] uppercase font-bold text-slate-400">Total do Pedido</p>
-                <p class="text-lg font-black text-emerald-600">R$ ${Number(p.valorTotal || 0).toFixed(2)}</p>
+                <p class="text-[10px] uppercase font-bold text-[#8c7a6b]">Total do Pedido</p>
+                <p class="text-lg font-black text-[#724625]">R$ ${Number(p.valorTotal || 0).toFixed(2)}</p>
               </div>
             </div>
 
-            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 space-y-1">
-              <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Itens Solicitados:</p>
+            <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9] space-y-1">
+              <p class="text-[10px] font-bold text-[#8c7a6b] uppercase mb-1">Itens Solicitados:</p>
               ${itensHtml}
             </div>
 
             <div class="flex justify-between items-center flex-wrap gap-2 pt-1">
               <div class="flex items-center gap-2">
-                <label class="text-xs font-bold text-slate-700">Alterar Status:</label>
-                <select onchange="atualizarStatusPedido('${p.id}', this.value)" class="border rounded p-1.5 text-xs font-bold text-slate-800 bg-slate-100">
+                <label class="text-xs font-bold text-[#5c3a21]">Alterar Status:</label>
+                <select onchange="atualizarStatusPedido('${p.id}', this.value)" class="border border-[#d3c5b4] rounded-lg p-1.5 text-xs font-bold text-[#3d2c1d] bg-[#fcfbfa]">
                   <option value="Pendente" ${st === 'Pendente' ? 'selected' : ''}>🟡 Pendente</option>
                   <option value="Separado para Retirada" ${st === 'Separado para Retirada' ? 'selected' : ''}>📦 Separado para Retirada</option>
                   <option value="Enviado" ${st === 'Enviado' ? 'selected' : ''}>🚚 Enviado</option>
@@ -975,8 +975,8 @@
                 </select>
               </div>
               <div class="flex gap-2">
-                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-slate-700 font-bold text-xs bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-300">🖨️ Reenviar / PDF</button>
-                <button onclick="deletarPedido('${p.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
+                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2.5 py-1.5 rounded-lg border border-[#d3c5b4]">🖨️ Reenviar / PDF</button>
+                <button onclick="deletarPedido('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
               </div>
             </div>
           </div>
@@ -1086,15 +1086,15 @@
         const end = d.endereco || {};
         const endStr = end.cep ? `${end.cidade}/${end.uf} (${end.cep})` : 'Sem endereço';
         return `
-          <li class="py-2.5 flex justify-between items-center border-b border-slate-100">
+          <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
             <div>
-              <span class="font-bold text-slate-900 text-sm">${d.nome}</span>
-              <p class="text-[11px] text-slate-500">Doc: ${d.documento} | Senha: ${d.senha} | <strong class="text-amber-600">${d.escala ? d.escala.replace('_',' ') : 'escala 1'}</strong></p>
-              <p class="text-[10px] text-slate-400">📍 ${endStr}</p>
+              <span class="font-bold text-[#3d2c1d] text-sm">${d.nome}</span>
+              <p class="text-[11px] text-[#8c7a6b]">Doc: ${d.documento} | Senha: ${d.senha} | <strong class="text-[#8c5830]">${d.escala ? d.escala.replace('_',' ') : 'escala 1'}</strong></p>
+              <p class="text-[10px] text-[#8c7a6b]">📍 ${endStr}</p>
             </div>
             <div class="flex gap-1">
-              <button onclick="prepararEdicaoDistribuidor('${d.id}')" class="text-amber-700 font-bold text-xs bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded">Editar</button>
-              <button onclick="deletarDistribuidor('${d.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded">Excluir</button>
+              <button onclick="prepararEdicaoDistribuidor('${d.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
+              <button onclick="deletarDistribuidor('${d.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-lg border border-red-200">Excluir</button>
             </div>
           </li>
         `;
@@ -1106,9 +1106,9 @@
       const div = document.createElement('div');
       div.className = "flex gap-2 items-center linha-cor-item";
       div.innerHTML = `
-        <input type="text" placeholder="Nome da Cor (Ex: Azul)" value="${nome}" class="cor-nome-input border rounded p-1.5 text-xs w-1/3">
-        <input type="url" placeholder="URL da Foto desta Cor" value="${foto}" class="cor-foto-input border rounded p-1.5 text-xs w-2/3">
-        <button type="button" onclick="this.parentElement.remove()" class="text-red-600 font-bold text-xs px-2">✕</button>
+        <input type="text" placeholder="Nome da Cor (Ex: Azul)" value="${nome}" class="cor-nome-input border border-[#d3c5b4] rounded p-1.5 text-xs w-1/3 bg-white">
+        <input type="url" placeholder="URL da Foto desta Cor" value="${foto}" class="cor-foto-input border border-[#d3c5b4] rounded p-1.5 text-xs w-2/3 bg-white">
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-700 font-bold text-xs px-2">✕</button>
       `;
       container.appendChild(div);
     };
@@ -1205,14 +1205,14 @@
       ul.innerHTML = window.produtos.map(p => {
         const qtdCores = p.cores ? p.cores.length : 0;
         return `
-          <li class="py-2.5 flex justify-between items-center border-b border-slate-100">
+          <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
             <div>
-              <span class="font-bold text-slate-800 text-sm">${p.nome}</span>
-              <p class="text-[10px] text-slate-500">E1: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Cores: ${qtdCores}</p>
+              <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span>
+              <p class="text-[10px] text-[#8c7a6b]">E1: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Cores: ${qtdCores}</p>
             </div>
             <div class="flex gap-1">
-              <button onclick="prepararEdicaoProduto('${p.id}')" class="text-amber-700 font-bold text-xs bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded">Editar</button>
-              <button onclick="deletarProduto('${p.id}')" class="text-red-600 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded">Excluir</button>
+              <button onclick="prepararEdicaoProduto('${p.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
+              <button onclick="deletarProduto('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-lg border border-red-200">Excluir</button>
             </div>
           </li>
         `;
