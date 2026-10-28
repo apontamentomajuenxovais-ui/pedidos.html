@@ -51,8 +51,8 @@
 
       <form onsubmit="fazerLoginDistribuidor(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold text-[#5c3a21] mb-1">CNPJ ou Identificação</label>
-          <input type="text" id="login-doc" required placeholder="Digite seu CNPJ cadastrado" class="w-full border border-[#d3c5b4] focus:border-[#5c3a21] focus:ring-1 focus:ring-[#5c3a21] rounded-xl p-3 text-sm outline-none transition bg-[#fcfbfa]">
+          <label class="block text-xs font-bold text-[#5c3a21] mb-1">CPF ou CNPJ</label>
+          <input type="text" id="login-doc" required placeholder="Digite seu CPF ou CNPJ cadastrado" class="w-full border border-[#d3c5b4] focus:border-[#5c3a21] focus:ring-1 focus:ring-[#5c3a21] rounded-xl p-3 text-sm outline-none transition bg-[#fcfbfa]">
         </div>
         <div>
           <label class="block text-xs font-bold text-[#5c3a21] mb-1">Senha de Acesso</label>
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <!-- TELA DE AUTO-CADASTRO DO DISTRIBUIDOR (AGORA COMO AFILIADO) -->
+    <!-- TELA DE AUTO-CADASTRO DO DISTRIBUIDOR -->
     <div id="card-cadastro-distribuidor" class="hidden max-w-xl mx-auto my-6 bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#e6dbc9]">
       <div class="text-center mb-6">
         <div class="bg-[#3d2c1d] text-[#d4b59d] w-16 h-16 rounded-2xl font-black text-xl flex items-center justify-center mx-auto mb-3 shadow-md">MAJU</div>
@@ -151,6 +151,23 @@
           </button>
         </div>
       </div>
+
+      <!-- NOVO: BARRA DE PESQUISA E FILTROS DE CATEGORIA -->
+      <div class="bg-white p-4 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
+        <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
+          <div class="w-full md:w-1/2 relative">
+            <input type="text" id="input-busca-produto" oninput="filtrarProdutosCatalogo()" placeholder="🔍 Pesquisar produto por nome..." class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-xs bg-[#fcfbfa] focus:outline-none focus:border-[#5c3a21]">
+          </div>
+          <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
+            <button onclick="filtrarCategoria('todas')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition">Todas</button>
+            <button onclick="filtrarCategoria('cama')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Cama</button>
+            <button onclick="filtrarCategoria('mesa')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Mesa</button>
+            <button onclick="filtrarCategoria('banho')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Banho</button>
+            <button onclick="filtrarCategoria('decoracao')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Decoração</button>
+          </div>
+        </div>
+      </div>
+
       <div id="grid-produtos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"></div>
     </div>
 
@@ -159,7 +176,7 @@
       <div class="bg-[#3d2c1d] text-[#f7f3ec] p-5 rounded-2xl flex justify-between items-center flex-wrap gap-2 shadow-md border border-[#5c3a21]">
         <div>
           <h2 class="text-lg font-black text-[#d4b59d]">Painel do Gestor - MAJU ENXOVAIS</h2>
-          <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Perfis e Produtos</p>
+          <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Perfis, Comissões e Produtos</p>
         </div>
         <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
       </div>
@@ -167,6 +184,7 @@
       <div class="flex flex-wrap gap-2 border-b border-[#e6dbc9] pb-2">
         <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm">📋 Gerenciar Pedidos</button>
         <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Perfis, Atacado & Afiliados</button>
+        <button id="tab-btn-comissao" onclick="mudarAbaGestor('comissoes')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">💰 Relatório de Comissões</button>
         <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">📦 Produtos, Fotos & Cores</button>
       </div>
 
@@ -237,7 +255,7 @@
                   <option value="escala_3" selected>Afiliados</option>
                 </select>
               </div>
-              <div id="div-comissao" class="">
+              <div id="div-comissao">
                 <label class="block text-xs font-semibold text-emerald-900 mb-1">Comissão Afiliado (%)</label>
                 <input type="number" step="0.1" id="cad-dist-comissao" placeholder="Ex: 10.0" value="10" class="w-full border border-emerald-300 rounded-lg p-2 text-sm font-bold bg-emerald-50 text-emerald-900">
               </div>
@@ -256,7 +274,18 @@
         </div>
       </div>
 
-      <!-- ABA 2: PRODUTOS -->
+      <!-- NOVO: ABA RELATÓRIO DE COMISSÕES DE AFILIADOS -->
+      <div id="aba-comissoes" class="hidden bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
+        <div class="flex justify-between items-center border-b border-[#e6dbc9] pb-3">
+          <div>
+            <h3 class="font-bold text-[#3d2c1d] text-base">💰 Acerto de Comissões por Afiliado</h3>
+            <p class="text-xs text-[#8c7a6b]">Cálculo automático com base nos pedidos realizados</p>
+          </div>
+        </div>
+        <div id="container-relatorio-comissoes" class="space-y-3 divide-y divide-[#f5efe6]"></div>
+      </div>
+
+      <!-- ABA 3: PRODUTOS -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
           <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
@@ -266,9 +295,20 @@
               <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome do Produto</label>
               <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
-            <div>
-              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
-              <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Categoria</label>
+                <select id="cad-prod-categoria" required class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
+                  <option value="cama">Cama</option>
+                  <option value="mesa">Mesa</option>
+                  <option value="banho">Banho</option>
+                  <option value="decoracao">Decoração</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
+                <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
+              </div>
             </div>
 
             <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
@@ -317,7 +357,7 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM OPÇÃO DE FRETE REAL (MELHOR ENVIO), RETIRADA E VALIDAÇÃO DE ATACADO -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21]">
@@ -389,6 +429,15 @@
           🏢 <strong>Retirada na Empresa:</strong> Sem custo de frete. Você será avisado quando o pedido estiver separado para retirada.
         </div>
 
+        <!-- NOVO: OPÇÃO DE PAGAMENTO PIX -->
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 space-y-2">
+          <label class="block text-xs font-bold text-emerald-900">⚡ Pagamento via PIX</label>
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-mono bg-white p-2 rounded-lg border border-emerald-300 text-emerald-950 font-bold flex-1 select-all" id="chave-pix-copia">advocaciadigitalinteligente@gmail.com</span>
+            <button onclick="copiarChavePIX()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-2 rounded-lg text-xs shadow transition">Copiar Chave</button>
+          </div>
+        </div>
+
         <!-- Observação -->
         <div class="space-y-1">
           <label class="block text-[11px] font-bold text-[#3d2c1d]">📝 Observações (Opcional):</label>
@@ -454,6 +503,7 @@
     window.valorFreteSelecionado = 0;
     window.servicoFreteNome = 'A calcular';
     window.enderecoAlternativoCache = null;
+    window.categoriaFiltroAtual = 'todas';
 
     window.distribuidores = [];
     window.produtos = [];
@@ -465,6 +515,7 @@
     onSnapshot(collection(db, "b2b_distribuidores"), (snapshot) => {
       window.distribuidores = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       renderGestorDistribuidores();
+      renderRelatorioComissoes();
     });
 
     onSnapshot(collection(db, "b2b_produtos"), (snapshot) => {
@@ -476,7 +527,28 @@
     onSnapshot(collection(db, "b2b_pedidos"), (snapshot) => {
       window.pedidos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       renderGestorPedidos();
+      renderRelatorioComissoes();
     });
+
+    window.copiarChavePIX = function() {
+      const txt = document.getElementById('chave-pix-copia').innerText;
+      navigator.clipboard.writeText(txt);
+      alert("Chave PIX copiada para a área de transferência!");
+    };
+
+    window.filtrarCategoria = function(cat) {
+      window.categoriaFiltroAtual = cat;
+      const btns = document.querySelectorAll('.btn-cat');
+      btns.forEach(b => {
+        b.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition";
+      });
+      event.target.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition";
+      renderCatalogo();
+    };
+
+    window.filtrarProdutosCatalogo = function() {
+      renderCatalogo();
+    };
 
     window.mostrarFormularioCadastro = function() {
       document.getElementById('card-login-distribuidor').classList.add('hidden');
@@ -508,7 +580,6 @@
           return;
         }
 
-        // Configurado para entrar automaticamente como Afiliado (escala_3) com comissão padrão de 10%
         const novo = { 
           nome, documento, senha, escala: 'escala_3', comissao: 10,
           endereco: { cep, rua, num, bairro, cidade, uf }
@@ -541,18 +612,22 @@
     window.mudarAbaGestor = function(aba) {
       const abaPed = document.getElementById('aba-pedidos');
       const abaDist = document.getElementById('aba-distribuidores');
+      const abaCom = document.getElementById('aba-comissoes');
       const abaProd = document.getElementById('aba-produtos');
 
       const btnPed = document.getElementById('tab-btn-pedidos');
       const btnDist = document.getElementById('tab-btn-dist');
+      const btnCom = document.getElementById('tab-btn-comissao');
       const btnProd = document.getElementById('tab-btn-prod');
 
       abaPed.classList.add('hidden');
       abaDist.classList.add('hidden');
+      abaCom.classList.add('hidden');
       abaProd.classList.add('hidden');
 
       btnPed.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
       btnDist.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
+      btnCom.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
       btnProd.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
 
       if(aba === 'pedidos') {
@@ -561,6 +636,10 @@
       } else if(aba === 'distribuidores') {
         abaDist.classList.remove('hidden');
         btnDist.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
+      } else if(aba === 'comissoes') {
+        abaCom.classList.remove('hidden');
+        btnCom.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
+        renderRelatorioComissoes();
       } else {
         abaProd.classList.remove('hidden');
         btnProd.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
@@ -653,14 +732,22 @@
       const grid = document.getElementById('grid-produtos');
       if(!grid || !window.distribuidorLogado) return;
 
-      if(window.produtos.length === 0) {
-        grid.innerHTML = '<div class="col-span-full p-8 text-center text-[#8c7a6b] font-medium">Nenhum produto disponível no catálogo.</div>';
+      const textoBusca = document.getElementById('input-busca-produto')?.value.toLowerCase().trim() || '';
+
+      let listaFiltrada = window.produtos.filter(p => {
+        const atendeNome = p.nome.toLowerCase().includes(textoBusca);
+        const atendeCat = window.categoriaFiltroAtual === 'todas' || (p.categoria || 'cama') === window.categoriaFiltroAtual;
+        return atendeNome && atendeCat;
+      });
+
+      if(listaFiltrada.length === 0) {
+        grid.innerHTML = '<div class="col-span-full p-8 text-center text-[#8c7a6b] font-medium">Nenhum produto encontrado.</div>';
         return;
       }
 
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
 
-      grid.innerHTML = window.produtos.map(p => {
+      grid.innerHTML = listaFiltrada.map(p => {
         const preco = Number(p.precos?.[chaveEscala]) || 0;
         const listaCores = p.cores || [];
         const fotosPrincipais = [p.foto1 || p.foto_url, p.foto2, p.foto3].filter(Boolean);
@@ -780,7 +867,6 @@
       document.getElementById('modal-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
       document.getElementById('badge-carrinho-qtd').innerText = qtdItensTotal;
 
-      // Validação visual de Atacado (Mínimo 15 peças)
       const avisoAtacado = document.getElementById('aviso-atacado-minimo');
       const contadorPecas = document.getElementById('contador-pecas-atacado');
       if(chaveEscala === 'escala_2') {
@@ -998,7 +1084,6 @@
 
       const chaveEscala = window.distribuidorLogado.escala || 'escala_1';
 
-      // Validação rigorosa do mínimo de 15 peças para Atacado
       let qtdItensTotal = 0;
       keys.forEach(k => { qtdItensTotal += window.carrinho[k].qtd; });
 
@@ -1174,7 +1259,7 @@
         msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
       });
 
-      msg += `\n-----------------------------------\n💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n-----------------------------------`;
+      msg += `\n-----------------------------------\n💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n⚡ *Chave PIX:* advocaciadigitalinteligente@gmail.com\n-----------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
     };
@@ -1198,6 +1283,42 @@
         atualizarResumoCarrinho();
         alert("Pedido finalizado e salvo com sucesso!");
       }
+    };
+
+    window.renderRelatorioComissoes = function() {
+      const container = document.getElementById('container-relatorio-comissoes');
+      if(!container) return;
+
+      const afiliados = window.distribuidores.filter(d => d.escala === 'escala_3');
+
+      if(afiliados.length === 0) {
+        container.innerHTML = '<p class="text-xs text-[#8c7a6b] font-medium p-4">Nenhum afiliado cadastrado no momento.</p>';
+        return;
+      }
+
+      container.innerHTML = afiliados.map(af => {
+        const pedidosAfiliado = window.pedidos.filter(p => p.documento === af.documento && (p.status === 'Concluído' || p.status === 'Enviado'));
+        
+        let totalVendido = 0;
+        pedidosAfiliado.forEach(p => { totalVendido += Number(p.valorTotal || 0); });
+
+        const pct = Number(af.comissao) || 0;
+        const totalComissao = (totalVendido * pct) / 100;
+
+        return `
+          <div class="py-3 flex flex-wrap justify-between items-center gap-2">
+            <div>
+              <h4 class="font-bold text-sm text-[#3d2c1d]">${af.nome}</h4>
+              <p class="text-xs text-[#8c7a6b]">CPF/CNPJ: ${af.documento} | Porcentagem: <strong class="text-emerald-800">${pct}%</strong></p>
+              <p class="text-xs text-[#5c3a21]">Pedidos Concluídos/Enviados: ${pedidosAfiliado.length}</p>
+            </div>
+            <div class="text-right bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+              <p class="text-[10px] uppercase font-bold text-emerald-900">Total Vendas: R$ ${totalVendido.toFixed(2)}</p>
+              <p class="text-base font-black text-emerald-900">A Pagar: R$ ${totalComissao.toFixed(2)}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
     };
 
     window.gerarEtiquetaMelhorEnvioGestor = async function(pedidoId) {
@@ -1514,6 +1635,7 @@
       if(e) e.preventDefault();
       const idEdit = document.getElementById('cad-prod-id').value;
       const nome = document.getElementById('cad-prod-nome').value.trim();
+      const categoria = document.getElementById('cad-prod-categoria').value;
       const descricao = document.getElementById('cad-prod-desc').value.trim();
       const foto1 = document.getElementById('cad-prod-foto1').value.trim();
       const foto2 = document.getElementById('cad-prod-foto2').value.trim();
@@ -1534,7 +1656,7 @@
       });
 
       const dados = {
-        nome, descricao, foto1, foto2, foto3, cores,
+        nome, categoria, descricao, foto1, foto2, foto3, cores,
         precos: { escala_1: p1, escala_2: p2, escala_3: p3 }
       };
 
@@ -1555,6 +1677,7 @@
 
       document.getElementById('cad-prod-id').value = p.id;
       document.getElementById('cad-prod-nome').value = p.nome;
+      document.getElementById('cad-prod-categoria').value = p.categoria || 'cama';
       document.getElementById('cad-prod-desc').value = p.descricao || '';
       document.getElementById('cad-prod-foto1').value = p.foto1 || p.foto_url || '';
       document.getElementById('cad-prod-foto2').value = p.foto2 || '';
@@ -1577,6 +1700,7 @@
     function limparFormProduto() {
       document.getElementById('cad-prod-id').value = '';
       document.getElementById('cad-prod-nome').value = '';
+      document.getElementById('cad-prod-categoria').value = 'cama';
       document.getElementById('cad-prod-desc').value = '';
       document.getElementById('cad-prod-foto1').value = '';
       document.getElementById('cad-prod-foto2').value = '';
@@ -1604,7 +1728,7 @@
         return `
           <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
             <div>
-              <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span>
+              <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span> <span class="bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded text-[10px] font-bold uppercase">${p.categoria || 'cama'}</span>
               <p class="text-[10px] text-[#8c7a6b]">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
             </div>
             <div class="flex gap-1">
