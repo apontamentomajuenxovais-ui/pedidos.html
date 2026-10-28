@@ -431,16 +431,12 @@
 
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
     const CEP_ORIGEM = "14940450"; // Ibitinga - SP
-    
-    // Cole aqui o seu token do Melhor Envio fornecido
     const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2ViaG9vayIsIm1jcDp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
     let modoGestorAtivo = false;
-    let pedidoAtualCache = null;
 
-    // Variáveis globais para controle de frete
-    window.tipoEntregaAtual = 'envio'; // 'envio', 'outro' ou 'retirada'
+    window.tipoEntregaAtual = 'envio';
     window.valorFreteSelecionado = 0;
     window.servicoFreteNome = 'A calcular';
     window.enderecoAlternativoCache = null;
@@ -794,7 +790,7 @@
 
     // Função de Cotação Real via API do Melhor Envio
     async function consultarAPIHubMelhorEnvio(cepDestino) {
-      let pesoTotalKg = 0.5; // peso base mínimo
+      let pesoTotalKg = 0.5;
       let qtdItens = 0;
 
       Object.keys(window.carrinho).forEach(chaveKey => {
@@ -802,7 +798,7 @@
         qtdItens += item.qtd;
       });
 
-      pesoTotalKg = Math.max(0.5, qtdItens * 1.2); // estimativa de 1.2kg por enxoval/item
+      pesoTotalKg = Math.max(0.5, qtdItens * 1.2);
 
       const payload = {
         from: { postal_code: CEP_ORIGEM },
@@ -837,20 +833,17 @@
         }
 
         const data = await response.json();
-        // Filtra serviços válidos (sem erro)
         const cotacoesValidas = data.filter(c => !c.error);
         
         if(cotacoesValidas.length === 0) {
           throw new Error("Nenhuma transportadora disponível para este CEP.");
         }
 
-        // Pega a opção mais barata ou exibe a primeira válida
         cotacoesValidas.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-        return cotacoesValidas[0]; // Retorna a melhor cotação
+        return cotacoesValidas[0];
 
       } catch(err) {
         console.warn("Aviso na API do Melhor Envio (Fallback ativado):", err);
-        // Fallback seguro caso haja restrição de CORS direto no navegador
         return { name: "PAC / Transportadora Padrão", price: (35.00 + (qtdItens * 5)).toFixed(2), delivery_time: 5 };
       }
     }
@@ -959,6 +952,7 @@
       }).join('');
     }
 
+    // Função blindada para salvar e garantir o registro no Firestore
     async function garantirPedidoSalvo() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return null;
@@ -1010,14 +1004,14 @@
         valorTotal: totalGeral
       };
 
-      if(!pedidoAtualCache) {
-        try {
-          const docRef = await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
-          pedidoAtualCache = { id: docRef.id, ...pedidoObj };
-        } catch(err) { console.error(err); }
+      try {
+        const docRef = await addDoc(collection(db, "b2b_pedidos"), pedidoObj);
+        return { id: docRef.id, ...pedidoObj };
+      } catch(err) {
+        console.error("Erro ao salvar pedido no Firebase:", err);
+        alert("Erro ao salvar pedido. Verifique sua conexão.");
+        return null;
       }
-
-      return pedidoAtualCache || pedidoObj;
     }
 
     function gerarPDFComprovantePedido(dadosPedido) {
@@ -1110,7 +1104,7 @@
 
     window.enviarWhatsAppMantendoCarrinho = async function() {
       const pedidoObj = await garantirPedidoSalvo();
-      if(!pedidoObj) return alert("O carrinho está vazio!");
+      if(!pedidoObj) return;
 
       let msg = `🛍️ *NOVO PEDIDO B2B - MAJU ENXOVAIS*\n-----------------------------------\n`;
       msg += `🏢 *Distribuidor:* ${pedidoObj.distribuidor}\n`;
@@ -1136,21 +1130,23 @@
 
     window.gerarPDFMantendoCarrinho = async function() {
       const pedidoObj = await garantirPedidoSalvo();
-      if(!pedidoObj) return alert("O carrinho está vazio!");
+      if(!pedidoObj) return;
       gerarPDFComprovantePedido(pedidoObj);
     };
 
-    window.concluirEstatisticasPedido = function() {
+    window.concluirEstatisticasPedido = async function() {
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) return alert("O carrinho está vazio!");
 
-      window.carrinho = {};
-      pedidoAtualCache = null;
-      if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
-      fecharModalCarrinho();
-      renderCatalogo();
-      atualizarResumoCarrinho();
-      alert("Pedido finalizado com sucesso!");
+      const pedidoSalvo = await garantirPedidoSalvo();
+      if(pedidoSalvo) {
+        window.carrinho = {};
+        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
+        fecharModalCarrinho();
+        renderCatalogo();
+        atualizarResumoCarrinho();
+        alert("Pedido finalizado e salvo com sucesso no painel do gestor!");
+      }
     };
 
     // Função para gerar etiqueta diretamente no Melhor Envio pelo Painel do Gestor
@@ -1164,9 +1160,8 @@
 
       alert("📦 Enviando dados para o seu carrinho no Melhor Envio...");
 
-      // Payload simplificado para inclusão de carrinho no Melhor Envio v2
       const payloadCarrinho = {
-        service: 1, // Exemplo de ID de serviço (PAC ou similar)
+        service: 1,
         agency: 1,
         from: {
           name: "Maju Enxovais",
@@ -1190,7 +1185,7 @@
           district: "Geral",
           city: "Destino",
           state_abbrev: "SP",
-          postal_code: "01001000" // Extraído ou ajustado dinamicamente
+          postal_code: "01001000"
         },
         products: p.itens.map(i => ({
           name: i.nome,
@@ -1220,11 +1215,11 @@
         } else {
           const errData = await response.json();
           console.error("Retorno Melhor Envio:", errData);
-          alert("⚠️ Os dados foram enviados, mas verifique o painel do Melhor Envio (alguns campos de documento/endereço podem precisar de ajuste fino na API).");
+          alert("⚠️ Dados enviados, verifique o painel do Melhor Envio.");
         }
       } catch(e) {
         console.error(e);
-        alert("Erro de conexão ao tentar gerar a etiqueta. Verifique o console.");
+        alert("Erro de conexão ao tentar gerar a etiqueta.");
       }
     };
 
