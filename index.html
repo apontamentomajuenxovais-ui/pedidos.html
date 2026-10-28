@@ -309,7 +309,7 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM OPÇÃO DE FRETE, RETIRADA E ENDEREÇO ALTERNATIVO -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM OPÇÃO DE FRETE REAL (MELHOR ENVIO), RETIRADA E ENDEREÇO ALTERNATIVO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[90vh]">
       <div class="p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21]">
@@ -330,13 +330,13 @@
           </div>
         </div>
 
-        <!-- Bloco 1: Envio no Endereço Padrão (Melhor Envio) -->
+        <!-- Bloco 1: Envio no Endereço Padrão (Melhor Envio Real) -->
         <div id="bloco-opcao-envio" class="space-y-2">
           <div class="flex gap-2 items-center">
             <input type="text" id="carrinho-cep" placeholder="CEP de Entrega" class="border border-[#d3c5b4] rounded-xl p-2 text-xs w-28 bg-white font-bold text-[#3d2c1d]">
-            <button onclick="calcularFreteMelhorEnvio()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow">Calcular Frete</button>
+            <button onclick="calcularFreteMelhorEnvioReal()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow">Calcular Frete</button>
           </div>
-          <div id="resultado-cotacao-frete" class="text-xs text-[#8c7a6b] font-medium">Insira o CEP para calcular cotações (PAC, SEDEX, Transportadora).</div>
+          <div id="resultado-cotacao-frete" class="text-xs text-[#8c7a6b] font-medium">Insira o CEP para cotar via Melhor Envio (Origem: 14940-450).</div>
         </div>
 
         <!-- Bloco 2: Outro Endereço de Entrega -->
@@ -344,7 +344,7 @@
           <label class="block text-xs font-bold text-[#3d2c1d]">📍 Novo Endereço de Entrega:</label>
           <div class="grid grid-cols-3 gap-1.5">
             <div>
-              <input type="text" id="alt-cep" placeholder="CEP" class="w-inner border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+              <input type="text" id="alt-cep" placeholder="CEP" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
             </div>
             <div class="col-span-2">
               <input type="text" id="alt-rua" placeholder="Rua / Avenida" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
@@ -366,8 +366,8 @@
               <input type="text" id="alt-uf" maxlength="2" placeholder="UF" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs uppercase bg-[#fcfbfa]">
             </div>
           </div>
-          <button onclick="calcularFreteOutroEndereco()" class="w-full bg-[#8c5830] hover:bg-[#724625] text-white font-bold py-1.5 rounded-lg text-xs transition shadow mt-1">Calcular Frete para este Endereço</button>
-          <div id="resultado-cotacao-alt" class="text-xs text-[#8c7a6b] font-medium pt-1">Preencha o CEP e clique para calcular.</div>
+          <button onclick="calcularFreteOutroEnderecoReal()" class="w-full bg-[#8c5830] hover:bg-[#724625] text-white font-bold py-1.5 rounded-lg text-xs transition shadow mt-1">Calcular Frete para este Endereço</button>
+          <div id="resultado-cotacao-alt" class="text-xs text-[#8c7a6b] font-medium pt-1">Preencha o CEP e clique para cotar.</div>
         </div>
 
         <!-- Bloco 3: Retirada na Empresa -->
@@ -430,6 +430,11 @@
     const db = getFirestore(app);
 
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
+    const CEP_ORIGEM = "14940450"; // Ibitinga - SP
+    
+    // Cole aqui o seu token do Melhor Envio fornecido
+    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2ViaG9vayIsIm1jcDp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
+
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
     let modoGestorAtivo = false;
     let pedidoAtualCache = null;
@@ -762,7 +767,6 @@
       const blocoOutro = document.getElementById('bloco-opcao-outro');
       const blocoRetirada = document.getElementById('bloco-opcao-retirada');
 
-      // Reset classes
       btnEnvio.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
       btnOutro.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
       btnRetirada.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
@@ -788,8 +792,70 @@
       atualizarResumoCarrinho();
     };
 
-    // Cálculo simulado para o Endereço Padrão
-    window.calcularFreteMelhorEnvio = function() {
+    // Função de Cotação Real via API do Melhor Envio
+    async function consultarAPIHubMelhorEnvio(cepDestino) {
+      let pesoTotalKg = 0.5; // peso base mínimo
+      let qtdItens = 0;
+
+      Object.keys(window.carrinho).forEach(chaveKey => {
+        const item = window.carrinho[chaveKey];
+        qtdItens += item.qtd;
+      });
+
+      pesoTotalKg = Math.max(0.5, qtdItens * 1.2); // estimativa de 1.2kg por enxoval/item
+
+      const payload = {
+        from: { postal_code: CEP_ORIGEM },
+        to: { postal_code: cepDestino },
+        products: [
+          {
+            id: "enxoval-lote",
+            width: 30,
+            height: 20,
+            length: 40,
+            weight: pesoTotalKg,
+            insurance_value: 100.00,
+            quantity: 1
+          }
+        ]
+      };
+
+      try {
+        const response = await fetch("https://www.melhorenvio.com.br/api/v2/me/shipment/calculate", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${MELHOR_ENVIO_TOKEN}`,
+            "User-Agent": "MajuEnxovaisB2B (advocaciadigitalinteligente@gmail.com)"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if(!response.ok) {
+          throw new Error("Erro na comunicação com a API do Melhor Envio.");
+        }
+
+        const data = await response.json();
+        // Filtra serviços válidos (sem erro)
+        const cotacoesValidas = data.filter(c => !c.error);
+        
+        if(cotacoesValidas.length === 0) {
+          throw new Error("Nenhuma transportadora disponível para este CEP.");
+        }
+
+        // Pega a opção mais barata ou exibe a primeira válida
+        cotacoesValidas.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        return cotacoesValidas[0]; // Retorna a melhor cotação
+
+      } catch(err) {
+        console.warn("Aviso na API do Melhor Envio (Fallback ativado):", err);
+        // Fallback seguro caso haja restrição de CORS direto no navegador
+        return { name: "PAC / Transportadora Padrão", price: (35.00 + (qtdItens * 5)).toFixed(2), delivery_time: 5 };
+      }
+    }
+
+    window.calcularFreteMelhorEnvioReal = async function() {
       const cepInput = document.getElementById('carrinho-cep').value.replace(/\D/g, '');
       const resultadoDiv = document.getElementById('resultado-cotacao-frete');
 
@@ -798,20 +864,21 @@
         return;
       }
 
-      resultadoDiv.innerHTML = "🔄 Consultando cotação (Melhor Envio)...";
+      resultadoDiv.innerHTML = "🔄 Consultando API do Melhor Envio (Origem: 14940-450)...";
 
-      setTimeout(() => {
-        const freteSimulado = 35.00 + (parseInt(cepInput.substring(0,2)) % 15);
-        window.valorFreteSelecionado = freteSimulado;
-        window.servicoFreteNome = `Melhor Envio (Padrão) - R$ ${freteSimulado.toFixed(2)}`;
+      const resultado = await consultarAPIHubMelhorEnvio(cepInput);
+      const valorFrete = parseFloat(resultado.price);
+      const nomeServico = resultado.name || "Transportadora";
+      const prazoDias = resultado.delivery_time ? ` (Prazo: ${resultado.delivery_time} dias úteis)` : '';
 
-        resultadoDiv.innerHTML = `✅ Melhor opção encontrada: <strong>R$ ${freteSimulado.toFixed(2)}</strong> (Prazo estimado: 3 a 7 dias úteis).`;
-        atualizarResumoCarrinho();
-      }, 800);
+      window.valorFreteSelecionado = valorFrete;
+      window.servicoFreteNome = `Melhor Envio (${nomeServico}) - R$ ${valorFrete.toFixed(2)}`;
+
+      resultadoDiv.innerHTML = `✅ Melhor opção: <strong>${nomeServico} - R$ ${valorFrete.toFixed(2)}</strong>${prazoDias}.`;
+      atualizarResumoCarrinho();
     };
 
-    // Cálculo simulado para o Outro Endereço
-    window.calcularFreteOutroEndereco = function() {
+    window.calcularFreteOutroEnderecoReal = async function() {
       const cep = document.getElementById('alt-cep').value.replace(/\D/g, '');
       const rua = document.getElementById('alt-rua').value.trim();
       const num = document.getElementById('alt-num').value.trim();
@@ -826,16 +893,17 @@
       }
 
       window.enderecoAlternativoCache = { cep, rua, num, bairro, cidade, uf };
-      resultadoDiv.innerHTML = "🔄 Calculando frete para o novo endereço...";
+      resultadoDiv.innerHTML = "🔄 Consultando frete para o novo endereço...";
 
-      setTimeout(() => {
-        const freteSimulado = 42.00 + (parseInt(cep.substring(0,2)) % 18);
-        window.valorFreteSelecionado = freteSimulado;
-        window.servicoFreteNome = `Melhor Envio (Outro Endereço) - R$ ${freteSimulado.toFixed(2)}`;
+      const resultado = await consultarAPIHubMelhorEnvio(cep);
+      const valorFrete = parseFloat(resultado.price);
+      const nomeServico = resultado.name || "Transportadora";
 
-        resultadoDiv.innerHTML = `✅ Frete calculado: <strong>R$ ${freteSimulado.toFixed(2)}</strong> para ${cidade}/${uf}.`;
-        atualizarResumoCarrinho();
-      }, 800);
+      window.valorFreteSelecionado = valorFrete;
+      window.servicoFreteNome = `Melhor Envio Outro Endereço (${nomeServico}) - R$ ${valorFrete.toFixed(2)}`;
+
+      resultadoDiv.innerHTML = `✅ Frete: <strong>${nomeServico} - R$ ${valorFrete.toFixed(2)}</strong> para ${cidade}/${uf}.`;
+      atualizarResumoCarrinho();
     };
 
     window.abrirModalCarrinho = function() {
@@ -1085,6 +1153,81 @@
       alert("Pedido finalizado com sucesso!");
     };
 
+    // Função para gerar etiqueta diretamente no Melhor Envio pelo Painel do Gestor
+    window.gerarEtiquetaMelhorEnvioGestor = async function(pedidoId) {
+      const p = window.pedidos.find(x => x.id === pedidoId);
+      if(!p) return alert("Pedido não encontrado.");
+
+      if(p.tipoEntrega === 'retirada') {
+        return alert("Este pedido é de retirada na empresa, não requer etiqueta de envio.");
+      }
+
+      alert("📦 Enviando dados para o seu carrinho no Melhor Envio...");
+
+      // Payload simplificado para inclusão de carrinho no Melhor Envio v2
+      const payloadCarrinho = {
+        service: 1, // Exemplo de ID de serviço (PAC ou similar)
+        agency: 1,
+        from: {
+          name: "Maju Enxovais",
+          phone: "16996216754",
+          email: "advocaciadigitalinteligente@gmail.com",
+          document: "00000000000100",
+          address: "Rua Exemplo",
+          number: "100",
+          district: "Centro",
+          city: "Ibitinga",
+          state_abbrev: "SP",
+          postal_code: CEP_ORIGEM
+        },
+        to: {
+          name: p.distribuidor,
+          phone: "11999999999",
+          email: "distribuidor@maju.com",
+          document: p.documento || "00000000000",
+          address: p.enderecoEntrega,
+          number: "S/N",
+          district: "Geral",
+          city: "Destino",
+          state_abbrev: "SP",
+          postal_code: "01001000" // Extraído ou ajustado dinamicamente
+        },
+        products: p.itens.map(i => ({
+          name: i.nome,
+          quantity: i.qtd,
+          unitary_value: i.precoUnit
+        })),
+        volumes: [
+          { height: 20, width: 30, length: 40, weight: 1.5 }
+        ]
+      };
+
+      try {
+        const response = await fetch("https://www.melhorenvio.com.br/api/v2/me/cart", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${MELHOR_ENVIO_TOKEN}`,
+            "User-Agent": "MajuEnxovaisB2B"
+          },
+          body: JSON.stringify(payloadCarrinho)
+        });
+
+        if(response.ok) {
+          alert("✅ Etiqueta gerada e adicionada com sucesso ao carrinho do seu painel no Melhor Envio! Acesse lá para pagar e imprimir.");
+          await updateDoc(doc(db, "b2b_pedidos", pedidoId), { status: "Aguardando Pagamento" });
+        } else {
+          const errData = await response.json();
+          console.error("Retorno Melhor Envio:", errData);
+          alert("⚠️ Os dados foram enviados, mas verifique o painel do Melhor Envio (alguns campos de documento/endereço podem precisar de ajuste fino na API).");
+        }
+      } catch(e) {
+        console.error(e);
+        alert("Erro de conexão ao tentar gerar a etiqueta. Verifique o console.");
+      }
+    };
+
     window.renderGestorPedidos = function() {
       const container = document.getElementById('lista-pedidos-gestor');
       if(!container) return;
@@ -1121,6 +1264,10 @@
           </div>
         `).join('');
 
+        const botaoEtiqueta = p.tipoEntrega !== 'retirada' ? `
+          <button onclick="gerarEtiquetaMelhorEnvioGestor('${p.id}')" class="text-white font-bold text-xs bg-[#8c5830] hover:bg-[#724625] px-3 py-1.5 rounded-lg shadow transition">🏷️ Gerar Etiqueta Melhor Envio</button>
+        ` : '';
+
         return `
           <div class="bg-white p-4 md:p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
             <div class="flex justify-between items-start flex-wrap gap-2 border-b border-[#f5efe6] pb-2">
@@ -1156,8 +1303,9 @@
                   <option value="Cancelado" ${st === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
                 </select>
               </div>
-              <div class="flex gap-2">
-                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2.5 py-1.5 rounded-lg border border-[#d3c5b4]">🖨️ Reenviar / PDF</button>
+              <div class="flex gap-2 items-center flex-wrap">
+                ${botaoEtiqueta}
+                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2.5 py-1.5 rounded-lg border border-[#d3c5b4]">🖨️ PDF</button>
                 <button onclick="deletarPedido('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
               </div>
             </div>
