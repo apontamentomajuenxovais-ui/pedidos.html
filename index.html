@@ -13,7 +13,7 @@
     ::-webkit-scrollbar-thumb { background: #5c3a21; border-radius: 4px; }
   </style>
 
-  <!-- DECLARAÇÃO GLOBAL PARA O MODO GESTOR (CORRIGE O CLIQUE) -->
+  <!-- DECLARAÇÃO GLOBAL PARA O MODO GESTOR -->
   <script>
     let modoGestorAtivo = false;
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
@@ -394,7 +394,7 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO (TOTALMENTE RESPONSIVO) -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO (TOTALMENTE AJUSTADO E RESPONSIVO) -->
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 md:p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[95vh] md:max-h-[90vh]">
       
@@ -1376,11 +1376,13 @@
         return alert("Este pedido é de retirada na empresa.");
       }
 
-      // Copia resumo para o clipboard
-      const resumoTexto = `Cliente: ${p.distribuidor} | Doc: ${p.documento} | Endereço: ${p.enderecoEntrega} | Total Itens: ${(p.itens || []).reduce((acc, i) => acc + i.qtd, 0)} pçs`;
+      // Se você configurar a Cloud Function no Firebase, substitua o trecho abaixo por:
+      // const response = await fetch("https://sua-cloud-function.net/gerarEtiquetaBackend", { ... });
+
+      const resumoTexto = `Cliente: ${p.distribuidor} | Doc: ${p.documento} | Endereço: ${p.enderecoEntrega}`;
       navigator.clipboard.writeText(resumoTexto);
 
-      const abrirPainel = confirm(`📦 Devido às regras de segurança CORS do navegador, a requisição direta para a API do Melhor Envio requer uma Cloud Function (Backend).\n\nOs dados de "${p.distribuidor}" foram copiados!\n\nDeseja abrir o painel do Melhor Envio para gerar a etiqueta?`);
+      const abrirPainel = confirm(`📦 Dados do cliente ("${p.distribuidor}") copiados com sucesso!\n\nDeseja abrir o painel do Melhor Envio para gerar a etiqueta?`);
 
       if(abrirPainel) {
         window.open("https://www.melhorenvio.com.br/app/shipment/create", "_blank");
@@ -1542,4 +1544,197 @@
       document.getElementById('cad-dist-id').value = d.id;
       document.getElementById('cad-dist-nome').value = d.nome || '';
       document.getElementById('cad-dist-doc').value = d.documento || '';
-      document.getElementById('cad-dist-senha
+      document.getElementById('cad-dist-senha').value = d.senha || '';
+      document.getElementById('cad-dist-escala').value = d.escala || 'escala_1';
+      document.getElementById('cad-dist-comissao').value = d.comissao || '';
+
+      verificarSeAfiliado();
+
+      const end = d.endereco || {};
+      document.getElementById('cad-dist-cep').value = end.cep || '';
+      document.getElementById('cad-dist-rua').value = end.rua || '';
+      document.getElementById('cad-dist-num').value = end.num || '';
+      document.getElementById('cad-dist-bairro').value = end.bairro || '';
+      document.getElementById('cad-dist-cidade').value = end.cidade || '';
+      document.getElementById('cad-dist-uf').value = end.uf || '';
+
+      document.getElementById('titulo-form-distribuidor').innerText = "Editar Perfil";
+      document.getElementById('btn-salvar-dist').innerText = "Atualizar Perfil";
+    };
+
+    function limparFormDistribuidor() {
+      document.getElementById('cad-dist-id').value = '';
+      document.getElementById('cad-dist-nome').value = '';
+      document.getElementById('cad-dist-doc').value = '';
+      document.getElementById('cad-dist-senha').value = '';
+      document.getElementById('cad-dist-escala').value = 'escala_1';
+      document.getElementById('cad-dist-comissao').value = '';
+      document.getElementById('div-comissao').classList.add('hidden');
+      document.getElementById('cad-dist-cep').value = '';
+      document.getElementById('cad-dist-rua').value = '';
+      document.getElementById('cad-dist-num').value = '';
+      document.getElementById('cad-dist-bairro').value = '';
+      document.getElementById('cad-dist-cidade').value = '';
+      document.getElementById('cad-dist-uf').value = '';
+      document.getElementById('titulo-form-distribuidor').innerText = "Cadastrar / Alterar Perfil";
+      document.getElementById('btn-salvar-dist').innerText = "Salvar Perfil";
+    }
+
+    window.deletarDistribuidor = async function(id) {
+      if(confirm('Excluir este cadastro?')) {
+        await deleteDoc(doc(db, "b2b_distribuidores", id));
+      }
+    };
+
+    function renderGestorDistribuidores() {
+      const ul = document.getElementById('lista-distribuidores');
+      if(!ul) return;
+
+      ul.innerHTML = window.distribuidores.map(d => {
+        const end = d.endereco || {};
+        const endStr = end.cep ? `${end.cidade}/${end.uf} (${end.cep})` : 'Sem endereço';
+        
+        let perfilLabel = 'E-commerce';
+        if(d.escala === 'escala_2') perfilLabel = 'Atacado';
+        if(d.escala === 'escala_3') perfilLabel = `Afiliados (${d.comissao || 0}%)`;
+
+        return `
+          <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
+            <div>
+              <span class="font-bold text-[#3d2c1d] text-sm">${d.nome}</span>
+              <p class="text-[11px] text-[#8c7a6b]">Doc: ${d.documento} | <strong class="text-[#8c5830]">${perfilLabel}</strong></p>
+              <p class="text-[10px] text-[#8c7a6b]">📍 ${endStr}</p>
+            </div>
+            <div class="flex gap-1">
+              <button onclick="prepararEdicaoDistribuidor('${d.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
+              <button onclick="deletarDistribuidor('${d.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-lg border border-red-200">Excluir</button>
+            </div>
+          </li>
+        `;
+      }).join('');
+    }
+
+    window.adicionarLinhaCor = function(nome = '', foto = '') {
+      const container = document.getElementById('container-cores');
+      const div = document.createElement('div');
+      div.className = "flex gap-2 items-center linha-cor-item";
+      div.innerHTML = `
+        <input type="text" placeholder="Nome da Cor (Ex: Azul)" value="${nome}" class="cor-nome-input border border-[#d3c5b4] rounded p-1.5 text-xs w-1/3 bg-white">
+        <input type="url" placeholder="URL da Foto desta Cor" value="${foto}" class="cor-foto-input border border-[#d3c5b4] rounded p-1.5 text-xs w-2/3 bg-white">
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-700 font-bold text-xs px-2">✕</button>
+      `;
+      container.appendChild(div);
+    };
+
+    window.cadastrarProduto = async function(e) {
+      if(e) e.preventDefault();
+      const idEdit = document.getElementById('cad-prod-id').value;
+      const nome = document.getElementById('cad-prod-nome').value.trim();
+      const categoria = document.getElementById('cad-prod-categoria').value;
+      const descricao = document.getElementById('cad-prod-desc').value.trim();
+      const foto1 = document.getElementById('cad-prod-foto1').value.trim();
+      const foto2 = document.getElementById('cad-prod-foto2').value.trim();
+      const foto3 = document.getElementById('cad-prod-foto3').value.trim();
+
+      const p1 = parseFloat(document.getElementById('cad-prod-p1').value) || 0;
+      const p2 = parseFloat(document.getElementById('cad-prod-p2').value) || 0;
+      const p3 = parseFloat(document.getElementById('cad-prod-p3').value) || 0;
+
+      const linhasCor = document.querySelectorAll('.linha-cor-item');
+      const cores = [];
+      linhasCor.forEach(linha => {
+        const cNome = linha.querySelector('.cor-nome-input').value.trim();
+        const cFoto = linha.querySelector('.cor-foto-input').value.trim();
+        if(cNome) {
+          cores.push({ nome: cNome, foto: cFoto });
+        }
+      });
+
+      const dados = {
+        nome, categoria, descricao, foto1, foto2, foto3, cores,
+        precos: { escala_1: p1, escala_2: p2, escala_3: p3 }
+      };
+
+      if(idEdit) {
+        await updateDoc(doc(db, "b2b_produtos", idEdit), dados);
+        alert('Produto atualizado!');
+      } else {
+        await addDoc(collection(db, "b2b_produtos"), dados);
+        alert('Produto cadastrado!');
+      }
+
+      limparFormProduto();
+    };
+
+    window.prepararEdicaoProduto = function(id) {
+      const p = window.produtos.find(prod => prod.id === id);
+      if(!p) return;
+
+      document.getElementById('cad-prod-id').value = p.id;
+      document.getElementById('cad-prod-nome').value = p.nome;
+      document.getElementById('cad-prod-categoria').value = p.categoria || 'cama';
+      document.getElementById('cad-prod-desc').value = p.descricao || '';
+      document.getElementById('cad-prod-foto1').value = p.foto1 || p.foto_url || '';
+      document.getElementById('cad-prod-foto2').value = p.foto2 || '';
+      document.getElementById('cad-prod-foto3').value = p.foto3 || '';
+
+      document.getElementById('cad-prod-p1').value = p.precos?.escala_1 || '';
+      document.getElementById('cad-prod-p2').value = p.precos?.escala_2 || '';
+      document.getElementById('cad-prod-p3').value = p.precos?.escala_3 || '';
+
+      const container = document.getElementById('container-cores');
+      container.innerHTML = '';
+      if(p.cores && p.cores.length > 0) {
+        p.cores.forEach(c => adicionarLinhaCor(c.nome, c.foto));
+      }
+
+      document.getElementById('titulo-form-produto').innerText = "Editar Produto";
+      document.getElementById('btn-salvar-prod').innerText = "Atualizar Produto";
+    };
+
+    function limparFormProduto() {
+      document.getElementById('cad-prod-id').value = '';
+      document.getElementById('cad-prod-nome').value = '';
+      document.getElementById('cad-prod-categoria').value = 'cama';
+      document.getElementById('cad-prod-desc').value = '';
+      document.getElementById('cad-prod-foto1').value = '';
+      document.getElementById('cad-prod-foto2').value = '';
+      document.getElementById('cad-prod-foto3').value = '';
+      document.getElementById('cad-prod-p1').value = '';
+      document.getElementById('cad-prod-p2').value = '';
+      document.getElementById('cad-prod-p3').value = '';
+      document.getElementById('container-cores').innerHTML = '';
+      document.getElementById('titulo-form-produto').innerText = "Cadastrar Produto";
+      document.getElementById('btn-salvar-prod').innerText = "Salvar Produto";
+    }
+
+    window.deletarProduto = async function(id) {
+      if(confirm('Excluir este produto?')) {
+        await deleteDoc(doc(db, "b2b_produtos", id));
+      }
+    };
+
+    function renderGestorProdutos() {
+      const ul = document.getElementById('lista-produtos-gestor');
+      if(!ul) return;
+
+      ul.innerHTML = window.produtos.map(p => {
+        return `
+          <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
+            <div>
+              <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span> <span class="bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded text-[10px] font-bold uppercase">${p.categoria || 'cama'}</span>
+              <p class="text-[10px] text-[#8c7a6b]">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
+            </div>
+            <div class="flex gap-1">
+              <button onclick="prepararEdicaoProduto('${p.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
+              <button onclick="deletarProduto('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-lg border border-red-200">Excluir</button>
+            </div>
+          </li>
+        `;
+      }).join('');
+    }
+
+    atualizarViews();
+  </script>
+</body>
+</html>
