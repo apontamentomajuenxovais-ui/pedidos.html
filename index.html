@@ -12,6 +12,34 @@
     ::-webkit-scrollbar-track { background: #f5f5f4; }
     ::-webkit-scrollbar-thumb { background: #5c3a21; border-radius: 4px; }
   </style>
+
+  <!-- DECLARAÇÃO GLOBAL PARA CORRIGIR O CLIQUE DO GESTOR -->
+  <script>
+    // Variáveis e funções globais acessíveis pelo onclick do HTML
+    let modoGestorAtivo = false;
+    let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
+
+    window.toggleModoGestor = function() {
+      if (modoGestorAtivo) {
+        modoGestorAtivo = false;
+        alert("Sessão de Gestor encerrada.");
+      } else {
+        const pass = prompt("Digite a Senha do Gestor:");
+        if (pass === senhaGestor) {
+          modoGestorAtivo = true;
+          window.distribuidorLogado = null;
+        } else if (pass !== null) {
+          alert("Senha incorreta!");
+          return;
+        } else {
+          return; // Usuário cancelou
+        }
+      }
+      if (typeof atualizarViews === 'function') {
+        atualizarViews();
+      }
+    };
+  </script>
 </head>
 <body class="bg-[#f7f3ec] text-[#3d2c1d] font-sans min-h-screen pb-12">
 
@@ -158,12 +186,12 @@
           <div class="w-full md:w-1/2 relative">
             <input type="text" id="input-busca-produto" oninput="filtrarProdutosCatalogo()" placeholder="🔍 Pesquisar produto por nome..." class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-xs bg-[#fcfbfa] focus:outline-none focus:border-[#5c3a21]">
           </div>
-          <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
-            <button onclick="filtrarCategoria('todas')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition">Todas</button>
-            <button onclick="filtrarCategoria('cama')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Cama</button>
-            <button onclick="filtrarCategoria('mesa')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Mesa</button>
-            <button onclick="filtrarCategoria('banho')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Banho</button>
-            <button onclick="filtrarCategoria('decoracao')" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Decoração</button>
+          <div class="flex flex-wrap gap-1.5 w-full md:w-auto" id="grupo-botoes-cat">
+            <button onclick="filtrarCategoria('todas', this)" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition">Todas</button>
+            <button onclick="filtrarCategoria('cama', this)" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Cama</button>
+            <button onclick="filtrarCategoria('mesa', this)" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Mesa</button>
+            <button onclick="filtrarCategoria('banho', this)" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Banho</button>
+            <button onclick="filtrarCategoria('decoracao', this)" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition">Decoração</button>
           </div>
         </div>
       </div>
@@ -506,9 +534,6 @@
     const CEP_ORIGEM = "14940450"; // Ibitinga - SP
     const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGlugi1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2ViaG9vayIsIm1jcDp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
-    let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
-    let modoGestorAtivo = false;
-
     window.tipoEntregaAtual = 'envio';
     window.valorFreteSelecionado = 0;
     window.servicoFreteNome = 'A calcular';
@@ -546,13 +571,15 @@
       alert("Chave PIX copiada para a área de transferência!");
     };
 
-    window.filtrarCategoria = function(cat) {
+    window.filtrarCategoria = function(cat, btnEl) {
       window.categoriaFiltroAtual = cat;
       const btns = document.querySelectorAll('.btn-cat');
       btns.forEach(b => {
         b.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition";
       });
-      event.target.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition";
+      if(btnEl) {
+        btnEl.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition";
+      }
       renderCatalogo();
     };
 
@@ -600,23 +627,6 @@
         window.distribuidorLogado = novo;
         atualizarViews();
       }
-    };
-
-    window.toggleModoGestor = function() {
-      if(modoGestorAtivo) {
-        modoGestorAtivo = false;
-        alert("Sessão de Gestor encerrada.");
-      } else {
-        const pass = prompt("Digite a Senha do Gestor:");
-        if(pass === senhaGestor) {
-          modoGestorAtivo = true;
-          window.distribuidorLogado = null;
-        } else if(pass !== null) {
-          alert("Senha incorreta!");
-          return;
-        }
-      }
-      atualizarViews();
     };
 
     window.mudarAbaGestor = function(aba) {
@@ -679,7 +689,7 @@
       atualizarViews();
     };
 
-    function atualizarViews() {
+    window.atualizarViews = function() {
       const cardLogin = document.getElementById('card-login-distribuidor');
       const cardCadastro = document.getElementById('card-cadastro-distribuidor');
       const secCatalogo = document.getElementById('sec-catalogo');
@@ -1127,7 +1137,7 @@
 
       let perfilNome = 'E-commerce';
       if(chaveEscala === 'escala_2') perfilNome = 'Atacado';
-      if(chaveEscala === 'escala_3') perfilNome = `Afiliado (${window.distribuidorLogado.comissao || 0}% de comissão)`;
+      if(chaveEscala === 'escala_3') perfilNome = 'Afiliados';
 
       const pedidoObj = {
         distribuidor: window.distribuidorLogado.nome,
@@ -1279,7 +1289,7 @@
       const pedidoSalvo = await garantirPedidoSalvo();
       if(pedidoSalvo) {
         window.carrinho = {};
-        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs'].value = '';
+        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
         fecharModalCarrinho();
         renderCatalogo();
         atualizarResumoCarrinho();
@@ -1304,7 +1314,6 @@
       container.innerHTML = afiliados.map(af => {
         let pedidosAfiliado = window.pedidos.filter(p => p.documento === af.documento && (p.status === 'Concluído' || p.status === 'Enviado'));
 
-        // Filtragem por período se selecionado
         if(dataIni) {
           const dIni = new Date(dataIni);
           dIni.setHours(0,0,0,0);
@@ -1780,4 +1789,4 @@
     atualizarViews();
   </script>
 </body>
-</html>ooooooooooooooooooooooooooo
+</html>
