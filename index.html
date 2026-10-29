@@ -13,9 +13,8 @@
     ::-webkit-scrollbar-thumb { background: #5c3a21; border-radius: 4px; }
   </style>
 
-  <!-- DECLARAÇÃO GLOBAL PARA CORRIGIR O CLIQUE DO GESTOR -->
+  <!-- DECLARAÇÃO GLOBAL PARA O MODO GESTOR -->
   <script>
-    // Variáveis e funções globais acessíveis pelo onclick do HTML
     let modoGestorAtivo = false;
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "1234";
 
@@ -32,7 +31,7 @@
           alert("Senha incorreta!");
           return;
         } else {
-          return; // Usuário cancelou
+          return;
         }
       }
       if (typeof atualizarViews === 'function') {
@@ -395,84 +394,79 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO -->
-  <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21]">
-        <h3 class="font-bold text-base flex items-center gap-2">🛒 Seu Pedido</h3>
-        <button onclick="fecharModalCarrinho()" class="text-[#d4b59d] hover:text-white font-bold text-lg">✕</button>
+  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO (TOTALMENTE AJUSTADO E RESPONSIVO) -->
+  <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 md:p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[95vh] md:max-h-[90vh]">
+      
+      <!-- CABEÇALHO DO MODAL -->
+      <div class="p-3.5 md:p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21] shrink-0">
+        <h3 class="font-bold text-sm md:text-base flex items-center gap-2">🛒 Seu Pedido</h3>
+        <button onclick="fecharModalCarrinho()" class="text-[#d4b59d] hover:text-white font-bold text-lg px-2">✕</button>
       </div>
 
-      <div class="p-4 overflow-y-auto flex-1 divide-y divide-[#f5efe6]" id="container-itens-carrinho"></div>
+      <!-- CORPO COM ROLAGEM FLUIDA -->
+      <div class="p-3.5 md:p-4 overflow-y-auto flex-1 space-y-3.5">
+        
+        <!-- ITENS DO CARRINHO -->
+        <div id="container-itens-carrinho" class="divide-y divide-[#f5efe6]"></div>
 
-      <!-- AVISO DE ATACADO (MÍNIMO 15 PEÇAS) -->
-      <div id="aviso-atacado-minimo" class="hidden bg-amber-50 border-t border-amber-200 p-2.5 text-xs text-amber-900 font-bold flex justify-between items-center">
-        <span>⚠️ Pedido no Atacado exige mínimo de 15 peças.</span>
-        <span id="contador-pecas-atacado" class="bg-amber-200 px-2 py-0.5 rounded">0 / 15 pçs</span>
-      </div>
-
-      <!-- SEÇÃO DE FRETE / RETIRADA / ENDEREÇO ALTERNATIVO -->
-      <div class="p-4 bg-[#fcfbfa] border-t border-[#e6dbc9] space-y-3">
-        <div class="flex justify-between items-center flex-wrap gap-2">
-          <label class="block text-xs font-bold text-[#3d2c1d]">🚚 Modalidade de Entrega:</label>
-          <div class="flex gap-1.5 flex-wrap">
-            <button type="button" id="btn-tipo-envio" onclick="alternarTipoEntrega('envio')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition">Endereço Padrão</button>
-            <button type="button" id="btn-tipo-outro" onclick="alternarTipoEntrega('outro')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition">Outro Endereço</button>
-            <button type="button" id="btn-tipo-retirada" onclick="alternarTipoEntrega('retirada')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition">Retirar</button>
-          </div>
+        <!-- AVISO DE ATACADO (MÍNIMO 15 PEÇAS) -->
+        <div id="aviso-atacado-minimo" class="hidden bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-xs text-amber-900 font-bold flex justify-between items-center">
+          <span>⚠️ Pedido no Atacado exige mínimo de 15 peças.</span>
+          <span id="contador-pecas-atacado" class="bg-amber-200 px-2 py-0.5 rounded">0 / 15 pçs</span>
         </div>
 
-        <!-- Bloco 1: Envio no Endereço Padrão (Melhor Envio Real) -->
-        <div id="bloco-opcao-envio" class="space-y-2">
-          <div class="flex gap-2 items-center">
-            <input type="text" id="carrinho-cep" placeholder="CEP de Entrega" class="border border-[#d3c5b4] rounded-xl p-2 text-xs w-28 bg-white font-bold text-[#3d2c1d]">
-            <button onclick="calcularFreteMelhorEnvioReal()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow">Calcular Frete</button>
+        <!-- SEÇÃO DE FRETE / RETIRADA / ENDEREÇO ALTERNATIVO -->
+        <div class="bg-[#fcfbfa] p-3.5 rounded-2xl border border-[#e6dbc9] space-y-2.5">
+          <div class="flex justify-between items-center flex-wrap gap-2">
+            <label class="block text-xs font-bold text-[#3d2c1d]">🚚 Modalidade de Entrega:</label>
+            <div class="flex gap-1 flex-wrap">
+              <button type="button" id="btn-tipo-envio" onclick="alternarTipoEntrega('envio')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition">Endereço Padrão</button>
+              <button type="button" id="btn-tipo-outro" onclick="alternarTipoEntrega('outro')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">Outro Endereço</button>
+              <button type="button" id="btn-tipo-retirada" onclick="alternarTipoEntrega('retirada')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">Retirar</button>
+            </div>
           </div>
-          <div id="resultado-cotacao-frete" class="text-xs text-[#8c7a6b] font-medium">Insira o CEP para cotar via Melhor Envio (Origem: 14940-450).</div>
-        </div>
 
-        <!-- Bloco 2: Outro Endereço de Entrega -->
-        <div id="bloco-opcao-outro" class="hidden space-y-2 bg-white p-3 rounded-xl border border-[#e6dbc9]">
-          <label class="block text-xs font-bold text-[#3d2c1d]">📍 Novo Endereço de Entrega:</label>
-          <div class="grid grid-cols-3 gap-1.5">
-            <div>
-              <input type="text" id="alt-cep" placeholder="CEP" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
+          <!-- Bloco 1: Envio no Endereço Padrão (Melhor Envio Real) -->
+          <div id="bloco-opcao-envio" class="space-y-1.5">
+            <div class="flex gap-2 items-center">
+              <input type="text" id="carrinho-cep" placeholder="CEP de Entrega" class="border border-[#d3c5b4] rounded-xl p-2 text-xs w-32 bg-white font-bold text-[#3d2c1d]">
+              <button onclick="calcularFreteMelhorEnvioReal()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow">Calcular Frete</button>
             </div>
-            <div class="col-span-2">
-              <input type="text" id="alt-rua" placeholder="Rua / Avenida" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
-            </div>
+            <div id="resultado-cotacao-frete" class="text-[11px] text-[#8c7a6b] font-medium">Insira o CEP para cotar via Melhor Envio (Origem: 14940-450).</div>
           </div>
-          <div class="grid grid-cols-3 gap-1.5">
-            <div>
-              <input type="text" id="alt-num" placeholder="Número" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
-            </div>
-            <div class="col-span-2">
-              <input type="text" id="alt-bairro" placeholder="Bairro" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-1.5">
-            <div class="col-span-2">
-              <input type="text" id="alt-cidade" placeholder="Cidade" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]">
-            </div>
-            <div>
-              <input type="text" id="alt-uf" maxlength="2" placeholder="UF" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs uppercase bg-[#fcfbfa]">
-            </div>
-          </div>
-          <button onclick="calcularFreteOutroEnderecoReal()" class="w-full bg-[#8c5830] hover:bg-[#724625] text-white font-bold py-1.5 rounded-lg text-xs transition shadow mt-1">Calcular Frete para este Endereço</button>
-          <div id="resultado-cotacao-alt" class="text-xs text-[#8c7a6b] font-medium pt-1">Preencha o CEP e clique para cotar.</div>
-        </div>
 
-        <!-- Bloco 3: Retirada na Empresa -->
-        <div id="bloco-opcao-retirada" class="hidden text-xs text-emerald-900 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 font-medium">
-          🏢 <strong>Retirada na Empresa:</strong> Sem custo de frete. Você será avisado quando o pedido estiver separado para retirada.
+          <!-- Bloco 2: Outro Endereço de Entrega -->
+          <div id="bloco-opcao-outro" class="hidden space-y-2 bg-white p-3 rounded-xl border border-[#e6dbc9]">
+            <label class="block text-[11px] font-bold text-[#3d2c1d]">📍 Novo Endereço de Entrega:</label>
+            <div class="grid grid-cols-3 gap-1.5">
+              <div><input type="text" id="alt-cep" placeholder="CEP" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]"></div>
+              <div class="col-span-2"><input type="text" id="alt-rua" placeholder="Rua / Avenida" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <div><input type="text" id="alt-num" placeholder="Número" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]"></div>
+              <div class="col-span-2"><input type="text" id="alt-bairro" placeholder="Bairro" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <div class="col-span-2"><input type="text" id="alt-cidade" placeholder="Cidade" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs bg-[#fcfbfa]"></div>
+              <div><input type="text" id="alt-uf" maxlength="2" placeholder="UF" class="w-full border border-[#d3c5b4] rounded p-1.5 text-xs uppercase bg-[#fcfbfa]"></div>
+            </div>
+            <button onclick="calcularFreteOutroEnderecoReal()" class="w-full bg-[#8c5830] hover:bg-[#724625] text-white font-bold py-1.5 rounded-lg text-xs transition shadow">Calcular Frete para este Endereço</button>
+            <div id="resultado-cotacao-alt" class="text-[11px] text-[#8c7a6b] font-medium">Preencha o CEP e clique para cotar.</div>
+          </div>
+
+          <!-- Bloco 3: Retirada na Empresa -->
+          <div id="bloco-opcao-retirada" class="hidden text-xs text-emerald-900 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 font-medium">
+            🏢 <strong>Retirada na Empresa:</strong> Sem custo de frete. Você será avisado quando o pedido estiver separado para retirada.
+          </div>
         </div>
 
         <!-- OPÇÃO DE PAGAMENTO PIX -->
-        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 space-y-2">
+        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 space-y-1.5">
           <label class="block text-xs font-bold text-emerald-900">⚡ Pagamento via PIX</label>
           <div class="flex items-center justify-between gap-2">
-            <span class="text-xs font-mono bg-white p-2 rounded-lg border border-emerald-300 text-emerald-950 font-bold flex-1 select-all" id="chave-pix-copia">advocaciadigitalinteligente@gmail.com</span>
-            <button onclick="copiarChavePIX()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-2 rounded-lg text-xs shadow transition">Copiar Chave</button>
+            <span class="text-[11px] font-mono bg-white p-2 rounded-lg border border-emerald-300 text-emerald-950 font-bold flex-1 select-all overflow-x-auto" id="chave-pix-copia">advocaciadigitalinteligente@gmail.com</span>
+            <button onclick="copiarChavePIX()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-2 rounded-lg text-xs shadow transition shrink-0">Copiar Chave</button>
           </div>
         </div>
 
@@ -481,9 +475,11 @@
           <label class="block text-[11px] font-bold text-[#3d2c1d]">📝 Observações (Opcional):</label>
           <textarea id="carrinho-obs" rows="2" placeholder="Instruções de entrega ou prazos..." class="w-full border border-[#d3c5b4] rounded-xl p-2 text-xs bg-white"></textarea>
         </div>
+
       </div>
 
-      <div class="p-4 bg-[#efe8de] border-t border-[#e6dbc9] space-y-3">
+      <!-- RODAPÉ FIXO DO MODAL (TOTAIS E BOTÕES DE AÇÃO) -->
+      <div class="p-3.5 md:p-4 bg-[#efe8de] border-t border-[#e6dbc9] space-y-2.5 shrink-0">
         <div class="flex justify-between items-center text-xs text-[#8c7a6b]">
           <span>Subtotal Produtos:</span>
           <span id="modal-subtotal-produtos" class="font-bold text-[#3d2c1d]">R$ 0,00</span>
@@ -492,24 +488,25 @@
           <span>Valor do Frete:</span>
           <span id="modal-valor-frete" class="font-bold text-[#3d2c1d]">R$ 0,00</span>
         </div>
-        <div class="flex justify-between items-center font-black text-lg text-[#3d2c1d] border-t border-[#d3c5b4] pt-2">
+        <div class="flex justify-between items-center font-black text-base md:text-lg text-[#3d2c1d] border-t border-[#d3c5b4] pt-1.5">
           <span>Valor Total Geral:</span>
           <span id="modal-carrinho-total" class="text-[#724625]">R$ 0,00</span>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <button onclick="enviarWhatsAppMantendoCarrinho()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <button onclick="enviarWhatsAppMantendoCarrinho()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
             📲 Enviar por WhatsApp
           </button>
-          <button onclick="gerarPDFMantendoCarrinho()" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
+          <button onclick="gerarPDFMantendoCarrinho()" class="w-full bg-[#3d2c1d] hover:bg-[#5c3a21] text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
             🖨️ Gerar Espelho / PDF
           </button>
         </div>
         <div class="flex gap-2">
-          <button onclick="concluirEstatisticasPedido()" class="flex-1 bg-[#8c5830] hover:bg-[#724625] text-white font-black py-2.5 rounded-xl text-xs shadow transition">Finalizar e Limpar Pedido</button>
-          <button onclick="fecharModalCarrinho()" class="bg-[#e4dacb] hover:bg-[#d8ccbc] text-[#3d2c1d] font-bold px-4 py-2.5 rounded-xl text-xs transition">Voltar</button>
+          <button onclick="concluirEstatisticasPedido()" class="flex-1 bg-[#8c5830] hover:bg-[#724625] text-white font-black py-2 rounded-xl text-xs shadow transition">Finalizar e Limpar Pedido</button>
+          <button onclick="fecharModalCarrinho()" class="bg-[#e4dacb] hover:bg-[#d8ccbc] text-[#3d2c1d] font-bold px-4 py-2 rounded-xl text-xs transition">Voltar</button>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -532,7 +529,7 @@
 
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
     const CEP_ORIGEM = "14940450"; // Ibitinga - SP
-    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGlugi1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2ViaG9vayIsIm1jcDp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
+    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbllzLXJlYWQiLCJjb21wYW5pZXMtd3JpdGUiLCJjb3Vwb25zLXJlYWQiLCJjb3Vwb25zLXdyaXRlIiwibm90aWZpY2F0aW9ucy1yZWFkIiwib3JkZXJzLXJlYWQiLCJwcm9kdWN0cy1yZWFkIiwicHJvZHVjdHMtZGVzdHJveSIsInByb2R1Y3RzLXdyaXRlIiwicHVyY2hhc2VzLXJlYWQiLCJzaGlwcGluZy1jYWxjdWxhdGUiLCJzaGlwcGluZy1jYW5jZWwiLCJzaGlwcGluZy1jaGVja291dCIsInNoaXBwaW5nLWNvbXBhbmllcyIsInNoaXBwaW5nLWdlbmVyYXRlIiwic2hpcHBpbmctcHJldmlldyIsInNoaXBwaW5nLXByaW50Iiwic2hpcHBpbmctc2hhcmUiLCJzaGlwcGluZy10cmFja2luZyIsImVjb21tZXJjZS1zaGlwcGluZyIsInRyYW5zYWN0aW9ucy1yZWFkIiwidXNlcnMtcmVhZCIsInVzZXJzLXdyaXRlIiwid2ViaG9va3MtcmVhZCIsIndlYmhvb2tzLXdyaXRlIiwid2ViaG9va3MtZGVsZXRlIiwiZGRlYWxlci13ZWJob29rIiwibWNwOnVzZSJ9.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
     window.tipoEntregaAtual = 'envio';
     window.valorFreteSelecionado = 0;
@@ -885,10 +882,10 @@
         avisoAtacado.classList.remove('hidden');
         contadorPecas.innerText = `${qtdItensTotal} / 15 pçs`;
         if(qtdItensTotal >= 15) {
-          avisoAtacado.className = "bg-emerald-50 border-t border-emerald-200 p-2.5 text-xs text-emerald-900 font-bold flex justify-between items-center";
+          avisoAtacado.className = "bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-xs text-emerald-900 font-bold flex justify-between items-center";
           contadorPecas.className = "bg-emerald-200 px-2 py-0.5 rounded text-emerald-900";
         } else {
-          avisoAtacado.className = "bg-amber-50 border-t border-amber-200 p-2.5 text-xs text-amber-900 font-bold flex justify-between items-center";
+          avisoAtacado.className = "bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-xs text-amber-900 font-bold flex justify-between items-center";
           contadorPecas.className = "bg-amber-200 px-2 py-0.5 rounded text-amber-900";
         }
       } else {
@@ -906,24 +903,24 @@
       const blocoOutro = document.getElementById('bloco-opcao-outro');
       const blocoRetirada = document.getElementById('bloco-opcao-retirada');
 
-      btnEnvio.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
-      btnOutro.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
-      btnRetirada.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
 
       blocoEnvio.classList.add('hidden');
       blocoOutro.classList.add('hidden');
       blocoRetirada.classList.add('hidden');
 
       if(tipo === 'envio') {
-        btnEnvio.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
         blocoEnvio.classList.remove('hidden');
         window.servicoFreteNome = 'Melhor Envio (Endereço Padrão)';
       } else if(tipo === 'outro') {
-        btnOutro.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
         blocoOutro.classList.remove('hidden');
         window.servicoFreteNome = 'Melhor Envio (Outro Endereço)';
       } else {
-        btnRetirada.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
         blocoRetirada.classList.remove('hidden');
         window.valorFreteSelecionado = 0;
         window.servicoFreteNome = 'Retirada na Empresa (Sem Frete)';
@@ -1059,7 +1056,7 @@
 
       const keys = Object.keys(window.carrinho);
       if(keys.length === 0) {
-        container.innerHTML = '<div class="py-8 text-center text-[#8c7a6b] text-xs font-medium">Seu carrinho está vazio.</div>';
+        container.innerHTML = '<div class="py-6 text-center text-[#8c7a6b] text-xs font-medium">Seu carrinho está vazio.</div>';
         return;
       }
 
@@ -1074,13 +1071,13 @@
         const subtotal = precoUnit * item.qtd;
 
         return `
-          <div class="py-3 flex items-center justify-between gap-3">
+          <div class="py-2.5 flex items-center justify-between gap-3">
             <div class="flex-1">
               <h4 class="font-bold text-xs text-[#3d2c1d]">${prod.nome}</h4>
               <p class="text-[11px] text-[#8c5830] font-bold">${item.cor ? 'Cor: ' + item.cor : 'Opção Padrão'}</p>
               <p class="text-[11px] text-[#8c7a6b]">${item.qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-[#3d2c1d]">R$ ${subtotal.toFixed(2)}</strong></p>
             </div>
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-1 shrink-0">
               <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', -1)" class="w-6 h-6 bg-[#efe8de] rounded text-xs font-bold text-[#3d2c1d]">-</button>
               <span class="w-6 text-center text-xs font-bold">${item.qtd}</span>
               <button onclick="alterarQtdCarrinho('${prod.id}', '${item.cor}', 1)" class="w-6 h-6 bg-[#8c5830] text-white rounded text-xs font-bold">+</button>
