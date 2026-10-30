@@ -219,7 +219,10 @@
       <div id="aba-pedidos" class="space-y-4">
         <div class="bg-white p-4 rounded-2xl border border-[#e6dbc9] shadow-sm flex justify-between items-center flex-wrap gap-3">
           <h3 class="font-bold text-[#3d2c1d] text-sm">Histórico e Controle de Expedição</h3>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="exportarPlanilhaMelhorEnvio()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1.5">
+              📥 Baixar Planilha para Melhor Envio (CSV)
+            </button>
             <label class="text-xs font-semibold text-[#5c3a21]">Filtrar por Status:</label>
             <select id="filtro-status-pedido" onchange="renderGestorPedidos()" class="border border-[#d3c5b4] rounded-lg p-1.5 text-xs font-bold text-[#3d2c1d] bg-[#fcfbfa]">
               <option value="todos">Todos os Pedidos</option>
@@ -394,7 +397,7 @@
 
   </main>
 
-  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO (TOTALMENTE AJUSTADO E RESPONSIVO) -->
+  <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO -->
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 md:p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[95vh] md:max-h-[90vh]">
       
@@ -427,7 +430,7 @@
             </div>
           </div>
 
-          <!-- Bloco 1: Envio no Endereço Padrão (Melhor Envio Real) -->
+          <!-- Bloco 1: Envio no Endereço Padrão -->
           <div id="bloco-opcao-envio" class="space-y-1.5">
             <div class="flex gap-2 items-center">
               <input type="text" id="carrinho-cep" placeholder="CEP de Entrega" class="border border-[#d3c5b4] rounded-xl p-2 text-xs w-32 bg-white font-bold text-[#3d2c1d]">
@@ -478,7 +481,7 @@
 
       </div>
 
-      <!-- RODAPÉ FIXO DO MODAL (TOTAIS E BOTÕES DE AÇÃO) -->
+      <!-- RODAPÉ FIXO DO MODAL -->
       <div class="p-3.5 md:p-4 bg-[#efe8de] border-t border-[#e6dbc9] space-y-2.5 shrink-0">
         <div class="flex justify-between items-center text-xs text-[#8c7a6b]">
           <span>Subtotal Produtos:</span>
@@ -561,6 +564,40 @@
       renderGestorPedidos();
       renderRelatorioComissoes();
     });
+
+    window.exportarPlanilhaMelhorEnvio = function() {
+      const pedidosParaEnviar = window.pedidos.filter(p => p.tipoEntrega !== 'retirada' && (p.status === 'Pendente' || p.status === 'Aguardando Pagamento'));
+
+      if(pedidosParaEnviar.length === 0) {
+        return alert("Nenhum pedido pendente de envio encontrado para exportar.");
+      }
+
+      let csv = "Destinatario;Documento;Email;Telefone;CEP;Endereco;Numero;Bairro;Cidade;UF;Peso_KG;Comprimento_CM;Largura_CM;Altura_CM;Valor_Declarado\n";
+
+      pedidosParaEnviar.forEach(p => {
+        let cepLimpo = "00000000";
+        if(p.enderecoEntrega) {
+          const match = p.enderecoEntrega.match(/CEP:\s*([\d-]+)/);
+          if(match) cepLimpo = match[1].replace(/\D/g, '');
+        }
+
+        const qtdTotal = (p.itens || []).reduce((acc, i) => acc + i.qtd, 0);
+        const peso = Math.max(0.5, qtdTotal * 0.8).toFixed(2);
+
+        csv += `"${p.distribuidor || 'Cliente'}";"${p.documento || ''}";"contato@maju.com";"16996216754";"${cepLimpo}";"${p.enderecoEntrega || ''}";"S/N";"Geral";"Destino";"SP";"${peso}";"40";"30";"20";"${Number(p.valorTotal || 100).toFixed(2)}"\n`;
+      });
+
+      const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `pedidos_melhor_envio_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      alert("✅ Planilha gerada com sucesso! Importe este arquivo no painel do Melhor Envio.");
+    };
 
     window.copiarChavePIX = function() {
       const txt = document.getElementById('chave-pix-copia').innerText;
@@ -1368,94 +1405,6 @@
       }
     };
 
-    window.gerarEtiquetaMelhorEnvioGestor = async function(pedidoId) {
-      const p = window.pedidos.find(x => x.id === pedidoId);
-      if(!p) return alert("Pedido não encontrado.");
-
-      if(p.tipoEntrega === 'retirada') {
-        return alert("Este pedido é de retirada na empresa.");
-      }
-
-      let cepDestinoLimpo = "01001000";
-      if (p.enderecoEntrega) {
-        const matchCep = p.enderecoEntrega.match(/CEP:\s*([\d-]+)/);
-        if (matchCep) {
-          cepDestinoLimpo = matchCep[1].replace(/\D/g, '');
-        }
-      }
-
-      const payloadCarrinho = {
-        service: 1,
-        agency: 1,
-        from: {
-          name: "Maju Enxovais",
-          phone: "16996216754",
-          email: "advocaciadigitalinteligente@gmail.com",
-          document: "00000000000100",
-          address: "Rua da Empresa",
-          number: "100",
-          district: "Centro",
-          city: "Ibitinga",
-          state_abbrev: "SP",
-          postal_code: CEP_ORIGEM
-        },
-        to: {
-          name: p.distribuidor || "Cliente B2B",
-          phone: "11999999999",
-          email: "parceiro@maju.com",
-          document: p.documento || "00000000000",
-          address: p.enderecoEntrega || "Endereço não informado",
-          number: "S/N",
-          district: "Geral",
-          city: "Destino",
-          state_abbrev: "SP",
-          postal_code: cepDestinoLimpo
-        },
-        products: (p.itens || []).map(i => ({
-          name: i.nome,
-          quantity: i.qtd,
-          unitary_value: Number(i.precoUnit) || 0
-        })),
-        volumes: [
-          { height: 20, width: 30, length: 40, weight: 1.5 }
-        ]
-      };
-
-      alert("📦 Enviando pedido para o carrinho do Melhor Envio...");
-
-      try {
-        const urlAlvo = "https://www.melhorenvio.com.br/api/v2/me/cart";
-
-        const response = await fetch(urlAlvo, {
-          method: "POST",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${MELHOR_ENVIO_TOKEN}`,
-            "User-Agent": "MajuEnxovaisB2B"
-          },
-          body: JSON.stringify(payloadCarrinho)
-        });
-
-        if(response.ok) {
-          alert("✅ Etiqueta gerada e adicionada ao carrinho do Melhor Envio com sucesso!");
-          await updateDoc(doc(db, "b2b_pedidos", pedidoId), { status: "Aguardando Pagamento" });
-        } else {
-          const erroData = await response.json();
-          console.error(erroData);
-          throw new Error("Bloqueio de CORS ou requisição recusada.");
-        }
-      } catch(e) {
-        console.warn("Caiu no atalho de cópia:", e);
-        const resumoTexto = `Cliente: ${p.distribuidor} | Doc: ${p.documento} | Endereço: ${p.enderecoEntrega}`;
-        navigator.clipboard.writeText(resumoTexto);
-        if(confirm("Devido às travas de segurança do navegador, os dados foram copiados para a área de transferência.\n\nDeseja abrir o painel do Melhor Envio para colar e finalizar?")) {
-          window.open("https://www.melhorenvio.com.br/app/shipment/create", "_blank");
-          await updateDoc(doc(db, "b2b_pedidos", pedidoId), { status: "Aguardando Pagamento" });
-        }
-      }
-    };
-
     window.renderGestorPedidos = function() {
       const container = document.getElementById('lista-pedidos-gestor');
       if(!container) return;
@@ -1491,10 +1440,6 @@
             <span class="font-semibold text-[#8c5830]">R$ ${Number(i.subtotal || 0).toFixed(2)}</span>
           </div>
         `).join('');
-
-        const botaoEtiqueta = p.tipoEntrega !== 'retirada' ? `
-          <button onclick="gerarEtiquetaMelhorEnvioGestor('${p.id}')" class="text-white font-bold text-xs bg-[#8c5830] hover:bg-[#724625] px-3 py-1.5 rounded-lg shadow transition">🏷️ Gerar Etiqueta Melhor Envio</button>
-        ` : '';
 
         return `
           <div class="bg-white p-4 md:p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
@@ -1533,7 +1478,6 @@
                 </select>
               </div>
               <div class="flex gap-2 items-center flex-wrap">
-                ${botaoEtiqueta}
                 <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2.5 py-1.5 rounded-lg border border-[#d3c5b4]">🖨️ PDF</button>
                 <button onclick="deletarPedido('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
               </div>
