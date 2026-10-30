@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MAJU ENXOVAIS - Portal B2B de Distribuidores</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- BIBLIOTECA SHEETJS PARA GERAR ARQUIVOS .XLSX COMPATÍVEIS COM O MELHOR ENVIO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     html, body { overflow-x: hidden; touch-action: manipulation; }
     input, select, textarea { font-size: 16px !important; }
@@ -221,7 +223,7 @@
           <h3 class="font-bold text-[#3d2c1d] text-sm">Histórico e Controle de Expedição</h3>
           <div class="flex items-center gap-2 flex-wrap">
             <button onclick="exportarPlanilhaMelhorEnvio()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1.5">
-              📥 Baixar Planilha para Melhor Envio (CSV)
+              📊 Baixar Planilha para Melhor Envio (.XLSX)
             </button>
             <label class="text-xs font-semibold text-[#5c3a21]">Filtrar por Status:</label>
             <select id="filtro-status-pedido" onchange="renderGestorPedidos()" class="border border-[#d3c5b4] rounded-lg p-1.5 text-xs font-bold text-[#3d2c1d] bg-[#fcfbfa]">
@@ -565,6 +567,7 @@
       renderRelatorioComissoes();
     });
 
+    // EXPORTAÇÃO EXCEL (.XLSX) PARA O MELHOR ENVIO
     window.exportarPlanilhaMelhorEnvio = function() {
       const pedidosParaEnviar = window.pedidos.filter(p => p.tipoEntrega !== 'retirada' && (p.status === 'Pendente' || p.status === 'Aguardando Pagamento'));
 
@@ -572,9 +575,7 @@
         return alert("Nenhum pedido pendente de envio encontrado para exportar.");
       }
 
-      let csv = "Destinatario;Documento;Email;Telefone;CEP;Endereco;Numero;Bairro;Cidade;UF;Peso_KG;Comprimento_CM;Largura_CM;Altura_CM;Valor_Declarado\n";
-
-      pedidosParaEnviar.forEach(p => {
+      const dadosPlanilha = pedidosParaEnviar.map(p => {
         let cepLimpo = "00000000";
         if(p.enderecoEntrega) {
           const match = p.enderecoEntrega.match(/CEP:\s*([\d-]+)/);
@@ -584,19 +585,32 @@
         const qtdTotal = (p.itens || []).reduce((acc, i) => acc + i.qtd, 0);
         const peso = Math.max(0.5, qtdTotal * 0.8).toFixed(2);
 
-        csv += `"${p.distribuidor || 'Cliente'}";"${p.documento || ''}";"contato@maju.com";"16996216754";"${cepLimpo}";"${p.enderecoEntrega || ''}";"S/N";"Geral";"Destino";"SP";"${peso}";"40";"30";"20";"${Number(p.valorTotal || 100).toFixed(2)}"\n`;
+        return {
+          "Destinatario": p.distribuidor || 'Cliente',
+          "Documento": p.documento || '',
+          "Email": "contato@maju.com",
+          "Telefone": "16996216754",
+          "CEP": cepLimpo,
+          "Endereco": p.enderecoEntrega || '',
+          "Numero": "S/N",
+          "Bairro": "Geral",
+          "Cidade": "Destino",
+          "UF": "SP",
+          "Peso_KG": peso,
+          "Comprimento_CM": 40,
+          "Largura_CM": 30,
+          "Altura_CM": 20,
+          "Valor_Declarado": Number(p.valorTotal || 100).toFixed(2)
+        };
       });
 
-      const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", `pedidos_melhor_envio_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const worksheet = XLSX.utils.json_to_sheet(dadosPlanilha);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Envios");
 
-      alert("✅ Planilha gerada com sucesso! Importe este arquivo no painel do Melhor Envio.");
+      XLSX.writeFile(workbook, `pedidos_melhor_envio_${new Date().toISOString().slice(0,10)}.xlsx`);
+
+      alert("✅ Planilha Excel (.xlsx) gerada com sucesso! Importe este arquivo diretamente no painel do Melhor Envio.");
     };
 
     window.copiarChavePIX = function() {
