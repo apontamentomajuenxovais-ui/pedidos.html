@@ -223,7 +223,7 @@
           <h3 class="font-bold text-[#3d2c1d] text-sm">Histórico e Controle de Expedição</h3>
           <div class="flex items-center gap-2 flex-wrap">
             <button onclick="exportarPlanilhaMelhorEnvio()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-black px-3.5 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1.5">
-              📊 Baixar Planilha para Melhor Envio (.XLSX)
+              📊 Baixar Planilha Padrão Melhor Envio (.XLSX)
             </button>
             <label class="text-xs font-semibold text-[#5c3a21]">Filtrar por Status:</label>
             <select id="filtro-status-pedido" onchange="renderGestorPedidos()" class="border border-[#d3c5b4] rounded-lg p-1.5 text-xs font-bold text-[#3d2c1d] bg-[#fcfbfa]">
@@ -567,7 +567,7 @@
       renderRelatorioComissoes();
     });
 
-    // EXPORTAÇÃO EXCEL (.XLSX) PARA O MELHOR ENVIO
+    // EXPORTAÇÃO EXCEL (.XLSX) EXATAMENTE NO FORMATO DO MODELO DO MELHOR ENVIO
     window.exportarPlanilhaMelhorEnvio = function() {
       const pedidosParaEnviar = window.pedidos.filter(p => p.tipoEntrega !== 'retirada' && (p.status === 'Pendente' || p.status === 'Aguardando Pagamento'));
 
@@ -583,34 +583,27 @@
         }
 
         const qtdTotal = (p.itens || []).reduce((acc, i) => acc + i.qtd, 0);
-        const peso = Math.max(0.5, qtdTotal * 0.8).toFixed(2);
+        const peso = Math.max(0.5, qtdTotal * 0.8);
 
         return {
-          "Destinatario": p.distribuidor || 'Cliente',
-          "Documento": p.documento || '',
-          "Email": "contato@maju.com",
-          "Telefone": "16996216754",
-          "CEP": cepLimpo,
-          "Endereco": p.enderecoEntrega || '',
-          "Numero": "S/N",
-          "Bairro": "Geral",
-          "Cidade": "Destino",
-          "UF": "SP",
-          "Peso_KG": peso,
-          "Comprimento_CM": 40,
-          "Largura_CM": 30,
-          "Altura_CM": 20,
-          "Valor_Declarado": Number(p.valorTotal || 100).toFixed(2)
+          "CEP DESTINO": cepLimpo,
+          "PESO (KG)": peso,
+          "ALTURA (CM)": 20,
+          "LARGURA (CM)": 30,
+          "COMPRIMENTO (CM)": 40,
+          "AVISO DE RECEBIMENTO (AR)": "NÃO",
+          "MÃO PRÓPRIA (MP)": "NÃO",
+          "VALOR SEGURADO": Number(p.valorTotal || 100)
         };
       });
 
       const worksheet = XLSX.utils.json_to_sheet(dadosPlanilha);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Envios");
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Planilha1");
 
-      XLSX.writeFile(workbook, `pedidos_melhor_envio_${new Date().toISOString().slice(0,10)}.xlsx`);
+      XLSX.writeFile(workbook, `modelo_upload_envios_${new Date().toISOString().slice(0,10)}.xlsx`);
 
-      alert("✅ Planilha Excel (.xlsx) gerada com sucesso! Importe este arquivo diretamente no painel do Melhor Envio.");
+      alert("✅ Planilha gerada exatamente no modelo oficial do Melhor Envio (.xlsx)! Agora é só importar no painel deles.");
     };
 
     window.copiarChavePIX = function() {
@@ -1761,4 +1754,4 @@
     atualizarViews();
   </script>
 </body>
-</html>
+</html>oooooooooooooooooooooooooo
