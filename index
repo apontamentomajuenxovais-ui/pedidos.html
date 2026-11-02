@@ -1,1 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MAJU ENXOVAIS - Fábrica e Distribuição B2B</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { overflow-x: hidden; touch-action: manipulation; }
+  </style>
+</head>
+<body class="bg-[#f7f3ec] text-[#3d2c1d] font-sans min-h-screen flex flex-col justify-between">
 
+  <!-- NAVBAR -->
+  <nav class="bg-[#3d2c1d] text-[#f7f3ec] shadow-xl sticky top-0 z-50 border-b border-[#5c3a21]">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="bg-[#f7f3ec] px-2.5 py-1.5 rounded-xl shadow-inner flex items-center justify-center">
+          <img src="logo.png" alt="Maju Enxovais" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
+          <div id="logo-fallback" class="hidden bg-[#5c3a21] text-[#f7f3ec] px-3 py-1.5 rounded-lg font-black text-sm tracking-wider">MAJU</div>
+        </div>
+        <div>
+          <h1 class="font-black text-base md:text-lg leading-tight tracking-wide text-[#f7f3ec]">MAJU ENXOVAIS</h1>
+          <p class="text-xs text-[#d4b59d] font-medium">Excelência em Cama, Mesa e Banho</p>
+        </div>
+      </div>
+      <div>
+        <a href="portal.html" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-5 py-2.5 rounded-xl text-xs md:text-sm shadow-md transition">
+          🚀 Acessar Portal B2B
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION / BANNER PRINCIPAL -->
+  <header class="max-w-7xl mx-auto px-6 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div class="space-y-6 text-center md:text-left">
+      <span class="bg-[#efe8de] text-[#5c3a21] text-xs font-black px-3 py-1.5 rounded-full border border-[#d3c5b4] uppercase tracking-wider">Vendas Exclusivas para Parceiros</span>
+      <h2 class="text-3xl md:text-5xl font-black text-[#3d2c1d] leading-tight">
+        Seu Negócio com os <span class="text-[#8c5830]">Melhores Enxovais</span> do Mercado
+      </h2>
+      <p class="text-sm md:text-base text-[#8c7a6b] leading-relaxed">
+        Plataforma oficial para lojistas, atacadistas e afiliados. Tenha acesso a tabelas de preços diferenciadas, condições especiais e logística integrada via Melhor Envio diretamente da capital nacional do bordado.
+      </p>
+      <div class="pt-2 flex flex-wrap gap-3 justify-center md:justify-start">
+        <a href="portal.html" class="bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black px-6 py-3.5 rounded-2xl shadow-lg text-sm transition transform active:scale-95">
+          Entrar / Cadastrar no Portal
+        </a>
+      </div>
+    </div>
+    <div class="flex justify-center">
+      <div class="bg-white p-4 rounded-3xl shadow-xl border border-[#e6dbc9] max-w-md w-full text-center space-y-4">
+        <div class="h-64 bg-[#efe8de] rounded-2xl flex items-center justify-center overflow-hidden border border-[#d3c5b4]">
+          <img src="logo.png" alt="Maju Enxovais" class="w-3/4 h-3/4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80'">
+        </div>
+        <h3 class="font-black text-lg text-[#3d2c1d]">Tecnologia e Qualidade</h3>
+        <p class="text-xs text-[#8c7a6b]">Parceria sólida para impulsionar suas vendas no varejo, atacado ou rede de afiliados.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- SEÇÕES / MODALIDADES DE PARCERIA -->
+  <section class="bg-white py-12 border-t border-b border-[#e6dbc9]">
+    <div class="max-w-7xl mx-auto px-6 space-y-8">
+      <div class="text-center space-y-2">
+        <h3 class="text-2xl font-black text-[#3d2c1d]">Modalidades de Atendimento</h3>
+        <p class="text-xs text-[#8c7a6b]">Escolha o perfil que melhor se adapta ao seu modelo de negócio</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#fcfbfa] p-6 rounded-2xl border border-[#e6dbc9] space-y-3 shadow-sm">
+          <div class="w-10 h-10 bg-[#3d2c1d] text-[#d4b59d] font-black rounded-xl flex items-center justify-center text-base">🛒</div>
+          <h4 class="font-black text-base text-[#3d2c1d]">E-commerce</h4>
+          <p class="text-xs text-[#8c7a6b] leading-relaxed">Ideal para lojistas que compram com agilidade e flexibilidade para revenda direta ao consumidor final.</p>
+          <a href="portal.html" class="inline-block text-xs font-bold text-[#8c5830] hover:underline pt-2">Acessar Tabela E-commerce →</a>
+        </div>
+
+        <div class="bg-[#fcfbfa] p-6 rounded-2xl border border-[#e6dbc9] space-y-3 shadow-sm">
+          <div class="w-10 h-10 bg-[#8c5830] text-white font-black rounded-xl flex items-center justify-center text-base">📦</div>
+          <h4 class="font-black text-base text-[#3d2c1d]">Atacado (Mín. 15 pçs)</h4>
+          <p class="text-xs text-[#8c7a6b] leading-relaxed">Condições altamente competitivas para grandes volumes. Requisito mínimo de 15 peças variadas ou iguais por pedido.</p>
+          <a href="portal.html" class="inline-block text-xs font-bold text-[#8c5830] hover:underline pt-2">Ver Condições de Atacado →</a>
+        </div>
+
+        <div class="bg-[#fcfbfa] p-6 rounded-2xl border border-[#e6dbc9] space-y-3 shadow-sm">
+          <div class="w-10 h-10 bg-emerald-800 text-white font-black rounded-xl flex items-center justify-center text-base">🤝</div>
+          <h4 class="font-black text-base text-[#3d2c1d]">Afiliados</h4>
+          <p class="text-xs text-[#8c7a6b] leading-relaxed">Sistema de comissionamento automático por vendas, com painel de relatórios e controle transparente de acertos.</p>
+          <a href="portal.html" class="inline-block text-xs font-bold text-emerald-800 hover:underline pt-2">Cadastrar como Afiliado →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#3d2c1d] text-[#d4b59d] py-8 text-center text-xs space-y-2 border-t border-[#5c3a21]">
+    <p class="font-bold">MAJU ENXOVAIS - Todos os direitos reservados.</p>
+    <p class="text-[11px] text-[#d4b59d]/70">Plataforma B2B integrada com Melhor Envio e Firebase.</p>
+  </footer>
+
+</body>
+</html>
