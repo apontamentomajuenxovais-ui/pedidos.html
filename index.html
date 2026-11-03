@@ -2,101 +2,266 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MAJU ENXOVAIS - Fábrica e Distribuição B2B</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maju Enxovais | Vendas no Atacado, E-commerce e Afiliados</title>
+  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html, body { overflow-x: hidden; touch-action: manipulation; }
-  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandDark: '#724625',
+            brandMedium: '#8c5830',
+            brandLight: '#a66e3e',
+            brandBg: '#fdfbf7'
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-[#f7f3ec] text-[#3d2c1d] font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-brandBg text-gray-800 font-sans antialiased">
 
-  <!-- NAVBAR -->
-  <nav class="bg-[#3d2c1d] text-[#f7f3ec] shadow-xl sticky top-0 z-50 border-b border-[#5c3a21]">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <div class="bg-[#f7f3ec] px-2.5 py-1.5 rounded-xl shadow-inner flex items-center justify-center">
-          <img src="logo.png" alt="Maju Enxovais" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
-          <div id="logo-fallback" class="hidden bg-[#5c3a21] text-[#f7f3ec] px-3 py-1.5 rounded-lg font-black text-sm tracking-wider">MAJU</div>
+  <!-- CABEÇALHO / HEADER -->
+  <header class="w-full bg-brandDark text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-brandMedium rounded-full flex items-center justify-center font-bold text-white border border-brandLight">
+          M
         </div>
-        <div>
-          <h1 class="font-black text-base md:text-lg leading-tight tracking-wide text-[#f7f3ec]">MAJU ENXOVAIS</h1>
-          <p class="text-xs text-[#d4b59d] font-medium">Excelência em Cama, Mesa e Banho</p>
-        </div>
+        <span class="text-xl font-bold tracking-wide">Maju Enxovais</span>
       </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="#promocao-relampago" class="hover:text-amber-200 transition">Promoção Relâmpago</a>
+        <a href="#black-friday" class="hover:text-amber-200 transition">Black Friday</a>
+        <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
+      </nav>
       <div>
-        <a href="portal.html" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-5 py-2.5 rounded-xl text-xs md:text-sm shadow-md transition">
+        <a href="portal.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition shadow">
           🚀 Acessar Portal B2B
         </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- HERO SECTION / BANNER PRINCIPAL -->
-  <header class="max-w-7xl mx-auto px-6 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-    <div class="space-y-6 text-center md:text-left">
-      <span class="bg-[#efe8de] text-[#5c3a21] text-xs font-black px-3 py-1.5 rounded-full border border-[#d3c5b4] uppercase tracking-wider">Vendas Exclusivas para Parceiros</span>
-      <h2 class="text-3xl md:text-5xl font-black text-[#3d2c1d] leading-tight">
-        Seu Negócio com os <span class="text-[#8c5830]">Melhores Enxovais</span> do Mercado
-      </h2>
-      <p class="text-sm md:text-base text-[#8c7a6b] leading-relaxed">
+  <!-- BANNER DE PROMOÇÃO RELÂMPAGO POR QUANTIDADE (TOP BANNER) -->
+  <section id="promocao-relampago" class="w-full py-6 px-4 bg-brandDark text-white">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 bg-brandMedium p-6 md:p-8 rounded-2xl shadow-xl border border-brandLight">
+      
+      <!-- Lado Esquerdo: Detalhes da Promoção -->
+      <div class="flex-1 space-y-3 text-center md:text-left">
+        <div class="inline-flex items-center gap-2 bg-red-600 text-white text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full shadow">
+          ⚡ PROMOÇÃO RELÂMPAGO LIMITADA
+        </div>
+        <h2 class="text-2xl md:text-4xl font-black leading-tight">
+          Jogo de Lençol Prático Premium
+        </h2>
+        <p class="text-amber-100 text-sm md:text-base">
+          Oferta especial exclusiva para os primeiros compradores no portal! Preço de fábrica garantido.
+        </p>
+      </div>
+
+      <!-- Lado Direito: Contador de Estoque e Ação -->
+      <div class="flex flex-col items-center md:items-end gap-4 w-full md:w-auto">
+        
+        <!-- Box do Contador de Unidades Restantes -->
+        <div class="bg-black/30 p-4 rounded-xl border border-white/20 text-center w-full md:w-72">
+          <span class="text-xs uppercase font-semibold text-amber-200 block mb-1">Peças Restantes na Promoção</span>
+          <div class="flex items-center justify-center gap-1 font-mono text-3xl font-black text-yellow-300">
+            <span id="promo-stock-count">50</span> / <span id="promo-total-count">50</span> un.
+          </div>
+          <!-- Barra de Progresso Visual -->
+          <div class="w-full bg-gray-700 h-3 rounded-full mt-3 overflow-hidden">
+            <div id="promo-progress-bar" class="bg-yellow-400 h-3 rounded-full transition-all duration-500" style="width: 100%;"></div>
+          </div>
+        </div>
+
+        <!-- Botão de Ação -->
+        <a href="portal.html" class="w-full md:w-auto px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl transition shadow-lg text-center transform hover:-translate-y-0.5">
+          Garantir Meu Pedido Agora ➔
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SEÇÃO PRINCIPAL / HERO -->
+  <section class="max-w-7xl mx-auto px-4 py-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="flex-1 space-y-4">
+      <span class="text-xs font-extrabold uppercase tracking-widest text-brandMedium bg-amber-100 px-3 py-1 rounded-full">
+        Vendas Diretas de Fábrica
+      </span>
+      <h1 class="text-3xl md:text-5xl font-black text-brandDark leading-tight">
+        Seu Negócio com os Melhores Enxovais do Mercado
+      </h1>
+      <p class="text-gray-600 text-base md:text-lg">
         Plataforma oficial para lojistas, atacadistas e afiliados. Tenha acesso a tabelas de preços diferenciadas, condições especiais e logística integrada via Melhor Envio diretamente da capital nacional do bordado.
       </p>
-      <div class="pt-2 flex flex-wrap gap-3 justify-center md:justify-start">
-        <a href="portal.html" class="bg-[#3d2c1d] hover:bg-[#5c3a21] text-[#f7f3ec] font-black px-6 py-3.5 rounded-2xl shadow-lg text-sm transition transform active:scale-95">
+      <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
+        <a href="portal.html" class="bg-brandDark hover:bg-brandMedium text-white font-bold px-6 py-3 rounded-xl transition shadow">
           Entrar / Cadastrar no Portal
         </a>
       </div>
     </div>
-    <div class="flex justify-center">
-      <div class="bg-white p-4 rounded-3xl shadow-xl border border-[#e6dbc9] max-w-md w-full text-center space-y-4">
-        <div class="h-64 bg-[#efe8de] rounded-2xl flex items-center justify-center overflow-hidden border border-[#d3c5b4]">
-          <img src="logo.png" alt="Maju Enxovais" class="w-3/4 h-3/4 object-contain" onerror="this.src='https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80'">
+    
+    <div class="w-full md:w-1/2 flex justify-center">
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100 w-full max-w-md text-center">
+        <div class="bg-amber-50 h-48 rounded-xl flex flex-col items-center justify-center border border-amber-200/50 mb-4">
+          <div class="w-16 h-16 bg-brandDark rounded-full flex items-center justify-center text-white text-2xl font-bold mb-2">
+            M
+          </div>
+          <span class="text-brandDark font-bold text-xl">Maju Enxovais</span>
         </div>
-        <h3 class="font-black text-lg text-[#3d2c1d]">Tecnologia e Qualidade</h3>
-        <p class="text-xs text-[#8c7a6b]">Parceria sólida para impulsionar suas vendas no varejo, atacado ou rede de afiliados.</p>
-      </div>
-    </div>
-  </header>
-
-  <!-- SEÇÕES / MODALIDADES DE PARCERIA -->
-  <section class="bg-white py-12 border-t border-b border-[#e6dbc9]">
-    <div class="max-w-7xl mx-auto px-6 space-y-8">
-      <div class="text-center space-y-2">
-        <h3 class="text-2xl font-black text-[#3d2c1d]">Modalidades de Atendimento</h3>
-        <p class="text-xs text-[#8c7a6b]">Escolha o perfil que melhor se adapta ao seu modelo de negócio</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-[#fcfbfa] p-6 rounded-2xl border border-[#e6dbc9] space-y-3 shadow-sm">
-          <div class="w-10 h-10 bg-[#3d2c1d] text-[#d4b59d] font-black rounded-xl flex items-center justify-center text-base">🛒</div>
-          <h4 class="font-black text-base text-[#3d2c1d]">E-commerce</h4>
-          <p class="text-xs text-[#8c7a6b] leading-relaxed">Ideal para lojistas que compram com agilidade e flexibilidade para revenda direta ao consumidor final.</p>
-          <a href="portal.html" class="inline-block text-xs font-bold text-[#8c5830] hover:underline pt-2">Acessar Tabela E-commerce →</a>
-        </div>
-
-        <div class="bg-[#fcfbfa] p-6 rounded-2xl border border-[#e6dbc9] space-y-3 shadow-sm">
-          <div class="w-10 h-10 bg-[#8c5830] text-white font-black rounded-xl flex items-center justify-center text-base">📦</div>
-          <h4 class="font-black text-base text-[#3d2c1d]">Atacado (Mín. 15 pçs)</h4>
-          <p class="text-xs text-[#8c7a6b] leading-relaxed">Condições altamente competitivas para grandes volumes. Requisito mínimo de 15 peças variadas ou iguais por pedido.</p>
-          <a href="portal.html" class="inline-block text-xs font-bold text-[#8c5830] hover:underline pt-2">Ver Condições de Atacado →</a>
-        </div>
-
-        <div class="bg-[#fcfbfa] p-6 rounded-2xl border border-[#e6dbc9] space-y-3 shadow-sm">
-          <div class="w-10 h-10 bg-emerald-800 text-white font-black rounded-xl flex items-center justify-center text-base">🤝</div>
-          <h4 class="font-black text-base text-[#3d2c1d]">Afiliados</h4>
-          <p class="text-xs text-[#8c7a6b] leading-relaxed">Sistema de comissionamento automático por vendas, com painel de relatórios e controle transparente de acertos.</p>
-          <a href="portal.html" class="inline-block text-xs font-bold text-emerald-800 hover:underline pt-2">Cadastrar como Afiliado →</a>
-        </div>
+        <h3 class="font-bold text-lg text-brandDark">Tecnologia e Qualidade</h3>
+        <p class="text-xs text-gray-500 mt-1">Parceria sólida para impulsar suas vendas no varejo, atacado ou rede de afiliados.</p>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="bg-[#3d2c1d] text-[#d4b59d] py-8 text-center text-xs space-y-2 border-t border-[#5c3a21]">
-    <p class="font-bold">MAJU ENXOVAIS - Todos os direitos reservados.</p>
-    <p class="text-[11px] text-[#d4b59d]/70">Plataforma B2B integrada com Melhor Envio e Firebase.</p>
+  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY -->
+  <section id="black-friday" class="w-full py-12 bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center space-y-2 mb-10">
+        <span class="bg-red-600 text-white text-xs font-black uppercase px-3 py-1 rounded-full tracking-widest">
+          ESPECIAL BLACK FRIDAY
+        </span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-yellow-400">
+          Ofertas Imperdíveis de Temporada
+        </h2>
+        <p class="text-gray-400 max-w-xl mx-auto text-sm">
+          Aproveite as condições de atacado reduzidas e margens exclusivas para revenda e afiliados durante o período promocional.
+        </p>
+      </div>
+
+      <!-- Grid de Produtos Black Friday -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
+          <div>
+            <div class="relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center">
+              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+                -40% OFF
+              </span>
+              <span class="text-gray-400 text-sm">Imagem do Produto</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Kit Enxoval Casal 4 Peças</h3>
+            <p class="text-xs text-gray-400 mb-3">Tecido Microfibra 180 Fios macio de alta durabilidade.</p>
+          </div>
+          <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
+            <div>
+              <span class="text-xs text-gray-400 line-through block">De: R$ 89,90</span>
+              <span class="text-xl font-extrabold text-yellow-400">R$ 53,90</span>
+            </div>
+            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition">
+              Comprar no Portal
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
+          <div>
+            <div class="relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center">
+              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+                -35% OFF
+              </span>
+              <span class="text-gray-400 text-sm">Imagem do Produto</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Jogo de Toalhas de Banho 5 Peças</h3>
+            <p class="text-xs text-gray-400 mb-3">100% Algodão com felpa encorpada e alto poder de absorção.</p>
+          </div>
+          <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
+            <div>
+              <span class="text-xs text-gray-400 line-through block">De: R$ 119,90</span>
+              <span class="text-xl font-extrabold text-yellow-400">R$ 77,90</span>
+            </div>
+            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition">
+              Comprar no Portal
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
+          <div>
+            <div class="relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center">
+              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+                ATACADO 15+ PEÇAS
+              </span>
+              <span class="text-gray-400 text-sm">Imagem do Produto</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Travesseiro Toque de Pluma</h3>
+            <p class="text-xs text-gray-400 mb-3">Conforto hotelaria, antialérgico e lavável em máquina.</p>
+          </div>
+          <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
+            <div>
+              <span class="text-xs text-gray-400 line-through block">De: R$ 45,00</span>
+              <span class="text-xl font-extrabold text-yellow-400">R$ 29,90</span>
+            </div>
+            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition">
+              Comprar no Portal
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RODAPÉ / FOOTER -->
+  <footer class="w-full bg-brandDark text-amber-100 py-8 border-t border-brandMedium">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-sm">
+      <div>
+        <p class="font-bold text-white">Maju Enxovais</p>
+        <p class="text-xs text-amber-200/80">Plataforma integrada de e-commerce, atacado e programa de afiliados.</p>
+      </div>
+      <div class="text-xs text-amber-200/60">
+        &copy; 2026 Maju Enxovais. Todos os direitos reservados.
+      </div>
+    </div>
   </footer>
 
+  <!-- SCRIPT DINÂMICO CONECTADO AO PAINEL DO GESTOR -->
+  <script>
+    function updatePromoBannerUI() {
+      // Busca a quantidade total e atual salvas pelo Gestor no portal
+      const TOTAL_PROMO_STOCK = parseInt(localStorage.getItem('promo_total_limit')) || 50;
+      let currentStock = localStorage.getItem('promo_lencol_stock');
+      
+      if (currentStock === null) {
+        currentStock = TOTAL_PROMO_STOCK;
+        localStorage.setItem('promo_lencol_stock', currentStock);
+      } else {
+        currentStock = parseInt(currentStock);
+      }
+
+      const stockElement = document.getElementById('promo-stock-count');
+      const totalElement = document.getElementById('promo-total-count');
+      const progressBar = document.getElementById('promo-progress-bar');
+      
+      if (stockElement) stockElement.innerText = currentStock;
+      if (totalElement) totalElement.innerText = TOTAL_PROMO_STOCK;
+
+      if (progressBar) {
+        const percentage = Math.max(0, (currentStock / TOTAL_PROMO_STOCK) * 100);
+        progressBar.style.width = percentage + '%';
+      }
+
+      if (currentStock <= 0) {
+        const bannerSection = document.getElementById('promocao-relampago');
+        if (bannerSection) {
+          bannerSection.innerHTML = `
+            <div class="max-w-6xl mx-auto text-center p-6 bg-red-900/90 text-white rounded-2xl border border-red-700 shadow-xl">
+              <h3 class="text-2xl font-bold">⚠️ Promoção Relâmpago Esgotada!</h3>
+              <p class="text-sm text-red-200 mt-1">As peças em oferta já foram arrematadas. Fique atento às próximas promoções!</p>
+              <a href="portal.html" class="inline-block mt-4 px-6 py-2 bg-yellow-500 text-gray-900 font-bold rounded-xl text-sm">Ir para o Portal</a>
+            </div>
+          `;
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', updatePromoBannerUI);
+  </script>
 </body>
 </html>
