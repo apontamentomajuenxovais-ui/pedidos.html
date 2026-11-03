@@ -45,16 +45,15 @@
     </div>
   </header>
 
-  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Gerenciada pelo Painel Admin) -->
-  <section id="banners-home" class="w-full py-6 px-4">
+  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Com limite de tamanho rigoroso para evitar fotos gigantes) -->
+  <section id="banners-home" class="w-full py-4 px-4">
     <div id="hero-banners-container" class="max-w-6xl mx-auto space-y-4">
-      <!-- Os banners cadastrados no painel do gestor aparecerão aqui automaticamente -->
       <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
     </div>
   </section>
 
   <!-- SEÇÃO PRINCIPAL / HERO -->
-  <section id="sobre" class="max-w-7xl mx-auto px-4 py-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
+  <section id="sobre" class="max-w-7xl mx-auto px-4 py-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
     <div class="flex-1 space-y-4">
       <span class="text-xs font-extrabold uppercase tracking-widest text-brandMedium bg-amber-100 px-3 py-1 rounded-full">
         Vendas Diretas de Fábrica
@@ -101,16 +100,16 @@
         </p>
       </div>
 
-      <!-- Grid de Produtos Black Friday -->
+      <!-- Grid de Produtos com Links para Categorias do Portal -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
           <div>
-            <a href="portal.html" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
+            <a href="portal.html?cat=cama" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
               <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
                 -40% OFF
               </span>
-              <span class="text-gray-400 text-sm group-hover:scale-105 transition">ACESSAR NO PORTAL</span>
+              <span class="text-gray-400 text-sm group-hover:scale-105 transition">VER PRODUTOS DE CAMA</span>
             </a>
             <h3 class="text-lg font-bold text-white mb-1">Kit Enxoval Casal 4 Peças</h3>
             <p class="text-xs text-gray-400 mb-3">Tecido Microfibra 180 Fios macio de alta durabilidade.</p>
@@ -120,7 +119,7 @@
               <span class="text-xs text-gray-400 line-through block">De: R$ 89,90</span>
               <span class="text-xl font-extrabold text-yellow-400">R$ 53,90</span>
             </div>
-            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+            <a href="portal.html?cat=cama" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
               Comprar no Portal ➔
             </a>
           </div>
@@ -128,11 +127,11 @@
 
         <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
           <div>
-            <a href="portal.html" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
+            <a href="portal.html?cat=banho" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
               <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
                 -35% OFF
               </span>
-              <span class="text-gray-400 text-sm group-hover:scale-105 transition">ACESSAR NO PORTAL</span>
+              <span class="text-gray-400 text-sm group-hover:scale-105 transition">VER PRODUTOS DE BANHO</span>
             </a>
             <h3 class="text-lg font-bold text-white mb-1">Jogo de Toalhas de Banho 5 Peças</h3>
             <p class="text-xs text-gray-400 mb-3">100% Algodão com felpa encorpada e alto poder de absorção.</p>
@@ -142,7 +141,7 @@
               <span class="text-xs text-gray-400 line-through block">De: R$ 119,90</span>
               <span class="text-xl font-extrabold text-yellow-400">R$ 77,90</span>
             </div>
-            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+            <a href="portal.html?cat=banho" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
               Comprar no Portal ➔
             </a>
           </div>
@@ -150,11 +149,11 @@
 
         <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
           <div>
-            <a href="portal.html" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
+            <a href="portal.html?busca=travesseiro" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
               <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
                 ATACADO 15+ PEÇAS
               </span>
-              <span class="text-gray-400 text-sm group-hover:scale-105 transition">ACESSAR NO PORTAL</span>
+              <span class="text-gray-400 text-sm group-hover:scale-105 transition">BUSCAR TRAVESSEIRO</span>
             </a>
             <h3 class="text-lg font-bold text-white mb-1">Travesseiro Toque de Pluma</h3>
             <p class="text-xs text-gray-400 mb-3">Conforto hotelaria, antialérgico e lavável em máquina.</p>
@@ -164,7 +163,7 @@
               <span class="text-xs text-gray-400 line-through block">De: R$ 45,00</span>
               <span class="text-xl font-extrabold text-yellow-400">R$ 29,90</span>
             </div>
-            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+            <a href="portal.html?busca=travesseiro" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
               Comprar no Portal ➔
             </a>
           </div>
@@ -187,7 +186,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE PARA CARREGAR OS BANNERS -->
+  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE (Com restrição de tamanho max-h para o banner) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -215,10 +214,10 @@
 
         if(snapshot.empty) {
           container.innerHTML = `
-            <div class="bg-[#724625] text-white p-8 rounded-2xl text-center shadow-xl border border-[#a66e3e]">
-              <h3 class="text-xl font-bold">Maju Enxovais - Vendas e Promoções</h3>
+            <div class="bg-[#724625] text-white p-6 rounded-2xl text-center shadow-lg border border-[#a66e3e]">
+              <h3 class="text-lg font-bold">Maju Enxovais - Vendas e Promoções</h3>
               <p class="text-xs text-amber-100 mt-1">Acesse o portal para conferir as condições exclusivas.</p>
-              <a href="portal.html" class="inline-block mt-4 px-6 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl text-xs transition">Acessar o Portal B2B ➔</a>
+              <a href="portal.html" class="inline-block mt-3 px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl text-xs transition">Acessar o Portal B2B ➔</a>
             </div>
           `;
           return;
@@ -227,10 +226,12 @@
         let htmlBanners = '';
         snapshot.forEach(docSnap => {
           const b = docSnap.data();
+          const linkDestino = b.linkUrl && b.linkUrl.trim() !== '' ? b.linkUrl : 'portal.html';
+
           htmlBanners += `
-            <div class="relative overflow-hidden rounded-2xl shadow-xl border border-[#a66e3e] group">
-              <a href="${b.linkUrl || 'portal.html'}" class="block">
-                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-auto object-cover max-h-[450px] group-hover:scale-102 transition duration-500">
+            <div class="relative w-full h-[220px] sm:h-[300px] md:h-[380px] overflow-hidden rounded-2xl shadow-lg border border-[#a66e3e] bg-stone-900 group">
+              <a href="${linkDestino}" class="block w-full h-full">
+                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-full object-cover object-center group-hover:scale-102 transition duration-500">
               </a>
             </div>
           `;
