@@ -33,7 +33,7 @@
         <span class="text-xl font-bold tracking-wide">Maju Enxovais</span>
       </div>
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#promocao-relampago" class="hover:text-amber-200 transition">Promoção Relâmpago</a>
+        <a href="#banners-container" class="hover:text-amber-200 transition">Promoções</a>
         <a href="#black-friday" class="hover:text-amber-200 transition">Black Friday</a>
         <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
       </nav>
@@ -45,46 +45,10 @@
     </div>
   </header>
 
-  <!-- BANNER DE PROMOÇÃO RELÂMPAGO POR QUANTIDADE (TOP BANNER) -->
-  <section id="promocao-relampago" class="w-full py-6 px-4 bg-brandDark text-white">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 bg-brandMedium p-6 md:p-8 rounded-2xl shadow-xl border border-brandLight">
-      
-      <!-- Lado Esquerdo: Detalhes da Promoção -->
-      <div class="flex-1 space-y-3 text-center md:text-left">
-        <div class="inline-flex items-center gap-2 bg-red-600 text-white text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full shadow">
-          ⚡ PROMOÇÃO RELÂMPAGO LIMITADA
-        </div>
-        <h2 class="text-2xl md:text-4xl font-black leading-tight">
-          Jogo de Lençol Prático Premium
-        </h2>
-        <p class="text-amber-100 text-sm md:text-base">
-          Oferta especial exclusiva para os primeiros compradores no portal! Preço de fábrica garantido.
-        </p>
-      </div>
-
-      <!-- Lado Direito: Contador de Estoque e Ação -->
-      <div class="flex flex-col items-center md:items-end gap-4 w-full md:w-auto">
-        
-        <!-- Box do Contador de Unidades Restantes -->
-        <div class="bg-black/30 p-4 rounded-xl border border-white/20 text-center w-full md:w-72">
-          <span class="text-xs uppercase font-semibold text-amber-200 block mb-1">Peças Restantes na Promoção</span>
-          <div class="flex items-center justify-center gap-1 font-mono text-3xl font-black text-yellow-300">
-            <span id="promo-stock-count">50</span> / <span id="promo-total-count">50</span> un.
-          </div>
-          <!-- Barra de Progresso Visual -->
-          <div class="w-full bg-gray-700 h-3 rounded-full mt-3 overflow-hidden">
-            <div id="promo-progress-bar" class="bg-yellow-400 h-3 rounded-full transition-all duration-500" style="width: 100%;"></div>
-          </div>
-        </div>
-
-        <!-- Botão de Ação -->
-        <a href="portal.html" class="w-full md:w-auto px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl transition shadow-lg text-center transform hover:-translate-y-0.5">
-          Garantir Meu Pedido Agora ➔
-        </a>
-
-      </div>
-
-    </div>
+  <!-- CONTAINER DE BANNERS DINÂMICOS (GERENCIADOS PELO GESTOR NO PORTAL) -->
+  <section id="banners-container" class="w-full max-w-7xl mx-auto px-4 py-6 space-y-4">
+    <!-- Os banners cadastrados no Firebase serão injetados aqui automaticamente -->
+    <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
   </section>
 
   <!-- SEÇÃO PRINCIPAL / HERO -->
@@ -221,47 +185,63 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DINÂMICO CONECTADO AO PAINEL DO GESTOR -->
-  <script>
-    function updatePromoBannerUI() {
-      // Busca a quantidade total e atual salvas pelo Gestor no portal
-      const TOTAL_PROMO_STOCK = parseInt(localStorage.getItem('promo_total_limit')) || 50;
-      let currentStock = localStorage.getItem('promo_lencol_stock');
-      
-      if (currentStock === null) {
-        currentStock = TOTAL_PROMO_STOCK;
-        localStorage.setItem('promo_lencol_stock', currentStock);
-      } else {
-        currentStock = parseInt(currentStock);
-      }
+  <!-- SCRIPT PARA CARREGAR OS BANNERS DO FIREBASE FIRESTORE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-      const stockElement = document.getElementById('promo-stock-count');
-      const totalElement = document.getElementById('promo-total-count');
-      const progressBar = document.getElementById('promo-progress-bar');
-      
-      if (stockElement) stockElement.innerText = currentStock;
-      if (totalElement) totalElement.innerText = TOTAL_PROMO_STOCK;
+    const firebaseConfig = {
+      apiKey: "AIzaSyDl1gUSxd2v3iirh4Eozs9KibkQ6M_NcIc",
+      authDomain: "maju-enxovais.firebaseapp.com",
+      projectId: "maju-enxovais",
+      storageBucket: "maju-enxovais.firebasestorage.app",
+      messagingSenderId: "397338285103",
+      appId: "1:397338285103:web:d76f389f34e8bc6c4b22da",
+      measurementId: "G-991NH0S2Q1"
+    };
 
-      if (progressBar) {
-        const percentage = Math.max(0, (currentStock / TOTAL_PROMO_STOCK) * 100);
-        progressBar.style.width = percentage + '%';
-      }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-      if (currentStock <= 0) {
-        const bannerSection = document.getElementById('promocao-relampago');
-        if (bannerSection) {
-          bannerSection.innerHTML = `
-            <div class="max-w-6xl mx-auto text-center p-6 bg-red-900/90 text-white rounded-2xl border border-red-700 shadow-xl">
-              <h3 class="text-2xl font-bold">⚠️ Promoção Relâmpago Esgotada!</h3>
-              <p class="text-sm text-red-200 mt-1">As peças em oferta já foram arrematadas. Fique atento às próximas promoções!</p>
-              <a href="portal.html" class="inline-block mt-4 px-6 py-2 bg-yellow-500 text-gray-900 font-bold rounded-xl text-sm">Ir para o Portal</a>
+    async function carregarBannersHome() {
+      const container = document.getElementById('banners-container');
+      if(!container) return;
+
+      try {
+        const q = query(collection(db, "b2b_banners"), orderBy("ordem", "asc"));
+        const snapshot = await getDocs(q);
+
+        if(snapshot.empty) {
+          container.innerHTML = `
+            <div class="bg-brandMedium text-white p-6 rounded-2xl text-center shadow-lg border border-brandLight">
+              <h3 class="text-xl font-bold">Maju Enxovais - Vendas e Atacado</h3>
+              <p class="text-sm text-amber-100 mt-1">Cadastre banners promocionais direto no Painel do Gestor!</p>
+              <a href="portal.html" class="inline-block mt-3 px-5 py-2 bg-yellow-500 text-gray-900 font-bold rounded-xl text-xs">Acessar Portal</a>
             </div>
           `;
+          return;
         }
+
+        let htmlBanners = '';
+        snapshot.forEach(docSnap => {
+          const b = docSnap.data();
+          htmlBanners += `
+            <div class="w-full overflow-hidden rounded-2xl shadow-lg border border-brandLight transition transform hover:scale-[1.01]">
+              <a href="${b.linkUrl || 'portal.html'}" class="block">
+                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-auto object-cover max-h-[450px]">
+              </a>
+            </div>
+          `;
+        });
+
+        container.innerHTML = htmlBanners;
+      } catch(err) {
+        console.error("Erro ao carregar banners:", err);
+        container.innerHTML = '<div class="text-center text-xs text-red-500">Erro ao carregar banners promocionais.</div>';
       }
     }
 
-    document.addEventListener('DOMContentLoaded', updatePromoBannerUI);
+    document.addEventListener('DOMContentLoaded', carregarBannersHome);
   </script>
 </body>
 </html>
