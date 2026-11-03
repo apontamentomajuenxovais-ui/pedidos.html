@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maju Enxovais | Vendas no Atacado, E-commerce e Afiliados</title>
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -23,19 +22,16 @@
 </head>
 <body class="bg-brandBg text-gray-800 font-sans antialiased">
 
-  <!-- CABEÇALHO / HEADER -->
+  <!-- CABEÇALHO -->
   <header class="w-full bg-brandDark text-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-brandMedium rounded-full flex items-center justify-center font-bold text-white border border-brandLight">
-          M
-        </div>
+        <div class="w-10 h-10 bg-brandMedium rounded-full flex items-center justify-center font-bold text-white border border-brandLight">M</div>
         <span class="text-xl font-bold tracking-wide">Maju Enxovais</span>
       </div>
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#banners-home" class="hover:text-amber-200 transition">Promoções</a>
-        <a href="#black-friday" class="hover:text-amber-200 transition">Black Friday</a>
-        <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
+        <a href="#black-friday" class="hover:text-amber-200 transition">Ofertas Black Friday</a>
+        <a href="portal.html" class="hover:text-amber-200 transition">Portal B2B</a>
       </nav>
       <div>
         <a href="portal.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition shadow">
@@ -45,48 +41,8 @@
     </div>
   </header>
 
-  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Tamanho controlado + Texto legível sobreposto) -->
-  <section id="banners-home" class="w-full py-4 px-4">
-    <div id="hero-banners-container" class="max-w-6xl mx-auto space-y-4">
-      <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO PRINCIPAL / HERO -->
-  <section id="sobre" class="max-w-7xl mx-auto px-4 py-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
-    <div class="flex-1 space-y-4">
-      <span class="text-xs font-extrabold uppercase tracking-widest text-brandMedium bg-amber-100 px-3 py-1 rounded-full">
-        Vendas Diretas de Fábrica
-      </span>
-      <h1 class="text-3xl md:text-5xl font-black text-brandDark leading-tight">
-        Seu Negócio com os Melhores Enxovais do Mercado
-      </h1>
-      <p class="text-gray-600 text-base md:text-lg">
-        Plataforma oficial para lojistas, atacadistas e afiliados. Tenha acesso a tabelas de preços diferenciadas, condições especiais e logística integrada via Melhor Envio diretamente da capital nacional do bordado.
-      </p>
-      <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
-        <a href="portal.html" class="bg-brandDark hover:bg-brandMedium text-white font-bold px-6 py-3 rounded-xl transition shadow">
-          Entrar / Cadastrar no Portal
-        </a>
-      </div>
-    </div>
-    
-    <div class="w-full md:w-1/2 flex justify-center">
-      <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100 w-full max-w-md text-center">
-        <div class="bg-amber-50 h-48 rounded-xl flex flex-col items-center justify-center border border-amber-200/50 mb-4">
-          <div class="w-16 h-16 bg-brandDark rounded-full flex items-center justify-center text-white text-2xl font-bold mb-2">
-            M
-          </div>
-          <span class="text-brandDark font-bold text-xl">Maju Enxovais</span>
-        </div>
-        <h3 class="font-bold text-lg text-brandDark">Tecnologia e Qualidade</h3>
-        <p class="text-xs text-gray-500 mt-1">Parceria sólida para impulsar suas vendas no varejo, atacado ou rede de afiliados.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY -->
-  <section id="black-friday" class="w-full py-12 bg-gray-900 text-white">
+  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY (DINÂMICA VIA GESTOR) -->
+  <section id="black-friday" class="w-full py-12 bg-gray-900 text-white min-h-[400px]">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center space-y-2 mb-10">
         <span class="bg-red-600 text-white text-xs font-black uppercase px-3 py-1 rounded-full tracking-widest">
@@ -96,100 +52,27 @@
           Ofertas Imperdíveis de Temporada
         </h2>
         <p class="text-gray-400 max-w-xl mx-auto text-sm">
-          Aproveite as condições de atacado reduzidas e margens exclusivas para revenda e afiliados durante o período promocional.
+          Aproveite as condições de atacado reduzidas e margens exclusivas para revenda e afiliados.
         </p>
       </div>
 
-      <!-- Grid de Produtos com Links para Categorias do Portal -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
-          <div>
-            <a href="portal.html?cat=cama" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
-              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
-                -40% OFF
-              </span>
-              <span class="text-gray-400 text-sm group-hover:scale-105 transition">VER PRODUTOS DE CAMA</span>
-            </a>
-            <h3 class="text-lg font-bold text-white mb-1">Kit Enxoval Casal 4 Peças</h3>
-            <p class="text-xs text-gray-400 mb-3">Tecido Microfibra 180 Fios macio de alta durabilidade.</p>
-          </div>
-          <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
-            <div>
-              <span class="text-xs text-gray-400 line-through block">De: R$ 89,90</span>
-              <span class="text-xl font-extrabold text-yellow-400">R$ 53,90</span>
-            </div>
-            <a href="portal.html?cat=cama" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
-              Comprar no Portal ➔
-            </a>
-          </div>
-        </div>
-
-        <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
-          <div>
-            <a href="portal.html?cat=banho" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
-              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
-                -35% OFF
-              </span>
-              <span class="text-gray-400 text-sm group-hover:scale-105 transition">VER PRODUTOS DE BANHO</span>
-            </a>
-            <h3 class="text-lg font-bold text-white mb-1">Jogo de Toalhas de Banho 5 Peças</h3>
-            <p class="text-xs text-gray-400 mb-3">100% Algodão com felpa encorpada e alto poder de absorção.</p>
-          </div>
-          <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
-            <div>
-              <span class="text-xs text-gray-400 line-through block">De: R$ 119,90</span>
-              <span class="text-xl font-extrabold text-yellow-400">R$ 77,90</span>
-            </div>
-            <a href="portal.html?cat=banho" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
-              Comprar no Portal ➔
-            </a>
-          </div>
-        </div>
-
-        <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
-          <div>
-            <a href="portal.html?busca=travesseiro" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
-              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
-                ATACADO 15+ PEÇAS
-              </span>
-              <span class="text-gray-400 text-sm group-hover:scale-105 transition">BUSCAR TRAVESSEIRO</span>
-            </a>
-            <h3 class="text-lg font-bold text-white mb-1">Travesseiro Toque de Pluma</h3>
-            <p class="text-xs text-gray-400 mb-3">Conforto hotelaria, antialérgico e lavável em máquina.</p>
-          </div>
-          <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
-            <div>
-              <span class="text-xs text-gray-400 line-through block">De: R$ 45,00</span>
-              <span class="text-xl font-extrabold text-yellow-400">R$ 29,90</span>
-            </div>
-            <a href="portal.html?busca=travesseiro" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
-              Comprar no Portal ➔
-            </a>
-          </div>
-        </div>
-
+      <!-- GRID ONDE AS OFERTAS CADASTRADAS NO PAINEL APARECERÃO -->
+      <div id="grid-black-friday-dinamico" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-8 text-gray-400 text-sm">Carregando ofertas promocionais...</div>
       </div>
     </div>
   </section>
 
-  <!-- RODAPÉ / FOOTER -->
   <footer class="w-full bg-brandDark text-amber-100 py-8 border-t border-brandMedium">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-sm">
-      <div>
-        <p class="font-bold text-white">Maju Enxovais</p>
-        <p class="text-xs text-amber-200/80">Plataforma integrada de e-commerce, atacado e programa de afiliados.</p>
-      </div>
-      <div class="text-xs text-amber-200/60">
-        &copy; 2026 Maju Enxovais. Todos os direitos reservados.
-      </div>
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-amber-200/60">
+      &copy; 2026 Maju Enxovais. Todos os direitos reservados.
     </div>
   </footer>
 
-  <!-- SCRIPT DINÂMICO FIREBASE (Banner com altura limitada a 250px-300px + Texto em destaque) -->
+  <!-- SCRIPT PARA CARREGAR AS OFERTAS DO FIREBASE NA HOME -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDl1gUSxd2v3iirh4Eozs9KibkQ6M_NcIc",
@@ -204,60 +87,45 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    async function carregarBannersHome() {
-      const container = document.getElementById('hero-banners-container');
+    onSnapshot(collection(db, "promocoes_blackfriday"), (snapshot) => {
+      const container = document.getElementById('grid-black-friday-dinamico');
       if(!container) return;
 
-      try {
-        const q = query(collection(db, "banners"), orderBy("ordem", "asc"));
-        const snapshot = await getDocs(q);
-
-        if(snapshot.empty) {
-          container.innerHTML = `
-            <div class="bg-[#724625] text-white p-6 rounded-2xl text-center shadow-lg border border-[#a66e3e]">
-              <h3 class="text-lg font-bold">Maju Enxovais - Vendas e Promoções</h3>
-              <p class="text-xs text-amber-100 mt-1">Acesse o portal para conferir as condições exclusivas.</p>
-              <a href="portal.html" class="inline-block mt-3 px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl text-xs transition">Acessar o Portal B2B ➔</a>
-            </div>
-          `;
-          return;
-        }
-
-        let htmlBanners = '';
-        snapshot.forEach(docSnap => {
-          const b = docSnap.data();
-          const linkDestino = b.linkUrl && b.linkUrl.trim() !== '' ? b.linkUrl : 'portal.html';
-          const tituloBanner = b.titulo || 'Promoção Exclusiva Maju Enxovais';
-
-          htmlBanners += `
-            <div class="relative w-full h-[180px] sm:h-[240px] md:h-[280px] overflow-hidden rounded-2xl shadow-xl border border-[#a66e3e] bg-stone-900 group">
-              <!-- Imagem de fundo com ajuste perfeito -->
-              <img src="${b.imageUrl}" alt="${tituloBanner}" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
-              
-              <!-- Camada escura (Overlay) para destacar o texto -->
-              <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent flex items-center p-6 md:p-10">
-                <div class="max-w-lg text-white space-y-2">
-                  <span class="bg-amber-500 text-gray-900 text-[10px] md:text-xs font-black uppercase px-2.5 py-0.5 rounded-md tracking-wider">Destaque</span>
-                  <h2 class="text-xl sm:text-2xl md:text-3xl font-black leading-tight drop-shadow-md text-white">${tituloBanner}</h2>
-                  <div class="pt-2">
-                    <a href="${linkDestino}" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
-                      Confira no Portal ➔
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-        });
-
-        container.innerHTML = htmlBanners;
-      } catch(err) {
-        console.error("Erro ao carregar banners:", err);
-        container.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Erro ao carregar banners promocionais.</div>';
+      if(snapshot.empty) {
+        container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-400 text-sm">Nenhuma oferta promocional ativa no momento.</div>';
+        return;
       }
-    }
 
-    document.addEventListener('DOMContentLoaded', carregarBannersHome);
+      let html = '';
+      snapshot.forEach(docSnap => {
+        const o = docSnap.data();
+        html += `
+          <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition shadow-lg">
+            <div>
+              <a href="${o.linkUrl || 'portal.html'}" class="block relative h-48 rounded-xl mb-4 overflow-hidden group border border-gray-700">
+                <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-black px-2.5 py-1 rounded z-10 shadow">
+                  ${o.tag || 'PROMOÇÃO'}
+                </span>
+                <img src="${o.imageUrl}" alt="${o.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              </a>
+              <h3 class="text-lg font-bold text-white mb-1">${o.nome}</h3>
+              <p class="text-xs text-gray-400 mb-3">${o.descricao || ''}</p>
+            </div>
+            <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
+              <div>
+                ${o.precoDe ? `<span class="text-xs text-gray-400 line-through block">De: R$ ${Number(o.precoDe).toFixed(2)}</span>` : ''}
+                <span class="text-xl font-extrabold text-yellow-400">R$ ${Number(o.precoPor).toFixed(2)}</span>
+              </div>
+              <a href="${o.linkUrl || 'portal.html'}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+                Comprar no Portal ➔
+              </a>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    });
   </script>
 </body>
 </html>
