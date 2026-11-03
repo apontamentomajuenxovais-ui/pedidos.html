@@ -328,7 +328,7 @@
         <div id="container-relatorio-comissoes" class="space-y-3 divide-y divide-[#f5efe6]"></div>
       </div>
 
-      <!-- ABA 3: PRODUTOS -->
+      <!-- ABA 3: PRODUTOS (COM SELEÇÃO DE CATEGORIA E TABELAS DE PREÇO) -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
           <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
@@ -336,21 +336,22 @@
             <input type="hidden" id="cad-prod-id" value="">
             <div>
               <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome do Produto</label>
-              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 4 Peças" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
+            
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Categoria</label>
-                <select id="cad-prod-categoria" required class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
-                  <option value="cama">Cama</option>
-                  <option value="mesa">Mesa</option>
-                  <option value="banho">Banho</option>
-                  <option value="decoracao">Decoração</option>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Categoria do Produto</label>
+                <select id="cad-prod-categoria" required class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa] font-bold text-[#3d2c1d]">
+                  <option value="cama">🛏️ Cama</option>
+                  <option value="mesa">🍽️ Mesa</option>
+                  <option value="banho">🚿 Banho</option>
+                  <option value="decoracao">✨ Decoração</option>
                 </select>
               </div>
               <div>
                 <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
-                <input type="text" id="cad-prod-desc" placeholder="Ex: Contém 4 peças" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-[#fcfbfa]">
+                <input type="text" id="cad-prod-desc" placeholder="Ex: Microfibra 180 fios" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
               </div>
             </div>
 
@@ -411,8 +412,8 @@
               <input type="url" id="cad-banner-img" required placeholder="https://exemplo.com/banner.jpg" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Link de Destino (Ao clicar no banner)</label>
-              <input type="text" id="cad-banner-link" placeholder="portal.html ou outra URL" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Link de Destino (Ex: portal.html?cat=cama)</label>
+              <input type="text" id="cad-banner-link" placeholder="portal.html?cat=cama" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
             <div>
               <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Ordem de Exibição (Número)</label>
@@ -436,25 +437,19 @@
   <div id="modal-carrinho" class="fixed inset-0 bg-[#3d2c1d]/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 md:p-4">
     <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-[#e6dbc9] overflow-hidden flex flex-col max-h-[95vh] md:max-h-[90vh]">
       
-      <!-- CABEÇALHO DO MODAL -->
       <div class="p-3.5 md:p-4 bg-[#3d2c1d] text-[#f7f3ec] flex justify-between items-center border-b border-[#5c3a21] shrink-0">
         <h3 class="font-bold text-sm md:text-base flex items-center gap-2">🛒 Seu Pedido</h3>
         <button onclick="fecharModalCarrinho()" class="text-[#d4b59d] hover:text-white font-bold text-lg px-2">✕</button>
       </div>
 
-      <!-- CORPO COM ROLAGEM FLUIDA -->
       <div class="p-3.5 md:p-4 overflow-y-auto flex-1 space-y-3.5">
-        
-        <!-- ITENS DO CARRINHO -->
         <div id="container-itens-carrinho" class="divide-y divide-[#f5efe6]"></div>
 
-        <!-- AVISO DE ATACADO (MÍNIMO 15 PEÇAS) -->
         <div id="aviso-atacado-minimo" class="hidden bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-xs text-amber-900 font-bold flex justify-between items-center">
           <span>⚠️ Pedido no Atacado exige mínimo de 15 peças.</span>
           <span id="contador-pecas-atacado" class="bg-amber-200 px-2 py-0.5 rounded">0 / 15 pçs</span>
         </div>
 
-        <!-- SEÇÃO DE FRETE / RETIRADA / ENDEREÇO ALTERNATIVO -->
         <div class="bg-[#fcfbfa] p-3.5 rounded-2xl border border-[#e6dbc9] space-y-2.5">
           <div class="flex justify-between items-center flex-wrap gap-2">
             <label class="block text-xs font-bold text-[#3d2c1d]">🚚 Modalidade de Entrega:</label>
@@ -465,7 +460,6 @@
             </div>
           </div>
 
-          <!-- Bloco 1: Envio no Endereço Padrão -->
           <div id="bloco-opcao-envio" class="space-y-1.5">
             <div class="flex gap-2 items-center">
               <input type="text" id="carrinho-cep" placeholder="CEP de Entrega" class="border border-[#d3c5b4] rounded-xl p-2 text-xs w-32 bg-white font-bold text-[#3d2c1d]">
@@ -474,7 +468,6 @@
             <div id="resultado-cotacao-frete" class="text-[11px] text-[#8c7a6b] font-medium">Insira o CEP para cotar via Melhor Envio (Origem: 14940-450).</div>
           </div>
 
-          <!-- Bloco 2: Outro Endereço de Entrega -->
           <div id="bloco-opcao-outro" class="hidden space-y-2 bg-white p-3 rounded-xl border border-[#e6dbc9]">
             <label class="block text-[11px] font-bold text-[#3d2c1d]">📍 Novo Endereço de Entrega:</label>
             <div class="grid grid-cols-3 gap-1.5">
@@ -493,13 +486,11 @@
             <div id="resultado-cotacao-alt" class="text-[11px] text-[#8c7a6b] font-medium">Preencha o CEP e clique para cotar.</div>
           </div>
 
-          <!-- Bloco 3: Retirada na Empresa -->
           <div id="bloco-opcao-retirada" class="hidden text-xs text-emerald-900 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 font-medium">
             🏢 <strong>Retirada na Empresa:</strong> Sem custo de frete. Você será avisado quando o pedido estiver separado para retirada.
           </div>
         </div>
 
-        <!-- OPÇÃO DE PAGAMENTO PIX -->
         <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 space-y-1.5">
           <label class="block text-xs font-bold text-emerald-900">⚡ Pagamento via PIX</label>
           <div class="flex items-center justify-between gap-2">
@@ -508,7 +499,6 @@
           </div>
         </div>
 
-        <!-- Observação (com 4 linhas) -->
         <div class="space-y-1">
           <label class="block text-[11px] font-bold text-[#3d2c1d]">📝 Observações (Opcional):</label>
           <textarea id="carrinho-obs" rows="4" placeholder="Instruções de entrega ou prazos..." class="w-full border border-[#d3c5b4] rounded-xl p-2 text-xs bg-white"></textarea>
@@ -516,7 +506,6 @@
 
       </div>
 
-      <!-- RODAPÉ FIXO DO MODAL -->
       <div class="p-3.5 md:p-4 bg-[#efe8de] border-t border-[#e6dbc9] space-y-2.5 shrink-0">
         <div class="flex justify-between items-center text-xs text-[#8c7a6b]">
           <span>Subtotal Produtos:</span>
@@ -566,8 +555,8 @@
     const db = getFirestore(app);
 
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
-    const CEP_ORIGEM = "14940450"; // Ibitinga - SP
-    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZдерcy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGlugi1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGlugi1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2VicG9vayIsIm1jcjp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
+    const CEP_ORIGEM = "14940450";
+    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2VicG9vayIsIm1jcjp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
     window.tipoEntregaAtual = 'envio';
     window.valorFreteSelecionado = 0;
@@ -606,7 +595,24 @@
       renderGestorBanners();
     });
 
-    // EXPORTAÇÃO EXCEL (.XLSX) EXATAMENTE NO FORMATO DO MODELO DO MELHOR ENVIO
+    // VERIFICA SE HÁ PARÂMETROS NA URL DE CATEGORIA OU PESQUISA
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('cat');
+      const buscaParam = urlParams.get('busca');
+
+      if (catParam) {
+        window.categoriaFiltroAtual = catParam;
+      }
+      if (buscaParam) {
+        setTimeout(() => {
+          const inputBusca = document.getElementById('input-busca-produto');
+          if (inputBusca) inputBusca.value = buscaParam;
+        }, 300);
+      }
+    });
+
+    // EXPORTAÇÃO EXCEL (.XLSX) EXATAMENTE NO FORMATO DO MELHOR ENVIO
     window.exportarPlanilhaMelhorEnvio = function() {
       const pedidosParaEnviar = window.pedidos.filter(p => p.tipoEntrega !== 'retirada' && (p.status === 'Pendente' || p.status === 'Aguardando Pagamento'));
 
@@ -642,13 +648,13 @@
 
       XLSX.writeFile(workbook, `modelo_upload_envios_${new Date().toISOString().slice(0,10)}.xlsx`);
 
-      alert("✅ Planilha gerada exatamente no modelo oficial do Melhor Envio (.xlsx)! Agora é só importar no painel deles.");
+      alert("✅ Planilha gerada no modelo oficial do Melhor Envio (.xlsx)!");
     };
 
     window.copiarChavePIX = function() {
       const txt = document.getElementById('chave-pix-copia').innerText;
       navigator.clipboard.writeText(txt);
-      alert("Chave PIX copiada para a área de transferência!");
+      alert("Chave PIX copiada!");
     };
 
     window.filtrarCategoria = function(cat, btnEl) {
@@ -894,7 +900,7 @@
       });
 
       if(listaFiltrada.length === 0) {
-        grid.innerHTML = '<div class="col-span-full p-8 text-center text-[#8c7a6b] font-medium">Nenhum produto encontrado.</div>';
+        grid.innerHTML = '<div class="col-span-full p-8 text-center text-[#8c7a6b] font-medium">Nenhum produto encontrado nesta categoria.</div>';
         return;
       }
 
@@ -1137,7 +1143,7 @@
         return;
       }
 
-      resultadoDiv.innerHTML = "🔄 Consultando API do Melhor Envio (Origem: 14940-450)...";
+      resultadoDiv.innerHTML = "🔄 Consultando API do Melhor Envio...";
 
       const resultado = await consultarAPIHubMelhorEnvio(cepInput);
       const valorFrete = parseFloat(resultado.price);
@@ -1161,7 +1167,7 @@
       const resultadoDiv = document.getElementById('resultado-cotacao-alt');
 
       if(cep.length !== 8 || !rua || !num || !cidade || !uf) {
-        alert("Por favor, preencha todos os campos obrigatórios do novo endereço.");
+        alert("Por favor, preencha todos os campos do novo endereço.");
         return;
       }
 
@@ -1242,7 +1248,7 @@
       keys.forEach(k => { qtdItensTotal += window.carrinho[k].qtd; });
 
       if(chaveEscala === 'escala_2' && qtdItensTotal < 15) {
-        alert(`⚠️ O perfil de Atacado exige um pedido mínimo de 15 peças. Você tem apenas ${qtdItensTotal} peça(s) no carrinho.`);
+        alert(`⚠️ O perfil de Atacado exige um pedido mínimo de 15 peças. Você tem apenas ${qtdItensTotal} peça(s).`);
         return null;
       }
 
