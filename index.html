@@ -33,7 +33,7 @@
         <span class="text-xl font-bold tracking-wide">Maju Enxovais</span>
       </div>
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#banners-container" class="hover:text-amber-200 transition">Promoções</a>
+        <a href="#banners-home" class="hover:text-amber-200 transition">Promoções</a>
         <a href="#black-friday" class="hover:text-amber-200 transition">Black Friday</a>
         <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
       </nav>
@@ -45,14 +45,16 @@
     </div>
   </header>
 
-  <!-- CONTAINER DE BANNERS DINÂMICOS (GERENCIADOS PELO GESTOR NO PORTAL) -->
-  <section id="banners-container" class="w-full max-w-7xl mx-auto px-4 py-6 space-y-4">
-    <!-- Os banners cadastrados no Firebase serão injetados aqui automaticamente -->
-    <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
+  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Gerenciada pelo Painel Admin) -->
+  <section id="banners-home" class="w-full py-6 px-4">
+    <div id="hero-banners-container" class="max-w-6xl mx-auto space-y-4">
+      <!-- Os banners cadastrados no painel do gestor aparecerão aqui automaticamente -->
+      <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
+    </div>
   </section>
 
   <!-- SEÇÃO PRINCIPAL / HERO -->
-  <section class="max-w-7xl mx-auto px-4 py-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
+  <section id="sobre" class="max-w-7xl mx-auto px-4 py-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
     <div class="flex-1 space-y-4">
       <span class="text-xs font-extrabold uppercase tracking-widest text-brandMedium bg-amber-100 px-3 py-1 rounded-full">
         Vendas Diretas de Fábrica
@@ -104,12 +106,12 @@
         
         <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
           <div>
-            <div class="relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center">
-              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+            <a href="portal.html" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
+              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
                 -40% OFF
               </span>
-              <span class="text-gray-400 text-sm">Imagem do Produto</span>
-            </div>
+              <span class="text-gray-400 text-sm group-hover:scale-105 transition">ACESSAR NO PORTAL</span>
+            </a>
             <h3 class="text-lg font-bold text-white mb-1">Kit Enxoval Casal 4 Peças</h3>
             <p class="text-xs text-gray-400 mb-3">Tecido Microfibra 180 Fios macio de alta durabilidade.</p>
           </div>
@@ -118,20 +120,20 @@
               <span class="text-xs text-gray-400 line-through block">De: R$ 89,90</span>
               <span class="text-xl font-extrabold text-yellow-400">R$ 53,90</span>
             </div>
-            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition">
-              Comprar no Portal
+            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+              Comprar no Portal ➔
             </a>
           </div>
         </div>
 
         <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
           <div>
-            <div class="relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center">
-              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+            <a href="portal.html" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
+              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
                 -35% OFF
               </span>
-              <span class="text-gray-400 text-sm">Imagem do Produto</span>
-            </div>
+              <span class="text-gray-400 text-sm group-hover:scale-105 transition">ACESSAR NO PORTAL</span>
+            </a>
             <h3 class="text-lg font-bold text-white mb-1">Jogo de Toalhas de Banho 5 Peças</h3>
             <p class="text-xs text-gray-400 mb-3">100% Algodão com felpa encorpada e alto poder de absorção.</p>
           </div>
@@ -140,20 +142,20 @@
               <span class="text-xs text-gray-400 line-through block">De: R$ 119,90</span>
               <span class="text-xl font-extrabold text-yellow-400">R$ 77,90</span>
             </div>
-            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition">
-              Comprar no Portal
+            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+              Comprar no Portal ➔
             </a>
           </div>
         </div>
 
         <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition">
           <div>
-            <div class="relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center">
-              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+            <a href="portal.html" class="block relative bg-gray-700 h-40 rounded-xl mb-4 flex items-center justify-center overflow-hidden group">
+              <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
                 ATACADO 15+ PEÇAS
               </span>
-              <span class="text-gray-400 text-sm">Imagem do Produto</span>
-            </div>
+              <span class="text-gray-400 text-sm group-hover:scale-105 transition">ACESSAR NO PORTAL</span>
+            </a>
             <h3 class="text-lg font-bold text-white mb-1">Travesseiro Toque de Pluma</h3>
             <p class="text-xs text-gray-400 mb-3">Conforto hotelaria, antialérgico e lavável em máquina.</p>
           </div>
@@ -162,8 +164,8 @@
               <span class="text-xs text-gray-400 line-through block">De: R$ 45,00</span>
               <span class="text-xl font-extrabold text-yellow-400">R$ 29,90</span>
             </div>
-            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition">
-              Comprar no Portal
+            <a href="portal.html" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+              Comprar no Portal ➔
             </a>
           </div>
         </div>
@@ -185,7 +187,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT PARA CARREGAR OS BANNERS DO FIREBASE FIRESTORE -->
+  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE PARA CARREGAR OS BANNERS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -204,19 +206,19 @@
     const db = getFirestore(app);
 
     async function carregarBannersHome() {
-      const container = document.getElementById('banners-container');
+      const container = document.getElementById('hero-banners-container');
       if(!container) return;
 
       try {
-        const q = query(collection(db, "b2b_banners"), orderBy("ordem", "asc"));
+        const q = query(collection(db, "banners"), orderBy("ordem", "asc"));
         const snapshot = await getDocs(q);
 
         if(snapshot.empty) {
           container.innerHTML = `
-            <div class="bg-brandMedium text-white p-6 rounded-2xl text-center shadow-lg border border-brandLight">
-              <h3 class="text-xl font-bold">Maju Enxovais - Vendas e Atacado</h3>
-              <p class="text-sm text-amber-100 mt-1">Cadastre banners promocionais direto no Painel do Gestor!</p>
-              <a href="portal.html" class="inline-block mt-3 px-5 py-2 bg-yellow-500 text-gray-900 font-bold rounded-xl text-xs">Acessar Portal</a>
+            <div class="bg-[#724625] text-white p-8 rounded-2xl text-center shadow-xl border border-[#a66e3e]">
+              <h3 class="text-xl font-bold">Maju Enxovais - Vendas e Promoções</h3>
+              <p class="text-xs text-amber-100 mt-1">Acesse o portal para conferir as condições exclusivas.</p>
+              <a href="portal.html" class="inline-block mt-4 px-6 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl text-xs transition">Acessar o Portal B2B ➔</a>
             </div>
           `;
           return;
@@ -226,9 +228,9 @@
         snapshot.forEach(docSnap => {
           const b = docSnap.data();
           htmlBanners += `
-            <div class="w-full overflow-hidden rounded-2xl shadow-lg border border-brandLight transition transform hover:scale-[1.01]">
+            <div class="relative overflow-hidden rounded-2xl shadow-xl border border-[#a66e3e] group">
               <a href="${b.linkUrl || 'portal.html'}" class="block">
-                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-auto object-cover max-h-[450px]">
+                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-auto object-cover max-h-[450px] group-hover:scale-102 transition duration-500">
               </a>
             </div>
           `;
@@ -237,7 +239,7 @@
         container.innerHTML = htmlBanners;
       } catch(err) {
         console.error("Erro ao carregar banners:", err);
-        container.innerHTML = '<div class="text-center text-xs text-red-500">Erro ao carregar banners promocionais.</div>';
+        container.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Erro ao carregar banners promocionais.</div>';
       }
     }
 
