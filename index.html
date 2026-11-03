@@ -45,7 +45,7 @@
     </div>
   </header>
 
-  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Com limite de tamanho rigoroso para evitar fotos gigantes) -->
+  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Tamanho controlado + Texto legível sobreposto) -->
   <section id="banners-home" class="w-full py-4 px-4">
     <div id="hero-banners-container" class="max-w-6xl mx-auto space-y-4">
       <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
@@ -186,7 +186,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE (Com restrição de tamanho max-h para o banner) -->
+  <!-- SCRIPT DINÂMICO FIREBASE (Banner com altura limitada a 250px-300px + Texto em destaque) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -227,12 +227,25 @@
         snapshot.forEach(docSnap => {
           const b = docSnap.data();
           const linkDestino = b.linkUrl && b.linkUrl.trim() !== '' ? b.linkUrl : 'portal.html';
+          const tituloBanner = b.titulo || 'Promoção Exclusiva Maju Enxovais';
 
           htmlBanners += `
-            <div class="relative w-full h-[220px] sm:h-[300px] md:h-[380px] overflow-hidden rounded-2xl shadow-lg border border-[#a66e3e] bg-stone-900 group">
-              <a href="${linkDestino}" class="block w-full h-full">
-                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-full object-cover object-center group-hover:scale-102 transition duration-500">
-              </a>
+            <div class="relative w-full h-[180px] sm:h-[240px] md:h-[280px] overflow-hidden rounded-2xl shadow-xl border border-[#a66e3e] bg-stone-900 group">
+              <!-- Imagem de fundo com ajuste perfeito -->
+              <img src="${b.imageUrl}" alt="${tituloBanner}" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
+              
+              <!-- Camada escura (Overlay) para destacar o texto -->
+              <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent flex items-center p-6 md:p-10">
+                <div class="max-w-lg text-white space-y-2">
+                  <span class="bg-amber-500 text-gray-900 text-[10px] md:text-xs font-black uppercase px-2.5 py-0.5 rounded-md tracking-wider">Destaque</span>
+                  <h2 class="text-xl sm:text-2xl md:text-3xl font-black leading-tight drop-shadow-md text-white">${tituloBanner}</h2>
+                  <div class="pt-2">
+                    <a href="${linkDestino}" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                      Confira no Portal ➔
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           `;
         });
