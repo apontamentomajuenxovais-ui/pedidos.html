@@ -210,6 +210,37 @@
         <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
       </div>
 
+      <!-- PAINEL DE CONFIGURAÇÃO DA PROMOÇÃO (MODO GESTOR) -->
+      <div id="gestor-promo-panel" class="bg-white p-6 rounded-2xl shadow-md border border-amber-200">
+        <h3 class="text-lg font-bold text-[#724625] mb-1 flex items-center gap-2">
+          ⚡ Gerenciar Promoção Relâmpago / Black Friday (Banner do Index)
+        </h3>
+        <p class="text-xs text-gray-500 mb-4">Defina a quantidade de peças da promoção e a data de validade exibida no banner principal.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Qtd. Total da Promoção:</label>
+            <input type="number" id="gestor-promo-total" class="w-full border border-gray-300 p-2.5 rounded-xl font-bold text-gray-800 focus:outline-none focus:border-[#8c5830]" placeholder="Ex: 50">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Peças Restantes Atual:</label>
+            <input type="number" id="gestor-promo-atual" class="w-full border border-gray-300 p-2.5 rounded-xl font-bold text-gray-800 focus:outline-none focus:border-[#8c5830]" placeholder="Ex: 50">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">Validade / Data Final:</label>
+            <input type="date" id="gestor-promo-data" class="w-full border border-gray-300 p-2.5 rounded-xl font-bold text-gray-800 focus:outline-none focus:border-[#8c5830]">
+          </div>
+        </div>
+
+        <div class="mt-4 text-right">
+          <button onclick="salvarConfigPromo()" class="px-6 py-2.5 bg-[#724625] hover:bg-[#8c5830] text-white font-bold rounded-xl transition shadow">
+            💾 Salvar Configurações da Promoção
+          </button>
+        </div>
+        <span id="msg-sucesso-promo" class="text-xs text-green-600 font-bold mt-2 block hidden">✓ Alterações da promoção salvas com sucesso!</span>
+      </div>
+
+
       <div class="flex flex-wrap gap-2 border-b border-[#e6dbc9] pb-2">
         <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm">📋 Gerenciar Pedidos</button>
         <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Perfis, Atacado & Afiliados</button>
@@ -1753,6 +1784,36 @@
     }
 
     atualizarViews();
+
+    window.carregarConfigPromo = function() {
+      const totalSalvo = localStorage.getItem('promo_total_limit') || 50;
+      const atualSalvo = localStorage.getItem('promo_lencol_stock') || totalSalvo;
+      const dataSalva = localStorage.getItem('promo_data_fim') || '';
+      
+      if(document.getElementById('gestor-promo-total')) {
+        document.getElementById('gestor-promo-total').value = totalSalvo;
+        document.getElementById('gestor-promo-atual').value = atualSalvo;
+        document.getElementById('gestor-promo-data').value = dataSalva;
+      }
+    };
+
+    window.salvarConfigPromo = function() {
+      const novoTotal = parseInt(document.getElementById('gestor-promo-total').value) || 50;
+      const novoAtual = parseInt(document.getElementById('gestor-promo-atual').value) || novoTotal;
+      const novaData = document.getElementById('gestor-promo-data').value;
+
+      localStorage.setItem('promo_total_limit', novoTotal);
+      localStorage.setItem('promo_lencol_stock', novoAtual);
+      localStorage.setItem('promo_data_fim', novaData);
+
+      const msg = document.getElementById('msg-sucesso-promo');
+      if(msg) {
+        msg.classList.remove('hidden');
+        setTimeout(() => msg.classList.add('hidden'), 3000);
+      }
+    };
+
+    carregarConfigPromo();
   </script>
 </body>
 </html>
