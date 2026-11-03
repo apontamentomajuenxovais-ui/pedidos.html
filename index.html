@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maju Enxovais | Vendas no Atacado, E-commerce e Afiliados</title>
+  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -22,16 +23,19 @@
 </head>
 <body class="bg-brandBg text-gray-800 font-sans antialiased">
 
-  <!-- CABEÇALHO -->
+  <!-- CABEÇALHO / HEADER -->
   <header class="w-full bg-brandDark text-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-brandMedium rounded-full flex items-center justify-center font-bold text-white border border-brandLight">M</div>
+        <div class="w-10 h-10 bg-brandMedium rounded-full flex items-center justify-center font-bold text-white border border-brandLight">
+          M
+        </div>
         <span class="text-xl font-bold tracking-wide">Maju Enxovais</span>
       </div>
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#black-friday" class="hover:text-amber-200 transition">Ofertas Black Friday</a>
-        <a href="portal.html" class="hover:text-amber-200 transition">Portal B2B</a>
+        <a href="#banners-home" class="hover:text-amber-200 transition">Promoções</a>
+        <a href="#black-friday" class="hover:text-amber-200 transition">Black Friday</a>
+        <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
       </nav>
       <div>
         <a href="portal.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition shadow">
@@ -41,7 +45,47 @@
     </div>
   </header>
 
-  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY (DINÂMICA VIA GESTOR) -->
+  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Com limite de tamanho rigoroso para evitar fotos gigantes) -->
+  <section id="banners-home" class="w-full py-4 px-4">
+    <div id="hero-banners-container" class="max-w-6xl mx-auto space-y-4">
+      <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO PRINCIPAL / HERO -->
+  <section id="sobre" class="max-w-7xl mx-auto px-4 py-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="flex-1 space-y-4">
+      <span class="text-xs font-extrabold uppercase tracking-widest text-brandMedium bg-amber-100 px-3 py-1 rounded-full">
+        Vendas Diretas de Fábrica
+      </span>
+      <h1 class="text-3xl md:text-5xl font-black text-brandDark leading-tight">
+        Seu Negócio com os Melhores Enxovais do Mercado
+      </h1>
+      <p class="text-gray-600 text-base md:text-lg">
+        Plataforma oficial para lojistas, atacadistas e afiliados. Tenha acesso a tabelas de preços diferenciadas, condições especiais e logística integrada via Melhor Envio diretamente da capital nacional do bordado.
+      </p>
+      <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
+        <a href="portal.html" class="bg-brandDark hover:bg-brandMedium text-white font-bold px-6 py-3 rounded-xl transition shadow">
+          Entrar / Cadastrar no Portal
+        </a>
+      </div>
+    </div>
+    
+    <div class="w-full md:w-1/2 flex justify-center">
+      <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100 w-full max-w-md text-center">
+        <div class="bg-amber-50 h-48 rounded-xl flex flex-col items-center justify-center border border-amber-200/50 mb-4">
+          <div class="w-16 h-16 bg-brandDark rounded-full flex items-center justify-center text-white text-2xl font-bold mb-2">
+            M
+          </div>
+          <span class="text-brandDark font-bold text-xl">Maju Enxovais</span>
+        </div>
+        <h3 class="font-bold text-lg text-brandDark">Tecnologia e Qualidade</h3>
+        <p class="text-xs text-gray-500 mt-1">Parceria sólida para impulsar suas vendas no varejo, atacado ou rede de afiliados.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY (DINÂMICA VIA GESTOR DO FIREBASE) -->
   <section id="black-friday" class="w-full py-12 bg-gray-900 text-white min-h-[400px]">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center space-y-2 mb-10">
@@ -52,27 +96,34 @@
           Ofertas Imperdíveis de Temporada
         </h2>
         <p class="text-gray-400 max-w-xl mx-auto text-sm">
-          Aproveite as condições de atacado reduzidas e margens exclusivas para revenda e afiliados.
+          Aproveite as condições de atacado reduzidas e margens exclusivas para revenda e afiliados durante o período promocional.
         </p>
       </div>
 
-      <!-- GRID ONDE AS OFERTAS CADASTRADAS NO PAINEL APARECERÃO -->
+      <!-- Grid Dinâmico de Produtos da Black Friday -->
       <div id="grid-black-friday-dinamico" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="col-span-full text-center py-8 text-gray-400 text-sm">Carregando ofertas promocionais...</div>
       </div>
     </div>
   </section>
 
+  <!-- RODAPÉ / FOOTER -->
   <footer class="w-full bg-brandDark text-amber-100 py-8 border-t border-brandMedium">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-amber-200/60">
-      &copy; 2026 Maju Enxovais. Todos os direitos reservados.
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-sm">
+      <div>
+        <p class="font-bold text-white">Maju Enxovais</p>
+        <p class="text-xs text-amber-200/80">Plataforma integrada de e-commerce, atacado e programa de afiliados.</p>
+      </div>
+      <div class="text-xs text-amber-200/60">
+        &copy; 2026 Maju Enxovais. Todos os direitos reservados.
+      </div>
     </div>
   </footer>
 
-  <!-- SCRIPT PARA CARREGAR AS OFERTAS DO FIREBASE NA HOME -->
+  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE (BANNERS E BLACK FRIDAY) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDl1gUSxd2v3iirh4Eozs9KibkQ6M_NcIc",
@@ -87,44 +138,95 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    onSnapshot(collection(db, "promocoes_blackfriday"), (snapshot) => {
+    // Carregar Banners do Topo
+    async function carregarBannersHome() {
+      const container = document.getElementById('hero-banners-container');
+      if(!container) return;
+
+      try {
+        const q = query(collection(db, "banners"), orderBy("ordem", "asc"));
+        const snapshot = await getDocs(q);
+
+        if(snapshot.empty) {
+          container.innerHTML = `
+            <div class="bg-[#724625] text-white p-6 rounded-2xl text-center shadow-lg border border-[#a66e3e]">
+              <h3 class="text-lg font-bold">Maju Enxovais - Vendas e Promoções</h3>
+              <p class="text-xs text-amber-100 mt-1">Acesse o portal para conferir as condições exclusivas.</p>
+              <a href="portal.html" class="inline-block mt-3 px-5 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-extrabold rounded-xl text-xs transition">Acessar o Portal B2B ➔</a>
+            </div>
+          `;
+          return;
+        }
+
+        let htmlBanners = '';
+        snapshot.forEach(docSnap => {
+          const b = docSnap.data();
+          const linkDestino = b.linkUrl && b.linkUrl.trim() !== '' ? b.linkUrl : 'portal.html';
+
+          htmlBanners += `
+            <div class="relative w-full h-[220px] sm:h-[300px] md:h-[380px] overflow-hidden rounded-2xl shadow-lg border border-[#a66e3e] bg-stone-900 group">
+              <a href="${linkDestino}" class="block w-full h-full">
+                <img src="${b.imageUrl}" alt="${b.titulo || 'Banner Promocional'}" class="w-full h-full object-cover object-center group-hover:scale-102 transition duration-500">
+              </a>
+            </div>
+          `;
+        });
+
+        container.innerHTML = htmlBanners;
+      } catch(err) {
+        console.error("Erro ao carregar banners:", err);
+        container.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Erro ao carregar banners promocionais.</div>';
+      }
+    }
+
+    // Carregar Ofertas da Black Friday em tempo real do Firebase
+    function carregarBlackFridayDinamica() {
       const container = document.getElementById('grid-black-friday-dinamico');
       if(!container) return;
 
-      if(snapshot.empty) {
-        container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-400 text-sm">Nenhuma oferta promocional ativa no momento.</div>';
-        return;
-      }
+      onSnapshot(collection(db, "promocoes_blackfriday"), (snapshot) => {
+        if(snapshot.empty) {
+          container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-400 text-sm">Nenhuma oferta promocional ativa no momento.</div>';
+          return;
+        }
 
-      let html = '';
-      snapshot.forEach(docSnap => {
-        const o = docSnap.data();
-        html += `
-          <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition shadow-lg">
-            <div>
-              <a href="${o.linkUrl || 'portal.html'}" class="block relative h-48 rounded-xl mb-4 overflow-hidden group border border-gray-700">
-                <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-black px-2.5 py-1 rounded z-10 shadow">
-                  ${o.tag || 'PROMOÇÃO'}
-                </span>
-                <img src="${o.imageUrl}" alt="${o.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-              </a>
-              <h3 class="text-lg font-bold text-white mb-1">${o.nome}</h3>
-              <p class="text-xs text-gray-400 mb-3">${o.descricao || ''}</p>
-            </div>
-            <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
+        let html = '';
+        snapshot.forEach(docSnap => {
+          const o = docSnap.data();
+          const linkDestino = o.linkUrl || 'portal.html';
+
+          html += `
+            <div class="bg-gray-800 rounded-2xl p-5 border border-gray-700 flex flex-col justify-between hover:border-yellow-500 transition shadow-lg">
               <div>
-                ${o.precoDe ? `<span class="text-xs text-gray-400 line-through block">De: R$ ${Number(o.precoDe).toFixed(2)}</span>` : ''}
-                <span class="text-xl font-extrabold text-yellow-400">R$ ${Number(o.precoPor).toFixed(2)}</span>
+                <a href="${linkDestino}" class="block relative h-48 rounded-xl mb-4 overflow-hidden group border border-gray-700">
+                  <span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-black px-2.5 py-1 rounded z-10 shadow">
+                    ${o.tag || 'PROMOÇÃO'}
+                  </span>
+                  <img src="${o.imageUrl}" alt="${o.nome}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </a>
+                <h3 class="text-lg font-bold text-white mb-1">${o.nome}</h3>
+                <p class="text-xs text-gray-400 mb-3">${o.descricao || ''}</p>
               </div>
-              <a href="${o.linkUrl || 'portal.html'}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
-                Comprar no Portal ➔
-              </a>
+              <div class="flex items-center justify-between border-t border-gray-700 pt-3 mt-2">
+                <div>
+                  ${o.precoDe ? `<span class="text-xs text-gray-400 line-through block">De: R$ ${Number(o.precoDe).toFixed(2)}</span>` : ''}
+                  <span class="text-xl font-extrabold text-yellow-400">R$ ${Number(o.precoPor).toFixed(2)}</span>
+                </div>
+                <a href="${linkDestino}" class="bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-lg text-xs transition shadow">
+                  Comprar no Portal ➔
+                </a>
+              </div>
             </div>
-          </div>
-        `;
-      });
+          `;
+        });
 
-      container.innerHTML = html;
+        container.innerHTML = html;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      carregarBannersHome();
+      carregarBlackFridayDinamica();
     });
   </script>
 </body>
