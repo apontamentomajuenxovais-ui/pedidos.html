@@ -45,7 +45,7 @@
     </div>
   </header>
 
-  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (Com limite de tamanho rigoroso para evitar fotos gigantes) -->
+  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME -->
   <section id="banners-home" class="w-full py-4 px-4">
     <div id="hero-banners-container" class="max-w-6xl mx-auto space-y-4">
       <div class="text-center py-8 text-gray-500 text-sm">Carregando promoções e banners...</div>
@@ -100,7 +100,7 @@
         </p>
       </div>
 
-      <!-- Grid Dinâmico de Produtos da Black Friday -->
+      <!-- Grid Dinâmico que puxa do Firebase -->
       <div id="grid-black-friday-dinamico" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="col-span-full text-center py-8 text-gray-400 text-sm">Carregando ofertas promocionais...</div>
       </div>
@@ -120,7 +120,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE (BANNERS E BLACK FRIDAY) -->
+  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, getDocs, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -186,7 +186,7 @@
 
       onSnapshot(collection(db, "promocoes_blackfriday"), (snapshot) => {
         if(snapshot.empty) {
-          container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-400 text-sm">Nenhuma oferta promocional ativa no momento.</div>';
+          container.innerHTML = '<div class="col-span-full text-center py-8 text-gray-400 text-sm">Nenhuma oferta promocional ativa no momento. Cadastre pelo painel do gestor.</div>';
           return;
         }
 
