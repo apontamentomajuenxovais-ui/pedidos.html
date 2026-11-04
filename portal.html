@@ -399,18 +399,29 @@
         </div>
       </div>
 
-      <!-- ABA 4: GERENCIAMENTO DE BANNERS DA HOME (COM UPLOAD DO PC E TEXTOS) -->
+      <!-- ABA 4: GERENCIAMENTO DE BANNERS DA HOME (COM PREÇOS, UPLOAD DO PC E TEXTOS) -->
       <div id="aba-banners" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
           <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2">🖼️ Cadastrar Banner na Home</h3>
           <form onsubmit="cadastrarBanner(event)" class="space-y-3">
             <div>
-              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Título do Banner</label>
-              <input type="text" id="cad-banner-titulo" required placeholder="Ex: Promoção de Jogos de Cama" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Título do Banner / Produto</label>
+              <input type="text" id="cad-banner-titulo" required placeholder="Ex: Promoção Kit Enxoval Casal" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
             <div>
               <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Subtítulo / Descrição Opcional</label>
-              <input type="text" id="cad-banner-desc" placeholder="Ex: Frete grátis para todo o estado" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+              <input type="text" id="cad-banner-desc" placeholder="Ex: Microfibra 180 Fios alta durabilidade" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
+              <div>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Preço Antigo (De: R$)</label>
+                <input type="number" step="0.01" id="cad-banner-pde" placeholder="Ex: 89.90" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm bg-white">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Preço Promocional (Por: R$)</label>
+                <input type="number" step="0.01" id="cad-banner-ppor" placeholder="Ex: 53.90" class="w-full border border-[#d3c5b4] rounded-lg p-2 text-sm font-bold text-amber-700 bg-white">
+              </div>
             </div>
 
             <div class="bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9] space-y-2">
@@ -848,7 +859,7 @@
       }
     };
 
-    // NOVAS FUNÇÕES PARA GESTÃO DE BANNERS COM UPLOAD DO PC
+    // GESTÃO DE BANNERS COM PREÇO E UPLOAD DO PC
     window.converterImagemBase64Banner = function(inputEl) {
       const file = inputEl.files[0];
       if (file) {
@@ -864,6 +875,8 @@
       if(e) e.preventDefault();
       const titulo = document.getElementById('cad-banner-titulo').value.trim();
       const descricao = document.getElementById('cad-banner-desc').value.trim();
+      const precoDe = parseFloat(document.getElementById('cad-banner-pde').value) || 0;
+      const precoPor = parseFloat(document.getElementById('cad-banner-ppor').value) || 0;
       
       const imgLocal = document.getElementById('cad-banner-base64-cache').value;
       const imgUrl = document.getElementById('cad-banner-imgurl').value.trim();
@@ -873,7 +886,9 @@
       const ordem = parseInt(document.getElementById('cad-banner-ordem').value) || 1;
 
       try {
-        await addDoc(collection(db, "banners"), { titulo, descricao, imageUrl: fotoFinal, linkUrl, ordem, criadoEm: new Date().toISOString() });
+        await addDoc(collection(db, "banners"), { 
+          titulo, descricao, precoDe, precoPor, imageUrl: fotoFinal, linkUrl, ordem, criadoEm: new Date().toISOString() 
+        });
         alert("Banner cadastrado com sucesso!");
         e.target.reset();
         document.getElementById('cad-banner-base64-cache').value = '';
@@ -909,7 +924,7 @@
             <img src="${b.imageUrl}" alt="${b.titulo}" class="w-16 h-10 object-cover rounded border border-[#d3c5b4]">
             <div>
               <p class="font-bold text-xs text-[#3d2c1d]">${b.titulo}</p>
-              <p class="text-[10px] text-[#8c7a6b]">Ordem: ${b.ordem} | ${b.descricao || ''}</p>
+              <p class="text-[10px] text-[#8c7a6b]">Ordem: ${b.ordem} ${b.precoPor ? '| Por: R$ ' + b.precoPor.toFixed(2) : ''}</p>
             </div>
           </div>
           <button onclick="deletarBanner('${b.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200 shrink-0">Excluir</button>
