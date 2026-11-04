@@ -48,16 +48,20 @@
   <nav class="bg-[#3d2c1d] text-[#f7f3ec] shadow-xl sticky top-0 z-50 border-b border-[#5c3a21]">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <div class="flex items-center justify-center bg-[#f7f3ec] px-2 py-1 rounded-xl shadow-inner">
+        <a href="index.html" class="flex items-center justify-center bg-[#f7f3ec] px-2 py-1 rounded-xl shadow-inner hover:scale-105 transition">
           <img src="logo.png" alt="Maju Enxovais" class="h-10 w-auto object-contain" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
           <div id="logo-fallback" class="hidden bg-[#5c3a21] text-[#f7f3ec] px-3 py-1.5 rounded-lg font-black text-sm tracking-wider flex items-center justify-center">MAJU</div>
-        </div>
+        </a>
         <div>
           <h1 class="font-black text-sm md:text-base leading-tight tracking-wide text-[#f7f3ec]">MAJU ENXOVAIS</h1>
           <p class="text-[11px] text-[#d4b59d] font-medium" id="nav-user-status">Portal de Vendas B2B</p>
         </div>
       </div>
       <div class="flex items-center space-x-2">
+        <!-- BOTÃO DE RETORNO À PÁGINA INICIAL -->
+        <a href="index.html" class="bg-[#5c3a21] hover:bg-[#4a2e1a] text-[#d4b59d] font-bold px-3 py-2 rounded-xl text-xs shadow border border-[#724625] transition flex items-center gap-1">
+          🏠 Início
+        </a>
         <button id="btn-carrinho" onclick="abrirModalCarrinho()" class="hidden bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3.5 py-2 rounded-xl text-xs md:text-sm flex items-center gap-2 shadow-md transition">
           <span>🛒 Carrinho</span>
           <span id="badge-carrinho-qtd" class="bg-[#3d2c1d] text-[#d4b59d] text-[11px] px-2 py-0.5 rounded-full font-black">0</span>
@@ -207,7 +211,10 @@
           <h2 class="text-lg font-black text-[#d4b59d]">Painel do Gestor - MAJU ENXOVAIS</h2>
           <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Perfis, Comissões, Produtos, Banners e Black Friday</p>
         </div>
-        <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
+        <div class="flex items-center gap-2">
+          <a href="index.html" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition flex items-center gap-1">🏠 Início</a>
+          <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
+        </div>
       </div>
 
       <div class="flex flex-wrap gap-2 border-b border-[#e6dbc9] pb-2">
