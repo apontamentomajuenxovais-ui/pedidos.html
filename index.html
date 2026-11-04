@@ -45,9 +45,9 @@
     </div>
   </header>
 
-  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (SLIDESHOW AUTOMÁTICO) -->
+  <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (AJUSTADA: ENQUADRAMENTO PERFEITO SEM CORTES) -->
   <section id="banners-home" class="w-full py-6 px-4">
-    <div id="hero-banners-container" class="max-w-6xl mx-auto relative overflow-hidden rounded-3xl shadow-xl border border-[#a66e3e] bg-stone-900 min-h-[260px] sm:h-[340px] md:h-[420px]">
+    <div id="hero-banners-container" class="max-w-6xl mx-auto relative overflow-hidden rounded-3xl shadow-xl border border-[#a66e3e] bg-stone-900 min-h-[350px] md:min-h-[400px]">
       <div class="flex items-center justify-center h-full text-gray-400 text-sm py-16">Carregando promoções e banners...</div>
     </div>
   </section>
@@ -120,7 +120,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE COM SLIDESHOW AUTOMÁTICO -->
+  <!-- SCRIPT DINÂMICO CONECTADO AO FIREBASE COM SLIDESHOW AUTOMÁTICO E ENQUADRAMENTO PERFEITO -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -177,7 +177,7 @@
         indiceSlideAtual = listaBannersCache.length - 1;
       }
       renderizarSlideAtivo();
-      iniciarSlideshowAutomatico(); // Reinicia o timer ao interagir manualmente
+      iniciarSlideshowAutomatico();
     };
 
     window.irParaSlide = function(index) {
@@ -196,15 +196,15 @@
       let precoHtml = '';
       if (b.precoPor && Number(b.precoPor) > 0) {
         precoHtml = `
-          <div class="bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/20 inline-flex items-baseline gap-2 my-2">
+          <div class="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/20 inline-flex items-baseline gap-2 my-1.5">
             ${b.precoDe && Number(b.precoDe) > 0 ? `<span class="text-xs text-gray-300 line-through">De: R$ ${Number(b.precoDe).toFixed(2)}</span>` : ''}
-            <span class="text-base md:text-xl font-extrabold text-yellow-400">Por: R$ ${Number(b.precoPor).toFixed(2)}</span>
+            <span class="text-base md:text-lg font-extrabold text-yellow-400">Por: R$ ${Number(b.precoPor).toFixed(2)}</span>
           </div>
         `;
       }
 
-      // Cria indicadores de pontos (dots) para trocar de slide diretamente
-      let dotsHtml = '<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">';
+      // Pontos de navegação (Dots)
+      let dotsHtml = '<div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-30">';
       for(let i = 0; i < listaBannersCache.length; i++) {
         const ativo = i === indiceSlideAtual ? 'bg-yellow-400 w-6' : 'bg-white/50 w-2.5';
         dotsHtml += `<button onclick="irParaSlide(${i})" class="${ativo} h-2.5 rounded-full transition-all duration-300 shadow"></button>`;
@@ -212,13 +212,11 @@
       dotsHtml += '</div>';
 
       container.innerHTML = `
-        <div class="relative w-full h-full flex items-center transition-opacity duration-700">
-          <!-- Imagem perfeitamente contida -->
-          <img src="${b.imageUrl}" alt="${b.titulo || 'Banner'}" class="absolute inset-0 w-full h-full object-cover object-center">
+        <div class="relative w-full h-full min-h-[350px] md:min-h-[400px] flex flex-col md:flex-row items-center justify-between bg-stone-900 overflow-hidden">
           
-          <!-- Gradiente lateral escuro para legibilidade perfeita do texto -->
-          <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent flex flex-col justify-center p-6 md:p-12 max-w-xl z-10">
-            <span class="bg-amber-600 text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full w-fit mb-2 tracking-wider">
+          <!-- LADO ESQUERDO: TEXTO E PREÇO (Garante legibilidade total em telas pequenas e grandes) -->
+          <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center z-20 text-left bg-gradient-to-b md:bg-gradient-to-r from-black/90 via-black/70 to-transparent">
+            <span class="bg-amber-600 text-white text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full w-fit mb-2 tracking-wider shadow">
               DESTAQUE DA SEMANA
             </span>
             <h3 class="text-xl md:text-3xl font-black text-white leading-tight drop-shadow-md">${b.titulo}</h3>
@@ -231,9 +229,14 @@
             </div>
           </div>
 
+          <!-- LADO DIREITO: IMAGEM COM ENQUADRAMENTO (object-contain evita cortes e 'explosão' de zoom) -->
+          <div class="w-full md:w-1/2 h-56 md:h-full relative flex items-center justify-center p-2 bg-stone-950/50">
+            <img src="${b.imageUrl}" alt="${b.titulo || 'Banner'}" class="w-full h-full object-contain max-h-[380px] rounded-2xl transition duration-500">
+          </div>
+
           <!-- Botões de Navegação Lateral -->
-          <button onclick="mudarSlide(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm z-20 transition backdrop-blur-sm">❮</button>
-          <button onclick="mudarSlide(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white w-9 h-9 rounded-full flex items-center justify-center text-sm z-20 transition backdrop-blur-sm">❯</button>
+          <button onclick="mudarSlide(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs z-30 transition border border-white/20">❮</button>
+          <button onclick="mudarSlide(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs z-30 transition border border-white/20">❯</button>
 
           ${dotsHtml}
         </div>
@@ -246,11 +249,11 @@
         intervaloSlideshow = setInterval(() => {
           indiceSlideAtual = (indiceSlideAtual + 1) % listaBannersCache.length;
           renderizarSlideAtivo();
-        }, 5000); // Troca de slide a cada 5 segundos
+        }, 5000);
       }
     }
 
-    // Carregar Ofertas da Black Friday em tempo real do Firebase
+    // Carregar Ofertas da Black Friday
     function carregarBlackFridayDinamica() {
       const container = document.getElementById('grid-black-friday-dinamico');
       if(!container) return;
