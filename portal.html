@@ -866,13 +866,40 @@
       }
     };
 
-    // GESTÃO DE BANNERS COM PREÇO E UPLOAD DO PC
+    // GESTÃO DE BANNERS COM COMPRESSÃO AUTOMÁTICA
     window.converterImagemBase64Banner = function(inputEl) {
       const file = inputEl.files[0];
       if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+          alert("A imagem selecionada é muito pesada (maior que 2MB). Escolha uma imagem menor ou use uma URL externa.");
+          inputEl.value = "";
+          document.getElementById('cad-banner-base64-cache').value = "";
+          return;
+        }
+
         const reader = new FileReader();
         reader.onload = function(e) {
-          document.getElementById('cad-banner-base64-cache').value = e.target.result;
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const dataUrlLeve = canvas.toDataURL('image/jpeg', 0.8);
+            document.getElementById('cad-banner-base64-cache').value = dataUrlLeve;
+          };
         };
         reader.readAsDataURL(file);
       }
@@ -880,6 +907,7 @@
 
     window.cadastrarBanner = async function(e) {
       if(e) e.preventDefault();
+      
       const titulo = document.getElementById('cad-banner-titulo').value.trim();
       const descricao = document.getElementById('cad-banner-desc').value.trim();
       const precoDe = parseFloat(document.getElementById('cad-banner-pde').value) || 0;
@@ -887,21 +915,34 @@
       
       const imgLocal = document.getElementById('cad-banner-base64-cache').value;
       const imgUrl = document.getElementById('cad-banner-imgurl').value.trim();
-      const fotoFinal = imgLocal || imgUrl || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80';
+      const fotoFinal = imgLocal || imgUrl;
+
+      if (!fotoFinal) {
+        alert("Por favor, selecione uma imagem do computador OU insira uma URL de imagem externa.");
+        return;
+      }
 
       const linkUrl = document.getElementById('cad-banner-link').value.trim() || 'portal.html';
       const ordem = parseInt(document.getElementById('cad-banner-ordem').value) || 1;
 
       try {
         await addDoc(collection(db, "banners"), { 
-          titulo, descricao, precoDe, precoPor, imageUrl: fotoFinal, linkUrl, ordem, criadoEm: new Date().toISOString() 
+          titulo, 
+          descricao, 
+          precoDe, 
+          precoPor, 
+          imageUrl: fotoFinal, 
+          linkUrl, 
+          ordem, 
+          criadoEm: new Date().toISOString() 
         });
-        alert("Banner cadastrado com sucesso!");
+        
+        alert("✅ Banner cadastrado com sucesso!");
         e.target.reset();
         document.getElementById('cad-banner-base64-cache').value = '';
       } catch(err) {
-        console.error(err);
-        alert("Erro ao cadastrar banner.");
+        console.error("Erro no Firebase ao salvar banner:", err);
+        alert("❌ Erro ao salvar o banner: " + err.message);
       }
     };
 
@@ -943,9 +984,36 @@
     window.converterImagemBase64BF = function(inputEl) {
       const file = inputEl.files[0];
       if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+          alert("A imagem selecionada é muito pesada (maior que 2MB). Escolha uma imagem menor ou use uma URL externa.");
+          inputEl.value = "";
+          document.getElementById('cad-bf-base64-cache').value = "";
+          return;
+        }
+
         const reader = new FileReader();
         reader.onload = function(e) {
-          document.getElementById('cad-bf-base64-cache').value = e.target.result;
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const dataUrlLeve = canvas.toDataURL('image/jpeg', 0.8);
+            document.getElementById('cad-bf-base64-cache').value = dataUrlLeve;
+          };
         };
         reader.readAsDataURL(file);
       }
@@ -961,7 +1029,12 @@
       
       const imgLocal = document.getElementById('cad-bf-base64-cache').value;
       const imgUrl = document.getElementById('cad-bf-imgurl').value.trim();
-      const fotoFinal = imgLocal || imgUrl || 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80';
+      const fotoFinal = imgLocal || imgUrl;
+
+      if (!fotoFinal) {
+        alert("Por favor, selecione uma imagem do computador OU insira uma URL de imagem externa.");
+        return;
+      }
 
       const linkUrl = document.getElementById('cad-bf-link').value.trim() || 'portal.html';
 
@@ -969,12 +1042,12 @@
         await addDoc(collection(db, "promocoes_blackfriday"), {
           tag, nome, descricao, precoDe, precoPor, imageUrl: fotoFinal, linkUrl, criadoEm: new Date().toISOString()
         });
-        alert("Oferta cadastrada na Black Friday com sucesso!");
+        alert("✅ Oferta cadastrada na Black Friday com sucesso!");
         e.target.reset();
         document.getElementById('cad-bf-base64-cache').value = '';
       } catch(err) {
-        console.error(err);
-        alert("Erro ao cadastrar oferta.");
+        console.error("Erro no Firebase ao salvar oferta:", err);
+        alert("❌ Erro ao salvar oferta: " + err.message);
       }
     };
 
@@ -1597,24 +1670,41 @@
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return;
 
-      let msg = `🛍️ *NOVO PEDIDO - MAJU ENXOVAIS*\n-----------------------------------\n`;
-      msg += `🏢 *Cliente/Parceiro:* ${pedidoObj.distribuidor}\n`;
-      msg += `👤 *Perfil:* ${pedidoObj.perfil}\n`;
-      msg += `📄 *Doc:* ${pedidoObj.documento}\n`;
-      msg += `🚚 *ENTREGA:* ${pedidoObj.enderecoEntrega}\n`;
+      let msg = `🛍️ *NOVO PEDIDO - MAJU ENXOVAIS*
+-----------------------------------
+`;
+      msg += `🏢 *Cliente/Parceiro:* ${pedidoObj.distribuidor}
+`;
+      msg += `👤 *Perfil:* ${pedidoObj.perfil}
+`;
+      msg += `📄 *Doc:* ${pedidoObj.documento}
+`;
+      msg += `🚚 *ENTREGA:* ${pedidoObj.enderecoEntrega}
+`;
       if(pedidoObj.tipoEntrega !== 'retirada') {
-        msg += `📦 *Frete:* R$ ${Number(pedidoObj.valorFrete).toFixed(2)}\n`;
+        msg += `📦 *Frete:* R$ ${Number(pedidoObj.valorFrete).toFixed(2)}
+`;
       }
       if(pedidoObj.observacao) {
-        msg += `📝 *OBSERVAÇÃO:* ${pedidoObj.observacao}\n`;
+        msg += `📝 *OBSERVAÇÃO:* ${pedidoObj.observacao}
+`;
       }
-      msg += `-----------------------------------\n\n📦 *ITENS DO PEDIDO:* \n`;
+      msg += `-----------------------------------
+
+📦 *ITENS DO PEDIDO:* 
+`;
 
       pedidoObj.itens.forEach((item, index) => {
-        msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}\n   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}\n`;
+        msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}
+   Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}
+`;
       });
 
-      msg += `\n-----------------------------------\n💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*\n⚡ *Chave PIX:* advocaciadigitalinteligente@gmail.com\n-----------------------------------`;
+      msg += `
+-----------------------------------
+💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*
+⚡ *Chave PIX:* advocaciadigitalinteligente@gmail.com
+-----------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
     };
