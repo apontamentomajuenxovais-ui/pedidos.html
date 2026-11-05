@@ -585,12 +585,35 @@
           </div>
         </div>
 
-        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200 space-y-1.5">
-          <label class="block text-xs font-bold text-emerald-900">⚡ Pagamento via PIX</label>
-          <div class="flex items-center justify-between gap-2">
-            <span class="text-[11px] font-mono bg-white p-2 rounded-lg border border-emerald-300 text-emerald-950 font-bold flex-1 select-all overflow-x-auto" id="chave-pix-copia">advocaciadigitalinteligente@gmail.com</span>
-            <button onclick="copiarChavePIX()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-2 rounded-lg text-xs shadow transition shrink-0">Copiar Chave</button>
+        <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-emerald-950">⚡ Pagamento via PIX</label>
+            <span class="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-bold">Aprovação Imediata</span>
           </div>
+
+          <!-- QR CODE E INSTRUÇÕES -->
+          <div class="flex flex-col sm:flex-row items-center gap-3 bg-white p-3 rounded-xl border border-emerald-200 shadow-sm">
+            <div class="shrink-0 bg-white p-1 rounded-lg border border-stone-200">
+              <img id="qr-code-pix-img" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA%20M%20DA%20C%203885245386008IBITINGA62070503%2A%2A%2A63042B1C" alt="QR Code PIX" class="w-28 h-28 object-contain">
+            </div>
+            <div class="text-center sm:text-left space-y-1 flex-1">
+              <p class="text-xs font-bold text-emerald-950">Escaneie o QR Code ao lado</p>
+              <p class="text-[11px] text-stone-600 leading-tight">Abra o app do seu banco, escolha <strong>Pagar via QR Code</strong> e aponte a câmera para a imagem.</p>
+              <p class="text-[10px] text-emerald-800 font-semibold pt-1">Beneficiário: <br><span class="font-bold text-stone-800">CAMILA M DA C</span></p>
+            </div>
+          </div>
+
+          <!-- PIX COPIA E COLA -->
+          <div class="space-y-1">
+            <label class="block text-[10px] font-bold text-emerald-900 uppercase">Ou use o Pix Copia e Cola:</label>
+            <div class="flex items-center justify-between gap-2">
+              <input type="text" readonly value="00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C" id="chave-pix-copia-input" class="text-xs font-mono bg-white p-2 rounded-xl border border-emerald-300 text-emerald-950 font-bold flex-1 select-all outline-none">
+              <button onclick="copiarChavePIX()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-3 py-2 rounded-xl text-xs shadow transition shrink-0 flex items-center gap-1">
+                📋 Copiar
+              </button>
+            </div>
+          </div>
+        </div>
         </div>
 
         <div class="space-y-1">
@@ -752,9 +775,10 @@
     };
 
     window.copiarChavePIX = function() {
-      const txt = document.getElementById('chave-pix-copia').innerText;
+      const inputEl = document.getElementById('chave-pix-copia-input');
+      const txt = inputEl ? inputEl.value : "advocaciadigitalinteligente@gmail.com";
       navigator.clipboard.writeText(txt);
-      alert("Chave PIX copiada!");
+      alert("✅ Chave PIX / Código Copia e Cola copiado com sucesso!");
     };
 
     window.filtrarCategoria = function(cat, btnEl) {
@@ -2147,3 +2171,5 @@
   </script>
 </body>
 </html>
+portal.html
+Exibindo portal.html.
