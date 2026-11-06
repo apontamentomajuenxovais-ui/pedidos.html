@@ -672,9 +672,9 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
+    const TELEFONE_WHATSAPP_VENDAS = "5516997033145";
     const CEP_ORIGEM = "14940450";
-    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2VicG9vayIsIm1jcjp1c2UifQ.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
+    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZRItd2VicG9vayIsIm1jcjp1c2UifQ.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
     window.tipoEntregaAtual = 'envio';
     window.valorFreteSelecionado = 0;
@@ -1536,7 +1536,7 @@
         <body>
           <div class="no-print">
             <button onclick="window.print()" class="btn-action" style="background: #3d2c1d; color: #d4b59d;">🖨️ Imprimir / Salvar em PDF</button>
-            <button onclick="enviarWhatsDireto()" class="btn-action" style="background: #047857; color: #fff;">📲 Enviar este Pedido pelo WhatsApp</button>
+            <button onclick="enviarWhatsDireto()" class="btn-action" style="background: #047857; color: #fff;">📲 Enviar PDF por WhatsApp</button>
           </div>
 
           <div class="header">
@@ -1593,11 +1593,12 @@
           <script>
             function enviarWhatsDireto() {
               const tel = "${TELEFONE_WHATSAPP_VENDAS}";
-              let msg = "🛍️ *PEDIDO MAJU ENXOVAIS*\\n-----------------------------------\\n";
+              let msg = "📄 *COMPROVANTE DE PEDIDO (PDF/ESPELHO) - MAJU ENXOVAIS*\\n-----------------------------------\\n";
               msg += "🏢 *Cliente:* ${dadosPedido.distribuidor}\\n";
               msg += "📄 *Doc:* ${dadosPedido.documento}\\n";
               msg += "🚚 *Entrega:* ${dadosPedido.enderecoEntrega}\\n";
               msg += "💰 *VALOR TOTAL: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}*\\n";
+              msg += "👉 *Por favor, utilize a opção 'Imprimir / Salvar em PDF' nesta tela para salvar o espelho e anexar o arquivo PDF aqui.*\\n";
               msg += "-----------------------------------";
               window.open('https://api.whatsapp.com/send?phone=' + tel + '&text=' + encodeURIComponent(msg), '_blank');
             }
