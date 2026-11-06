@@ -58,7 +58,6 @@
         </div>
       </div>
       <div class="flex items-center space-x-2">
-        <!-- BOTÃO DE RETORNO À PÁGINA INICIAL -->
         <a href="index.html" class="bg-[#5c3a21] hover:bg-[#4a2e1a] text-[#d4b59d] font-bold px-3 py-2 rounded-xl text-xs shadow border border-[#724625] transition flex items-center gap-1">
           🏠 Início
         </a>
@@ -73,7 +72,6 @@
   </nav>
 
   <main class="max-w-7xl mx-auto p-4 md:p-6">
-
     <!-- TELA DE LOGIN DO DISTRIBUIDOR -->
     <div id="card-login-distribuidor" class="max-w-md mx-auto my-8 bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#e6dbc9]">
       <div class="text-center mb-6">
@@ -406,7 +404,7 @@
         </div>
       </div>
 
-      <!-- ABA 4: GERENCIAMENTO DE BANNERS DA HOME (COM PREÇOS, UPLOAD DO PC E TEXTOS) -->
+      <!-- ABA 4: BANNERS DA HOME -->
       <div id="aba-banners" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
           <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2">🖼️ Cadastrar Banner na Home</h3>
@@ -522,9 +520,7 @@
           <div id="lista-ofertas-blackfriday" class="space-y-3 max-h-96 overflow-y-auto"></div>
         </div>
       </div>
-
     </div>
-
   </main>
 
   <!-- MODAL DO CARRINHO DE COMPRAS COM PIX E PAGAMENTO -->
@@ -549,6 +545,7 @@
             <label class="block text-xs font-bold text-[#3d2c1d]">🚚 Modalidade de Entrega:</label>
             <div class="flex gap-1 flex-wrap">
               <button type="button" id="btn-tipo-envio" onclick="alternarTipoEntrega('envio')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition">Endereço Padrão</button>
+              <button type="button" id="btn-tipo-fretefixo" onclick="alternarTipoEntrega('fretefixo')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">🚚 Frete Fixo (R$ 32,00)</button>
               <button type="button" id="btn-tipo-outro" onclick="alternarTipoEntrega('outro')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">Outro Endereço</button>
               <button type="button" id="btn-tipo-retirada" onclick="alternarTipoEntrega('retirada')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">Retirar</button>
             </div>
@@ -560,6 +557,11 @@
               <button onclick="calcularFreteMelhorEnvioReal()" class="bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3 py-2 rounded-xl text-xs transition shadow">Calcular Frete</button>
             </div>
             <div id="resultado-cotacao-frete" class="text-[11px] text-[#8c7a6b] font-medium">Insira o CEP para cotar via Melhor Envio (Origem: 14940-450).</div>
+          </div>
+
+          <div id="bloco-opcao-fretefixo" class="hidden text-xs text-[#3d2c1d] bg-[#f7f3ec] p-2.5 rounded-xl border border-[#d3c5b4] font-medium space-y-1">
+            <p>🚚 <strong>Frete Fixo Nacional:</strong> Valor único de <strong>R$ 32,00</strong> para todo o Brasil (exceto Região Norte).</p>
+            <p id="aviso-bloqueio-norte" class="text-[11px] font-bold text-red-700 hidden">⚠️ Atenção: O Frete Fixo não está disponível para os estados da Região Norte (AC, AP, AM, PA, RO, RR, TO). Por favor, utilize a cotação via Melhor Envio.</p>
           </div>
 
           <div id="bloco-opcao-outro" class="hidden space-y-2 bg-white p-3 rounded-xl border border-[#e6dbc9]">
@@ -599,7 +601,7 @@
             <div class="text-center sm:text-left space-y-1 flex-1">
               <p class="text-xs font-bold text-emerald-950">Escaneie o QR Code ao lado</p>
               <p class="text-[11px] text-stone-600 leading-tight">Abra o app do seu banco, escolha <strong>Pagar via QR Code</strong> e aponte a câmera para a imagem.</p>
-              <p class="text-[10px] text-emerald-800 font-semibold pt-1">Beneficiário: <br><span class="font-bold text-stone-800">CAMILA M DA C</span></p>
+              <p class="text-[10px] text-emerald-800 font-semibold pt-1">Beneficiário: <br><span class="font-bold text-stone-800">CAMILA M DA C (Ibitinga - SP)</span></p>
             </div>
           </div>
 
@@ -613,7 +615,6 @@
               </button>
             </div>
           </div>
-        </div>
         </div>
 
         <div class="space-y-1">
@@ -673,7 +674,7 @@
 
     const TELEFONE_WHATSAPP_VENDAS = "5516996216754";
     const CEP_ORIGEM = "14940450";
-    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2VicG9vayIsIm1jcjp1c2UiXX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
+    const MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTJiNjMzNjljMDU5NDAyZjUxY2UzNDI5NDZlNGZlZjU5NjZkZDM2MmM4N2I1MzE0ZGY1ZWQwOGJmMGQ0ZWQyOTAzZTkzYzY2ZjA4YTI2MjYiLCJpYXQiOjE3OTMyMDA0NjguODkzNjM1LCJuYmYiOjE3OTMyMDA0NjguODkzNjM3LCJleHAiOjE4MjQ3MzY0NjguODgyMTQ2LCJzdWIiOiI5Y2U5YzliOC0wY2U1LTQ0YjgtOTZhZC0zNTllNDFlMWQ0YmEiLCJzY29wZXMiOlsiY2FydC1yZWFkIiwiY2FydC13cml0ZSIsImNvbXBhbmllcy1yZWFkIiwiY29tcGFuaWVzLXdyaXRlIiwiY291cG9ucy1yZWFkIiwiY291cG9ucy13cml0ZSIsIm5vdGlmaWNhdGlvbnMtcmVhZCIsIm9yZGVycy1yZWFkIiwicHJvZHVjdHMtcmVhZCIsInByb2R1Y3RzLWRlc3Ryb3kiLCJwcm9kdWN0cy13cml0ZSIsInB1cmNoYXNlcy1yZWFkIiwic2hpcHBpbmctY2FsY3VsYXRlIiwic2hpcHBpbmctY2FuY2VsIiwic2hpcHBpbmctY2hlY2tvdXQiLCJzaGlwcGluZy1jb21wYW5pZXMiLCJzaGlwcGluZy1nZW5lcmF0ZSIsInNoaXBwaW5nLXByZXZpZXciLCJzaGlwcGluZy1wcmludCIsInNoaXBwaW5nLXNoYXJlIiwic2hpcHBpbmctdHJhY2tpbmciLCJlY29tbWVyY2Utc2hpcHBpbmciLCJ0cmFuc2FjdGlvbnMtcmVhZCIsInVzZXJzLXJlYWQiLCJ1c2Vycy13cml0ZSIsIndlYmhvb2tzLXJlYWQiLCJ3ZWJob29rcy13cml0ZSIsIndlYmhvb2tzLWRlbGV0ZSIsImRkZWFsZXItd2VicG9vayIsIm1jcjp1c2UseX0.4euDVVQSnjsTa8wOLuGlsv7dla0zx1W5aYrCWPucofWchHXAfG23d6h-Z5-obTvPxtyYhVfxBSeuqOIaNjVEIJHDkLG7EnbRLe60AIkQZOsltiXFuOsmpa5rKTVmor721gpVFhH87vAqG3P7jLrlfG-Qew50G3ZrrX6Q2iEi79aaYgGCFoQS9OFUEHBIKT_Y3MqWTgZ_yJSYSFfHpcMxVc9N9pDPGJKrGuZlWIAeYsclaDKJak5AdBlI5OQ1fAvedlvwoMuVMEoif7ZOy33UtsE4L2OBFZdvfGZoQY345FxHovhxeaZqOSsXpe3G8v_FBhbdr4qYoz_SpUQFHvUmVLZWJ3_3jRYlm-TmZ8oSExZTKnDjx0wgHhb3nOleL4y2xmBpRiKhqLQEtxJewmCaxmJqmhUtdzfHVU3hNmXO75tL5X-lyimJAf4sHnc_4KOko5W0syKr5o90ktIPG5wyDolq_sP4Nr7kY-Vgq1evYRaYQaDLfl6jBXsCSNKhYUBFvm2CP8HPw0FWDH7NSnqIhBr6ubLnEiDA0weG1oRQaxCwVnk1ukdjfc0vOYxTIihTDN8aiwwvzDvFdZfApngXf1cjWM-3IhpR7Ljejr4R7Bk8DEtI_-xI3vGvpiofzPArvueQCYs3Pgfl1RqQmUqMvyT150-ANzdN2mZwR_C_Nww";
 
     window.tipoEntregaAtual = 'envio';
     window.valorFreteSelecionado = 0;
@@ -718,15 +719,12 @@
       renderGestorBlackFriday();
     });
 
-    // VERIFICA SE HÁ PARÂMETROS NA URL DE CATEGORIA OU PESQUISA
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('cat');
       const buscaParam = urlParams.get('busca');
 
-      if (catParam) {
-        window.categoriaFiltroAtual = catParam;
-      }
+      if (catParam) window.categoriaFiltroAtual = catParam;
       if (buscaParam) {
         setTimeout(() => {
           const inputBusca = document.getElementById('input-busca-produto');
@@ -735,7 +733,6 @@
       }
     });
 
-    // EXPORTAÇÃO EXCEL (.XLSX) EXATAMENTE NO FORMATO DO MELHOR ENVIO
     window.exportarPlanilhaMelhorEnvio = function() {
       const pedidosParaEnviar = window.pedidos.filter(p => p.tipoEntrega !== 'retirada' && (p.status === 'Pendente' || p.status === 'Aguardando Pagamento'));
 
@@ -770,15 +767,14 @@
       XLSX.utils.book_append_sheet(workbook, worksheet, "Planilha1");
 
       XLSX.writeFile(workbook, `modelo_upload_envios_${new Date().toISOString().slice(0,10)}.xlsx`);
-
       alert("✅ Planilha gerada no modelo oficial do Melhor Envio (.xlsx)!");
     };
 
     window.copiarChavePIX = function() {
       const inputEl = document.getElementById('chave-pix-copia-input');
-      const txt = inputEl ? inputEl.value : "advocaciadigitalinteligente@gmail.com";
+      const txt = inputEl ? inputEl.value : "00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C";
       navigator.clipboard.writeText(txt);
-      alert("✅ Chave PIX / Código Copia e Cola copiado com sucesso!");
+      alert("✅ Código Pix Copia e Cola da Camila copiado com sucesso!");
     };
 
     window.filtrarCategoria = function(cat, btnEl) {
@@ -787,21 +783,15 @@
       btns.forEach(b => {
         b.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] transition";
       });
-      if(btnEl) {
-        btnEl.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition";
-      }
+      if(btnEl) btnEl.className = "btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition";
       renderCatalogo();
     };
 
-    window.filtrarProdutosCatalogo = function() {
-      renderCatalogo();
-    };
-
+    window.filtrarProdutosCatalogo = function() { renderCatalogo(); };
     window.mostrarFormularioCadastro = function() {
       document.getElementById('card-login-distribuidor').classList.add('hidden');
       document.getElementById('card-cadastro-distribuidor').classList.remove('hidden');
     };
-
     window.mostrarFormularioLogin = function() {
       document.getElementById('card-cadastro-distribuidor').classList.add('hidden');
       document.getElementById('card-login-distribuidor').classList.remove('hidden');
@@ -812,7 +802,6 @@
       const nome = document.getElementById('autocad-nome').value.trim();
       const documento = document.getElementById('autocad-doc').value.trim();
       const senha = document.getElementById('autocad-senha').value.trim();
-
       const cep = document.getElementById('autocad-cep').value.trim();
       const rua = document.getElementById('autocad-rua').value.trim();
       const num = document.getElementById('autocad-num').value.trim();
@@ -822,10 +811,7 @@
 
       if(nome && documento && senha) {
         const jaExiste = window.distribuidores.find(d => d.documento === documento);
-        if(jaExiste) {
-          alert('Este CPF/CNPJ já está cadastrado no sistema!');
-          return;
-        }
+        if(jaExiste) return alert('Este CPF/CNPJ já está cadastrado no sistema!');
 
         const novo = { 
           nome, documento, senha, escala: 'escala_3', comissao: 10,
@@ -840,62 +826,26 @@
     };
 
     window.mudarAbaGestor = function(aba) {
-      const abaPed = document.getElementById('aba-pedidos');
-      const abaDist = document.getElementById('aba-distribuidores');
-      const abaCom = document.getElementById('aba-comissoes');
-      const abaProd = document.getElementById('aba-produtos');
-      const abaBanners = document.getElementById('aba-banners');
-      const abaBf = document.getElementById('aba-blackfriday');
+      const ids = ['pedidos', 'distribuidores', 'comissoes', 'produtos', 'banners', 'blackfriday'];
+      ids.forEach(id => {
+        const el = document.getElementById(`aba-${id}`);
+        const btn = document.getElementById(`tab-btn-${id === 'distribuidores' ? 'dist' : id === 'comissoes' ? 'comissao' : id === 'produtos' ? 'prod' : id}`);
+        if(el) el.classList.add('hidden');
+        if(btn) btn.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
+      });
 
-      const btnPed = document.getElementById('tab-btn-pedidos');
-      const btnDist = document.getElementById('tab-btn-dist');
-      const btnCom = document.getElementById('tab-btn-comissao');
-      const btnProd = document.getElementById('tab-btn-prod');
-      const btnBanners = document.getElementById('tab-btn-banners');
-      const btnBf = document.getElementById('tab-btn-blackfriday');
-
-      abaPed.classList.add('hidden');
-      abaDist.classList.add('hidden');
-      abaCom.classList.add('hidden');
-      abaProd.classList.add('hidden');
-      abaBanners.classList.add('hidden');
-      if(abaBf) abaBf.classList.add('hidden');
-
-      btnPed.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
-      btnDist.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
-      btnCom.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
-      btnProd.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
-      btnBanners.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
-      if(btnBf) btnBf.className = "bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition";
-
-      if(aba === 'pedidos') {
-        abaPed.classList.remove('hidden');
-        btnPed.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
-      } else if(aba === 'distribuidores') {
-        abaDist.classList.remove('hidden');
-        btnDist.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
-      } else if(aba === 'comissoes') {
-        abaCom.classList.remove('hidden');
-        btnCom.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
-        renderRelatorioComissoes();
-      } else if(aba === 'produtos') {
-        abaProd.classList.remove('hidden');
-        btnProd.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
-      } else if(aba === 'banners') {
-        abaBanners.classList.remove('hidden');
-        btnBanners.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
-      } else if(aba === 'blackfriday') {
-        if(abaBf) abaBf.classList.remove('hidden');
-        if(btnBf) btnBf.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
-      }
+      const abaAlvo = document.getElementById(`aba-${aba}`);
+      const btnAlvo = document.getElementById(`tab-btn-${aba === 'distribuidores' ? 'dist' : aba === 'comissoes' ? 'comissao' : aba === 'produtos' ? 'prod' : aba}`);
+      if(abaAlvo) abaAlvo.classList.remove('hidden');
+      if(btnAlvo) btnAlvo.className = "bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm";
+      if(aba === 'comissoes') renderRelatorioComissoes();
     };
 
-    // GESTÃO DE BANNERS COM COMPRESSÃO AUTOMÁTICA
     window.converterImagemBase64Banner = function(inputEl) {
       const file = inputEl.files[0];
       if (file) {
         if (file.size > 2 * 1024 * 1024) {
-          alert("A imagem selecionada é muito pesada (maior que 2MB). Escolha uma imagem menor ou use uma URL externa.");
+          alert("A imagem selecionada é muito pesada (maior que 2MB). Escolha uma menor ou use URL externa.");
           inputEl.value = "";
           document.getElementById('cad-banner-base64-cache').value = "";
           return;
@@ -908,21 +858,12 @@
           img.onload = function() {
             const canvas = document.createElement('canvas');
             const MAX_WIDTH = 1200;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > MAX_WIDTH) {
-              height = Math.round((height * MAX_WIDTH) / width);
-              width = MAX_WIDTH;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
+            let width = img.width, height = img.height;
+            if (width > MAX_WIDTH) { height = Math.round((height * MAX_WIDTH) / width); width = MAX_WIDTH; }
+            canvas.width = width; canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-
-            const dataUrlLeve = canvas.toDataURL('image/jpeg', 0.8);
-            document.getElementById('cad-banner-base64-cache').value = dataUrlLeve;
+            document.getElementById('cad-banner-base64-cache').value = canvas.toDataURL('image/jpeg', 0.8);
           };
         };
         reader.readAsDataURL(file);
@@ -931,65 +872,36 @@
 
     window.cadastrarBanner = async function(e) {
       if(e) e.preventDefault();
-      
       const titulo = document.getElementById('cad-banner-titulo').value.trim();
       const descricao = document.getElementById('cad-banner-desc').value.trim();
       const precoDe = parseFloat(document.getElementById('cad-banner-pde').value) || 0;
       const precoPor = parseFloat(document.getElementById('cad-banner-ppor').value) || 0;
-      
-      const imgLocal = document.getElementById('cad-banner-base64-cache').value;
-      const imgUrl = document.getElementById('cad-banner-imgurl').value.trim();
-      const fotoFinal = imgLocal || imgUrl;
+      const fotoFinal = document.getElementById('cad-banner-base64-cache').value || document.getElementById('cad-banner-imgurl').value.trim();
 
-      if (!fotoFinal) {
-        alert("Por favor, selecione uma imagem do computador OU insira uma URL de imagem externa.");
-        return;
-      }
+      if (!fotoFinal) return alert("Selecione uma imagem do computador OU insira uma URL externa.");
 
       const linkUrl = document.getElementById('cad-banner-link').value.trim() || 'portal.html';
       const ordem = parseInt(document.getElementById('cad-banner-ordem').value) || 1;
 
       try {
-        await addDoc(collection(db, "banners"), { 
-          titulo, 
-          descricao, 
-          precoDe, 
-          precoPor, 
-          imageUrl: fotoFinal, 
-          linkUrl, 
-          ordem, 
-          criadoEm: new Date().toISOString() 
-        });
-        
+        await addDoc(collection(db, "banners"), { titulo, descricao, precoDe, precoPor, imageUrl: fotoFinal, linkUrl, ordem, criadoEm: new Date().toISOString() });
         alert("✅ Banner cadastrado com sucesso!");
         e.target.reset();
         document.getElementById('cad-banner-base64-cache').value = '';
-      } catch(err) {
-        console.error("Erro no Firebase ao salvar banner:", err);
-        alert("❌ Erro ao salvar o banner: " + err.message);
-      }
+      } catch(err) { alert("❌ Erro ao salvar o banner: " + err.message); }
     };
 
     window.deletarBanner = async function(id) {
-      if(confirm("Deseja realmente remover este banner?")) {
-        try {
-          await deleteDoc(doc(db, "banners", id));
-        } catch(err) {
-          console.error(err);
-          alert("Erro ao excluir banner.");
-        }
-      }
+      if(confirm("Deseja realmente remover este banner?")) await deleteDoc(doc(db, "banners", id));
     };
 
     function renderGestorBanners() {
       const container = document.getElementById('lista-banners-gestor');
       if(!container) return;
-
       if(window.banners.length === 0) {
         container.innerHTML = '<p class="text-xs text-[#8c7a6b] font-medium p-2">Nenhum banner cadastrado.</p>';
         return;
       }
-
       container.innerHTML = window.banners.map(b => `
         <div class="flex items-center justify-between p-3 border border-[#e6dbc9] rounded-xl bg-[#fcfbfa] gap-3">
           <div class="flex items-center gap-3">
@@ -1004,17 +916,15 @@
       `).join('');
     }
 
-    // GESTÃO DA BLACK FRIDAY
     window.converterImagemBase64BF = function(inputEl) {
       const file = inputEl.files[0];
       if (file) {
         if (file.size > 2 * 1024 * 1024) {
-          alert("A imagem selecionada é muito pesada (maior que 2MB). Escolha uma imagem menor ou use uma URL externa.");
+          alert("Imagem muito pesada (>2MB). Escolha outra.");
           inputEl.value = "";
           document.getElementById('cad-bf-base64-cache').value = "";
           return;
         }
-
         const reader = new FileReader();
         reader.onload = function(e) {
           const img = new Image();
@@ -1022,21 +932,12 @@
           img.onload = function() {
             const canvas = document.createElement('canvas');
             const MAX_WIDTH = 1200;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > MAX_WIDTH) {
-              height = Math.round((height * MAX_WIDTH) / width);
-              width = MAX_WIDTH;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
+            let width = img.width, height = img.height;
+            if (width > MAX_WIDTH) { height = Math.round((height * MAX_WIDTH) / width); width = MAX_WIDTH; }
+            canvas.width = width; canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-
-            const dataUrlLeve = canvas.toDataURL('image/jpeg', 0.8);
-            document.getElementById('cad-bf-base64-cache').value = dataUrlLeve;
+            document.getElementById('cad-bf-base64-cache').value = canvas.toDataURL('image/jpeg', 0.8);
           };
         };
         reader.readAsDataURL(file);
@@ -1050,46 +951,30 @@
       const descricao = document.getElementById('cad-bf-desc').value.trim();
       const precoDe = parseFloat(document.getElementById('cad-bf-pde').value) || 0;
       const precoPor = parseFloat(document.getElementById('cad-bf-ppor').value) || 0;
-      
-      const imgLocal = document.getElementById('cad-bf-base64-cache').value;
-      const imgUrl = document.getElementById('cad-bf-imgurl').value.trim();
-      const fotoFinal = imgLocal || imgUrl;
+      const fotoFinal = document.getElementById('cad-bf-base64-cache').value || document.getElementById('cad-bf-imgurl').value.trim();
 
-      if (!fotoFinal) {
-        alert("Por favor, selecione uma imagem do computador OU insira uma URL de imagem externa.");
-        return;
-      }
-
+      if (!fotoFinal) return alert("Selecione uma imagem do computador OU insira uma URL externa.");
       const linkUrl = document.getElementById('cad-bf-link').value.trim() || 'portal.html';
 
       try {
-        await addDoc(collection(db, "promocoes_blackfriday"), {
-          tag, nome, descricao, precoDe, precoPor, imageUrl: fotoFinal, linkUrl, criadoEm: new Date().toISOString()
-        });
+        await addDoc(collection(db, "promocoes_blackfriday"), { tag, nome, descricao, precoDe, precoPor, imageUrl: fotoFinal, linkUrl, criadoEm: new Date().toISOString() });
         alert("✅ Oferta cadastrada na Black Friday com sucesso!");
         e.target.reset();
         document.getElementById('cad-bf-base64-cache').value = '';
-      } catch(err) {
-        console.error("Erro no Firebase ao salvar oferta:", err);
-        alert("❌ Erro ao salvar oferta: " + err.message);
-      }
+      } catch(err) { alert("❌ Erro ao salvar oferta: " + err.message); }
     };
 
     window.deletarOfertaBlackFriday = async function(id) {
-      if(confirm("Deseja remover esta oferta da Black Friday?")) {
-        await deleteDoc(doc(db, "promocoes_blackfriday", id));
-      }
+      if(confirm("Deseja remover esta oferta da Black Friday?")) await deleteDoc(doc(db, "promocoes_blackfriday", id));
     };
 
     function renderGestorBlackFriday() {
       const container = document.getElementById('lista-ofertas-blackfriday');
       if(!container) return;
-
       if(window.ofertasBlackFriday.length === 0) {
         container.innerHTML = '<p class="text-xs text-[#8c7a6b] font-medium p-2">Nenhuma oferta cadastrada.</p>';
         return;
       }
-
       container.innerHTML = window.ofertasBlackFriday.map(o => `
         <div class="flex items-center justify-between p-3 border border-[#e6dbc9] rounded-xl bg-[#fcfbfa] gap-3">
           <div class="flex items-center gap-3">
@@ -1109,7 +994,6 @@
       if(e) e.preventDefault();
       const docVal = document.getElementById('login-doc').value.trim();
       const senhaVal = document.getElementById('login-senha').value.trim();
-
       const achado = window.distribuidores.find(d => d.documento === docVal && d.senha === senhaVal);
 
       if(achado) {
@@ -1157,17 +1041,14 @@
         btnGestor.innerText = "🔒 Gestor";
 
         document.getElementById('lbl-distribuidor-nome').innerText = window.distribuidorLogado.nome;
-        
         let perfilNome = 'E-commerce';
         const tipoEscala = window.distribuidorLogado.escala || 'escala_1';
         if(tipoEscala === 'escala_2') perfilNome = 'Atacado';
         if(tipoEscala === 'escala_3') perfilNome = 'Afiliados';
 
         document.getElementById('lbl-distribuidor-escala').innerText = perfilNome;
-
         const end = window.distribuidorLogado.endereco;
-        const endStr = end ? `${end.cidade}/${end.uf} - CEP: ${end.cep}` : 'Não cadastrado';
-        document.getElementById('lbl-distribuidor-endereco').innerText = endStr;
+        document.getElementById('lbl-distribuidor-endereco').innerText = end ? `${end.cidade}/${end.uf} - CEP: ${end.cep}` : 'Não cadastrado';
 
         if(navStatus) navStatus.innerText = `Parceiro: ${window.distribuidorLogado.nome}`;
         renderCatalogo();
@@ -1177,14 +1058,13 @@
         btnGestor.innerText = "🔒 Gestor";
         if(navStatus) navStatus.innerText = "Portal B2B";
       }
-    }
+    };
 
     function renderCatalogo() {
       const grid = document.getElementById('grid-produtos');
       if(!grid || !window.distribuidorLogado) return;
 
       const textoBusca = document.getElementById('input-busca-produto')?.value.toLowerCase().trim() || '';
-
       let listaFiltrada = window.produtos.filter(p => {
         const atendeNome = p.nome.toLowerCase().includes(textoBusca);
         const atendeCat = window.categoriaFiltroAtual === 'todas' || (p.categoria || 'cama') === window.categoriaFiltroAtual;
@@ -1338,25 +1218,48 @@
     window.alternarTipoEntrega = function(tipo) {
       window.tipoEntregaAtual = tipo;
       const btnEnvio = document.getElementById('btn-tipo-envio');
+      const btnFreteFixo = document.getElementById('btn-tipo-fretefixo');
       const btnOutro = document.getElementById('btn-tipo-outro');
       const btnRetirada = document.getElementById('btn-tipo-retirada');
       
       const blocoEnvio = document.getElementById('bloco-opcao-envio');
+      const blocoFreteFixo = document.getElementById('bloco-opcao-fretefixo');
       const blocoOutro = document.getElementById('bloco-opcao-outro');
       const blocoRetirada = document.getElementById('bloco-opcao-retirada');
+      const avisoNorte = document.getElementById('aviso-bloqueio-norte');
 
       btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      if(btnFreteFixo) btnFreteFixo.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
       btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
       btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
 
       blocoEnvio.classList.add('hidden');
+      if(blocoFreteFixo) blocoFreteFixo.classList.add('hidden');
       blocoOutro.classList.add('hidden');
       blocoRetirada.classList.add('hidden');
+      if(avisoNorte) avisoNorte.classList.add('hidden');
 
       if(tipo === 'envio') {
         btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
         blocoEnvio.classList.remove('hidden');
         window.servicoFreteNome = 'Melhor Envio (Endereço Padrão)';
+      } else if(tipo === 'fretefixo') {
+        if(btnFreteFixo) btnFreteFixo.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        if(blocoFreteFixo) blocoFreteFixo.classList.remove('hidden');
+
+        // VERIFICAÇÃO AUTOMÁTICA DA REGIÃO NORTE (AC, AP, AM, PA, RO, RR, TO)
+        const ufsNorte = ['AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO'];
+        const ufCadastrada = (window.distribuidorLogado?.endereco?.uf || '').toUpperCase().trim();
+
+        if(ufsNorte.includes(ufCadastrada)) {
+          if(avisoNorte) avisoNorte.classList.remove('hidden');
+          window.valorFreteSelecionado = 0;
+          window.servicoFreteNome = 'Frete Fixo Indisponível para Região Norte';
+          alert(`⚠️ O Frete Fixo de R$ 32,00 não está disponível para o estado de ${ufCadastrada} (Região Norte). Por favor, utilize a cotação via Melhor Envio.`);
+        } else {
+          window.valorFreteSelecionado = 32.00;
+          window.servicoFreteNome = 'Frete Fixo Nacional (R$ 32,00)';
+        }
       } else if(tipo === 'outro') {
         btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
         blocoOutro.classList.remove('hidden');
@@ -1414,7 +1317,6 @@
 
         const data = await response.json();
         const cotacoesValidas = data.filter(c => !c.error);
-        
         if(cotacoesValidas.length === 0) throw new Error("Nenhuma transportadora disponível.");
 
         cotacoesValidas.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
@@ -1430,10 +1332,7 @@
       const cepInput = document.getElementById('carrinho-cep').value.replace(/\D/g, '');
       const resultadoDiv = document.getElementById('resultado-cotacao-frete');
 
-      if(cepInput.length !== 8) {
-        alert("Digite um CEP válido com 8 dígitos.");
-        return;
-      }
+      if(cepInput.length !== 8) return alert("Digite um CEP válido com 8 dígitos.");
 
       resultadoDiv.innerHTML = "🔄 Consultando API do Melhor Envio...";
 
@@ -1458,10 +1357,7 @@
       const uf = document.getElementById('alt-uf').value.trim().toUpperCase();
       const resultadoDiv = document.getElementById('resultado-cotacao-alt');
 
-      if(cep.length !== 8 || !rua || !num || !cidade || !uf) {
-        alert("Por favor, preencha todos os campos do novo endereço.");
-        return;
-      }
+      if(cep.length !== 8 || !rua || !num || !cidade || !uf) return alert("Preencha todos os campos do novo endereço.");
 
       window.enderecoAlternativoCache = { cep, rua, num, bairro, cidade, uf };
       resultadoDiv.innerHTML = "🔄 Consultando frete para o novo endereço...";
@@ -1481,9 +1377,7 @@
       if(window.distribuidorLogado && window.distribuidorLogado.endereco?.cep) {
         const cepLimpo = window.distribuidorLogado.endereco.cep.replace(/\D/g, '');
         const campoCep = document.getElementById('carrinho-cep');
-        if(campoCep && !campoCep.value) {
-          campoCep.value = cepLimpo;
-        }
+        if(campoCep && !campoCep.value) campoCep.value = cepLimpo;
       }
       renderItensModalCarrinho();
       document.getElementById('modal-carrinho').classList.remove('hidden');
@@ -1607,10 +1501,7 @@
 
     function gerarPDFComprovantePedido(dadosPedido) {
       const win = window.open('', '_blank');
-      if(!win) {
-        alert("O navegador bloqueou a janela do PDF.");
-        return;
-      }
+      if(!win) return alert("O navegador bloqueou a janela do PDF.");
 
       const dataStr = new Date(dadosPedido.data).toLocaleString('pt-BR');
       const itensHtml = dadosPedido.itens.map((i, idx) => `
@@ -1623,6 +1514,8 @@
         </tr>
       `).join('');
 
+      const chavePixCopia = "00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C";
+
       win.document.write(`
         <!DOCTYPE html>
         <html>
@@ -1633,22 +1526,25 @@
             .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #3d2c1d; padding-bottom: 15px; margin-bottom: 20px; }
             .logo { background: #3d2c1d; color: #d4b59d; padding: 10px 15px; font-weight: 900; font-size: 20px; border-radius: 8px; }
             .box { background: #fcfbfa; border: 1px solid #e6dbc9; padding: 14px; border-radius: 12px; margin-bottom: 15px; font-size: 12px; }
+            .pix-box { background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 12px; margin-top: 15px; font-size: 11px; color: #065f46; }
             table { width: 100%; border-collapse: collapse; margin-top: 15px; }
             th { background: #3d2c1d; color: #d4b59d; padding: 10px 8px; font-size: 12px; text-align: left; }
             .total { text-align: right; font-size: 16px; font-weight: bold; margin-top: 15px; color: #724625; }
-            .no-print { margin-bottom: 20px; text-align: center; }
+            .no-print { margin-bottom: 20px; text-align: center; display: flex; gap: 10px; justify-content: center; }
+            .btn-action { border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; text-decoration: none; display: inline-block; }
             @media print { .no-print { display: none; } }
           </style>
         </head>
         <body>
           <div class="no-print">
-            <button onclick="window.print()" style="background: #3d2c1d; color: #d4b59d; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">🖨️ Imprimir / Salvar em PDF</button>
+            <button onclick="window.print()" class="btn-action" style="background: #3d2c1d; color: #d4b59d;">🖨️ Imprimir / Salvar em PDF</button>
+            <button onclick="enviarWhatsDireto()" class="btn-action" style="background: #047857; color: #fff;">📲 Enviar este Pedido pelo WhatsApp</button>
           </div>
 
           <div class="header">
             <div>
               <h2 style="margin:0; color: #3d2c1d;">MAJU ENXOVAIS</h2>
-              <p style="margin:2px 0 0 0; font-size: 12px; color: #8c7a6b;">Comprovante de Pedido</p>
+              <p style="margin:2px 0 0 0; font-size: 12px; color: #8c7a6b;">Comprovante / Espelho de Pedido</p>
             </div>
             <div class="logo">MAJU</div>
           </div>
@@ -1658,7 +1554,7 @@
             <p style="margin: 2px 0;"><strong>CPF/CNPJ:</strong> ${dadosPedido.documento}</p>
             <p style="margin: 2px 0;"><strong>Perfil:</strong> ${dadosPedido.perfil}</p>
             <p style="margin: 2px 0;"><strong>Data do Pedido:</strong> ${dataStr}</p>
-            <p style="margin: 2px 0;"><strong>Modalidade:</strong> ${dadosPedido.tipoEntrega === 'retirada' ? 'Retirada na Empresa' : 'Envio via ' + (dadosPedido.servicoFrete || 'Melhor Envio')}</p>
+            <p style="margin: 2px 0;"><strong>Modalidade:</strong> ${dadosPedido.tipoEntrega === 'retirada' ? 'Retirada na Empresa' : dadosPedido.tipoEntrega === 'fretefixo' ? 'Frete Fixo Nacional (R$ 32,00)' : 'Envio via ' + (dadosPedido.servicoFrete || 'Melhor Envio')}</p>
             <p style="margin: 2px 0;"><strong>Endereço de Entrega:</strong> ${dadosPedido.enderecoEntrega}</p>
             ${dadosPedido.observacao ? `<p style="margin: 6px 0 2px 0; color: #8c5830;"><strong>Observações:</strong> ${dadosPedido.observacao}</p>` : ''}
           </div>
@@ -1684,6 +1580,24 @@
           <div class="total">
             VALOR TOTAL GERAL: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
           </div>
+
+          <div class="pix-box">
+            <p style="margin:0 0 4px 0; font-weight:bold; font-size: 12px;">⚡ Dados para Pagamento via PIX (Favorecido: CAMILA M DA C - Ibitinga SP):</p>
+            <p style="margin:0; font-family: monospace; word-break: break-all; background: #fff; padding: 6px; border-radius: 6px; border: 1px solid #a7f3d0; font-size: 10px;">${chavePixCopia}</p>
+          </div>
+
+          <script>
+            function enviarWhatsDireto() {
+              const tel = "${TELEFONE_WHATSAPP_VENDAS}";
+              let msg = "🛍️ *PEDIDO MAJU ENXOVAIS*\\n-----------------------------------\\n";
+              msg += "🏢 *Cliente:* ${dadosPedido.distribuidor}\\n";
+              msg += "📄 *Doc:* ${dadosPedido.documento}\\n";
+              msg += "🚚 *Entrega:* ${dadosPedido.enderecoEntrega}\\n";
+              msg += "💰 *VALOR TOTAL: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}*\\n";
+              msg += "-----------------------------------";
+              window.open('https://api.whatsapp.com/send?phone=' + tel + '&text=' + encodeURIComponent(msg), '_blank');
+            }
+          <\/script>
         </body>
         </html>
       `);
@@ -1694,19 +1608,17 @@
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return;
 
+      const chavePixCopia = "00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C";
+
       let msg = `🛍️ *NOVO PEDIDO - MAJU ENXOVAIS*
 -----------------------------------
-`;
-      msg += `🏢 *Cliente/Parceiro:* ${pedidoObj.distribuidor}
-`;
-      msg += `👤 *Perfil:* ${pedidoObj.perfil}
-`;
-      msg += `📄 *Doc:* ${pedidoObj.documento}
-`;
-      msg += `🚚 *ENTREGA:* ${pedidoObj.enderecoEntrega}
+🏢 *Cliente/Parceiro:* ${pedidoObj.distribuidor}
+👤 *Perfil:* ${pedidoObj.perfil}
+📄 *Doc:* ${pedidoObj.documento}
+🚚 *ENTREGA:* ${pedidoObj.enderecoEntrega}
 `;
       if(pedidoObj.tipoEntrega !== 'retirada') {
-        msg += `📦 *Frete:* R$ ${Number(pedidoObj.valorFrete).toFixed(2)}
+        msg += `📦 *Frete:* R$ ${Number(pedidoObj.valorFrete).toFixed(2)} (${pedidoObj.servicoFrete})
 `;
       }
       if(pedidoObj.observacao) {
@@ -1727,7 +1639,8 @@
       msg += `
 -----------------------------------
 💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*
-⚡ *Chave PIX:* advocaciadigitalinteligente@gmail.com
+⚡ *Chave PIX (Camila - Ibitinga/SP):* 
+${chavePixCopia}
 -----------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
@@ -1760,7 +1673,6 @@
 
       const dataIni = document.getElementById('filtro-data-ini')?.value;
       const dataFim = document.getElementById('filtro-data-fim')?.value;
-
       const afiliados = window.distribuidores.filter(d => d.escala === 'escala_3');
 
       if(afiliados.length === 0) {
@@ -1772,13 +1684,11 @@
         let pedidosAfiliado = window.pedidos.filter(p => p.documento === af.documento && (p.status === 'Concluído' || p.status === 'Enviado'));
 
         if(dataIni) {
-          const dIni = new Date(dataIni);
-          dIni.setHours(0,0,0,0);
+          const dIni = new Date(dataIni); dIni.setHours(0,0,0,0);
           pedidosAfiliado = pedidosAfiliado.filter(p => new Date(p.data) >= dIni);
         }
         if(dataFim) {
-          const dFim = new Date(dataFim);
-          dFim.setHours(23,59,59,999);
+          const dFim = new Date(dataFim); dFim.setHours(23,59,59,999);
           pedidosAfiliado = pedidosAfiliado.filter(p => new Date(p.data) <= dFim);
         }
         
@@ -1822,10 +1732,7 @@
       try {
         await updateDoc(doc(db, "b2b_distribuidores", distId), { comissaoPaga: novoStatus });
         alert(`Status da comissão alterado para: ${novoStatus}`);
-      } catch(err) {
-        console.error(err);
-        alert("Erro ao atualizar status da comissão.");
-      }
+      } catch(err) { alert("Erro ao atualizar status da comissão."); }
     };
 
     window.renderGestorPedidos = function() {
@@ -1834,10 +1741,7 @@
 
       const filtro = document.getElementById('filtro-status-pedido')?.value || 'todos';
       let listaFiltrada = window.pedidos;
-
-      if(filtro !== 'todos') {
-        listaFiltrada = window.pedidos.filter(p => (p.status || 'Pendente') === filtro);
-      }
+      if(filtro !== 'todos') listaFiltrada = window.pedidos.filter(p => (p.status || 'Pendente') === filtro);
 
       if(listaFiltrada.length === 0) {
         container.innerHTML = '<div class="bg-white p-8 text-center text-[#8c7a6b] font-medium rounded-2xl border border-[#e6dbc9]">Nenhum pedido encontrado.</div>';
@@ -1910,21 +1814,15 @@
       }).join('');
     };
 
-    window.reimprimirPedidoGestor = function(pedidoObj) {
-      gerarPDFComprovantePedido(pedidoObj);
-    };
-
+    window.reimprimirPedidoGestor = function(pedidoObj) { gerarPDFComprovantePedido(pedidoObj); };
     window.atualizarStatusPedido = async function(id, novoStatus) {
       try {
         await updateDoc(doc(db, "b2b_pedidos", id), { status: novoStatus });
         alert(`Status alterado para: ${novoStatus}`);
       } catch(err) { console.error(err); }
     };
-
     window.deletarPedido = async function(id) {
-      if(confirm("Excluir este pedido?")) {
-        await deleteDoc(doc(db, "b2b_pedidos", id));
-      }
+      if(confirm("Excluir este pedido?")) await deleteDoc(doc(db, "b2b_pedidos", id));
     };
 
     window.verificarSeAfiliado = function() {
@@ -1946,7 +1844,6 @@
       const senha = document.getElementById('cad-dist-senha').value.trim();
       const escala = document.getElementById('cad-dist-escala').value;
       const comissao = escala === 'escala_3' ? (parseFloat(document.getElementById('cad-dist-comissao').value) || 0) : 0;
-
       const cep = document.getElementById('cad-dist-cep').value.trim();
       const rua = document.getElementById('cad-dist-rua').value.trim();
       const num = document.getElementById('cad-dist-num').value.trim();
@@ -1966,7 +1863,6 @@
         await addDoc(collection(db, "b2b_distribuidores"), dados);
         alert('Cadastro realizado com sucesso!');
       }
-
       limparFormDistribuidor();
     };
 
@@ -1980,7 +1876,6 @@
       document.getElementById('cad-dist-senha').value = d.senha || '';
       document.getElementById('cad-dist-escala').value = d.escala || 'escala_1';
       document.getElementById('cad-dist-comissao').value = d.comissao || '';
-
       verificarSeAfiliado();
 
       const end = d.endereco || {};
@@ -2014,19 +1909,15 @@
     }
 
     window.deletarDistribuidor = async function(id) {
-      if(confirm('Excluir este cadastro?')) {
-        await deleteDoc(doc(db, "b2b_distribuidores", id));
-      }
+      if(confirm('Excluir este cadastro?')) await deleteDoc(doc(db, "b2b_distribuidores", id));
     };
 
     function renderGestorDistribuidores() {
       const ul = document.getElementById('lista-distribuidores');
       if(!ul) return;
-
       ul.innerHTML = window.distribuidores.map(d => {
         const end = d.endereco || {};
         const endStr = end.cep ? `${end.cidade}/${end.uf} (${end.cep})` : 'Sem endereço';
-        
         let perfilLabel = 'E-commerce';
         if(d.escala === 'escala_2') perfilLabel = 'Atacado';
         if(d.escala === 'escala_3') perfilLabel = `Afiliados (${d.comissao || 0}%)`;
@@ -2068,7 +1959,6 @@
       const foto1 = document.getElementById('cad-prod-foto1').value.trim();
       const foto2 = document.getElementById('cad-prod-foto2').value.trim();
       const foto3 = document.getElementById('cad-prod-foto3').value.trim();
-
       const p1 = parseFloat(document.getElementById('cad-prod-p1').value) || 0;
       const p2 = parseFloat(document.getElementById('cad-prod-p2').value) || 0;
       const p3 = parseFloat(document.getElementById('cad-prod-p3').value) || 0;
@@ -2078,9 +1968,7 @@
       linhasCor.forEach(linha => {
         const cNome = linha.querySelector('.cor-nome-input').value.trim();
         const cFoto = linha.querySelector('.cor-foto-input').value.trim();
-        if(cNome) {
-          cores.push({ nome: cNome, foto: cFoto });
-        }
+        if(cNome) cores.push({ nome: cNome, foto: cFoto });
       });
 
       const dados = {
@@ -2095,7 +1983,6 @@
         await addDoc(collection(db, "b2b_produtos"), dados);
         alert('Produto cadastrado!');
       }
-
       limparFormProduto();
     };
 
@@ -2142,29 +2029,24 @@
     }
 
     window.deletarProduto = async function(id) {
-      if(confirm('Excluir este produto?')) {
-        await deleteDoc(doc(db, "b2b_produtos", id));
-      }
+      if(confirm('Excluir este produto?')) await deleteDoc(doc(db, "b2b_produtos", id));
     };
 
     function renderGestorProdutos() {
       const ul = document.getElementById('lista-produtos-gestor');
       if(!ul) return;
-
-      ul.innerHTML = window.produtos.map(p => {
-        return `
-          <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
-            <div>
-              <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span> <span class="bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded text-[10px] font-bold uppercase">${p.categoria || 'cama'}</span>
-              <p class="text-[10px] text-[#8c7a6b]">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
-            </div>
-            <div class="flex gap-1">
-              <button onclick="prepararEdicaoProduto('${p.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
-              <button onclick="deletarProduto('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
-            </div>
-          </li>
-        `;
-      }).join('');
+      ul.innerHTML = window.produtos.map(p => `
+        <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
+          <div>
+            <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span> <span class="bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded text-[10px] font-bold uppercase">${p.categoria || 'cama'}</span>
+            <p class="text-[10px] text-[#8c7a6b]">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
+          </div>
+          <div class="flex gap-1">
+            <button onclick="prepararEdicaoProduto('${p.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
+            <button onclick="deletarProduto('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
+          </div>
+        </li>
+      `).join('');
     }
 
     atualizarViews();
