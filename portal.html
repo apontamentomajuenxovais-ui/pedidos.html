@@ -548,8 +548,7 @@
           <div class="flex justify-between items-center flex-wrap gap-2">
             <label class="block text-xs font-bold text-[#3d2c1d]">🚚 Modalidade de Entrega:</label>
             <div class="flex gap-1 flex-wrap">
-              <button type="button" id="btn-tipo-envio" onclick="alternarTipoEntrega('envio')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition">Melhor Envio</button>
-              <button type="button" id="btn-tipo-fixo" onclick="alternarTipoEntrega('fixo')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">🚚 Frete Fixo (R$ 32,00)</button>
+              <button type="button" id="btn-tipo-envio" onclick="alternarTipoEntrega('envio')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition">Endereço Padrão</button>
               <button type="button" id="btn-tipo-outro" onclick="alternarTipoEntrega('outro')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">Outro Endereço</button>
               <button type="button" id="btn-tipo-retirada" onclick="alternarTipoEntrega('retirada')" class="px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition">Retirar</button>
             </div>
@@ -579,19 +578,6 @@
             </div>
             <button onclick="calcularFreteOutroEnderecoReal()" class="w-full bg-[#8c5830] hover:bg-[#724625] text-white font-bold py-1.5 rounded-lg text-xs transition shadow">Calcular Frete para este Endereço</button>
             <div id="resultado-cotacao-alt" class="text-[11px] text-[#8c7a6b] font-medium">Preencha o CEP e clique para cotar.</div>
-          </div>
-
-          <div id="bloco-opcao-fixo" class="hidden space-y-2 bg-amber-50 p-3 rounded-xl border border-amber-200">
-            <div class="flex justify-between items-center">
-              <span class="text-xs font-bold text-amber-950">🚚 Frete Fixo Promocional: R$ 32,00</span>
-              <span class="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold">Brasil (Exceto Região Norte)</span>
-            </div>
-            <p class="text-[11px] text-amber-900 leading-tight">Válido para todo o Brasil (Regiões Sul, Sudeste, Centro-Oeste e Nordeste). <strong>Não se aplica aos estados da Região Norte:</strong> AC, AP, AM, PA, RO, RR e TO.</p>
-            <div class="flex gap-2 items-center pt-1">
-              <input type="text" id="fixo-uf-validacao" placeholder="UF (Ex: SP)" maxlength="2" class="border border-amber-300 rounded-lg p-1.5 text-xs w-20 uppercase font-bold text-center bg-white">
-              <button type="button" onclick="aplicarFreteFixoBrasil()" class="bg-amber-800 hover:bg-amber-900 text-white font-bold px-3 py-1.5 rounded-lg text-xs shadow transition">Confirmar Frete Fixo</button>
-            </div>
-            <div id="msg-validacao-frete-fixo" class="text-[11px] font-bold"></div>
           </div>
 
           <div id="bloco-opcao-retirada" class="hidden text-xs text-emerald-900 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 font-medium">
@@ -790,7 +776,7 @@
 
     window.copiarChavePIX = function() {
       const inputEl = document.getElementById('chave-pix-copia-input');
-      const txt = inputEl ? inputEl.value : "00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C";
+      const txt = inputEl ? inputEl.value : "advocaciadigitalinteligente@gmail.com";
       navigator.clipboard.writeText(txt);
       alert("✅ Chave PIX / Código Copia e Cola copiado com sucesso!");
     };
@@ -1352,74 +1338,35 @@
     window.alternarTipoEntrega = function(tipo) {
       window.tipoEntregaAtual = tipo;
       const btnEnvio = document.getElementById('btn-tipo-envio');
-      const btnFixo = document.getElementById('btn-tipo-fixo');
       const btnOutro = document.getElementById('btn-tipo-outro');
       const btnRetirada = document.getElementById('btn-tipo-retirada');
       
       const blocoEnvio = document.getElementById('bloco-opcao-envio');
-      const blocoFixo = document.getElementById('bloco-opcao-fixo');
       const blocoOutro = document.getElementById('bloco-opcao-outro');
       const blocoRetirada = document.getElementById('bloco-opcao-retirada');
 
-      if(btnEnvio) btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
-      if(btnFixo) btnFixo.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
-      if(btnOutro) btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
-      if(btnRetirada) btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
+      btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#efe8de] text-[#5c3a21] transition";
 
-      if(blocoEnvio) blocoEnvio.classList.add('hidden');
-      if(blocoFixo) blocoFixo.classList.add('hidden');
-      if(blocoOutro) blocoOutro.classList.add('hidden');
-      if(blocoRetirada) blocoRetirada.classList.add('hidden');
+      blocoEnvio.classList.add('hidden');
+      blocoOutro.classList.add('hidden');
+      blocoRetirada.classList.add('hidden');
 
       if(tipo === 'envio') {
-        if(btnEnvio) btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
-        if(blocoEnvio) blocoEnvio.classList.remove('hidden');
+        btnEnvio.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        blocoEnvio.classList.remove('hidden');
         window.servicoFreteNome = 'Melhor Envio (Endereço Padrão)';
-      } else if(tipo === 'fixo') {
-        if(btnFixo) btnFixo.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
-        if(blocoFixo) blocoFixo.classList.remove('hidden');
-        // Tentar preencher UF do cadastro
-        if(window.distribuidorLogado && window.distribuidorLogado.endereco && window.distribuidorLogado.endereco.uf) {
-          const inputUf = document.getElementById('fixo-uf-validacao');
-          if(inputUf && !inputUf.value) inputUf.value = window.distribuidorLogado.endereco.uf.toUpperCase();
-        }
-        aplicarFreteFixoBrasil();
       } else if(tipo === 'outro') {
-        if(btnOutro) btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
-        if(blocoOutro) blocoOutro.classList.remove('hidden');
+        btnOutro.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        blocoOutro.classList.remove('hidden');
         window.valorFreteSelecionado = 0;
         window.servicoFreteNome = 'Melhor Envio (Outro Endereço)';
       } else {
-        if(btnRetirada) btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
-        if(blocoRetirada) blocoRetirada.classList.remove('hidden');
+        btnRetirada.className = "px-2 py-1 rounded-lg text-[11px] font-bold bg-[#3d2c1d] text-[#f7f3ec] transition";
+        blocoRetirada.classList.remove('hidden');
         window.valorFreteSelecionado = 0;
         window.servicoFreteNome = 'Retirada na Empresa (Sem Frete)';
-      }
-      atualizarResumoCarrinho();
-    };
-
-    window.aplicarFreteFixoBrasil = function() {
-      const ufInput = document.getElementById('fixo-uf-validacao')?.value.trim().toUpperCase() || '';
-      const msgDiv = document.getElementById('msg-validacao-frete-fixo');
-      const ufsNorte = ['AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO'];
-
-      if(!ufInput) {
-        if(msgDiv) msgDiv.innerHTML = '<span class="text-amber-800">⚠️ Digite o estado (UF) de entrega para confirmar.</span>';
-        window.valorFreteSelecionado = 0;
-        window.servicoFreteNome = 'Frete Fixo (Informe a UF)';
-        atualizarResumoCarrinho();
-        return;
-      }
-
-      if(ufsNorte.includes(ufInput)) {
-        if(msgDiv) msgDiv.innerHTML = `<span class="text-red-700">❌ O Frete Fixo R$ 32,00 não está disponível para o estado do ${ufInput} (Região Norte). Escolha o envio via Melhor Envio ou Retirada.</span>`;
-        window.valorFreteSelecionado = 0;
-        window.servicoFreteNome = 'Frete Fixo Indisponível para Região Norte';
-        alert(`O Frete Fixo promocional de R$ 32,00 não se aplica aos estados da Região Norte (${ufInput}). Por favor, escolha a opção "Melhor Envio".`);
-      } else {
-        if(msgDiv) msgDiv.innerHTML = `<span class="text-emerald-800">✅ Frete Fixo de R$ 32,00 confirmado para o estado do ${ufInput}!</span>`;
-        window.valorFreteSelecionado = 32.00;
-        window.servicoFreteNome = `Frete Fixo Brasil (${ufInput}) - R$ 32,00`;
       }
       atualizarResumoCarrinho();
     };
@@ -1737,21 +1684,6 @@
           <div class="total">
             VALOR TOTAL GERAL: R$ ${Number(dadosPedido.valorTotal).toFixed(2)}
           </div>
-
-          <div style="margin-top: 20px; background: #e6f4ea; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px; text-align: center; font-size: 12px;">
-            <p style="margin: 0 0 6px 0; font-weight: bold; color: #064e3b;">⚡ DADOS PARA PAGAMENTO VIA PIX</p>
-            <p style="margin: 0; font-family: monospace; font-size: 11px; word-break: break-all; background: #fff; padding: 6px; border-radius: 4px; border: 1px solid #6ee7b7; color: #064e3b;">00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C</p>
-            <p style="margin: 6px 0 0 0; color: #047857; font-size: 11px;">Beneficiário: <strong>CAMILA M DA C</strong> (Ibitinga - SP)</p>
-          </div>
-
-          <div class="no-print" style="margin-top: 15px; text-align: center;">
-            <a id="btn-wa-pdf" href="#" target="_blank" style="display: inline-block; background: #047857; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 13px;">📲 Enviar este Pedido pelo WhatsApp</a>
-          </div>
-
-          <script>
-            const msgWa = encodeURIComponent("Olá! Segue o espelho do meu pedido realizado no portal (Valor Total: R$ " + Number(${dadosPedido.valorTotal}).toFixed(2) + ").");
-            document.getElementById('btn-wa-pdf').href = "https://api.whatsapp.com/send?phone=5516996216754&text=" + msgWa;
-          </script>
         </body>
         </html>
       `);
@@ -1795,8 +1727,7 @@
       msg += `
 -----------------------------------
 💰 *VALOR TOTAL GERAL: R$ ${pedidoObj.valorTotal.toFixed(2)}*
-⚡ *Pix Copia e Cola:*
-`00020101021126360014br.gov.bcb.pix0114301135580001445204000053039865802BR5923CAMILA M DA C 3885245386008IBITINGA62070503***63042B1C`
+⚡ *Chave PIX:* advocaciadigitalinteligente@gmail.com
 -----------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${TELEFONE_WHATSAPP_VENDAS}&text=${encodeURIComponent(msg)}`, '_blank');
@@ -2240,5 +2171,3 @@
   </script>
 </body>
 </html>
-portal_atualizado.html
-Exibindo portal_atualizado.html.
