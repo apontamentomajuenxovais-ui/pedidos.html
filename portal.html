@@ -15,7 +15,7 @@
     ::-webkit-scrollbar-thumb { background: #5c3a21; border-radius: 4px; }
   </style>
 
-  <!-- DECLARAÇÃO GLOBAL PARA O MODO GESTOR -->
+  <!-- DECLARAÇÃO GLOBAL CORRIGIDA PARA O MODO GESTOR E SESSÃO -->
   <script>
     let modoGestorAtivo = false;
     let senhaGestor = localStorage.getItem('maju_senha_gestor') || "Maju1403!";
@@ -58,9 +58,6 @@
         </div>
       </div>
       <div class="flex items-center space-x-2">
-        <a href="index.html" class="bg-[#5c3a21] hover:bg-[#4a2e1a] text-[#d4b59d] font-bold px-3 py-2 rounded-xl text-xs shadow border border-[#724625] transition flex items-center gap-1">
-          🏠 Início
-        </a>
         <button id="btn-carrinho" onclick="abrirModalCarrinho()" class="hidden bg-[#8c5830] hover:bg-[#724625] text-white font-bold px-3.5 py-2 rounded-xl text-xs md:text-sm flex items-center gap-2 shadow-md transition">
           <span>🛒 Carrinho</span>
           <span id="badge-carrinho-qtd" class="bg-[#3d2c1d] text-[#d4b59d] text-[11px] px-2 py-0.5 rounded-full font-black">0</span>
@@ -210,7 +207,6 @@
           <p class="text-xs text-[#d4b59d]/80">Gerencie Pedidos, Perfis, Comissões, Produtos, Banners e Black Friday</p>
         </div>
         <div class="flex items-center gap-2">
-          <a href="index.html" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition flex items-center gap-1">🏠 Início</a>
           <button onclick="toggleModoGestor()" class="bg-[#5c3a21] hover:bg-[#724625] text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition">Sair do Modo Gestor</button>
         </div>
       </div>
@@ -737,6 +733,7 @@
           if (inputBusca) inputBusca.value = buscaParam;
         }, 300);
       }
+      atualizarViews();
     });
 
     window.exportarPlanilhaMelhorEnvio = function() {
@@ -822,7 +819,8 @@
           endereco: { cep, rua, num, bairro, cidade, uf }
         };
 
-        await addDoc(collection(db, "b2b_distribuidores"), novo);
+        const docRef = await addDoc(collection(db, "b2b_distribuidores"), novo);
+        novo.id = docRef.id;
         alert('Cadastro de afiliado realizado com sucesso!');
         window.distribuidorLogado = novo;
         atualizarViews();
@@ -903,7 +901,7 @@
       const container = document.getElementById('lista-banners-gestor');
       if(!container) return;
       if(window.banners.length === 0) {
-        container.innerHTML = '<p class="text-xs text-[#8c7a6b] font-medium p-2">Nenum banner cadastrado.</p>';
+        container.innerHTML = '<p class="text-xs text-[#8c7a6b] font-medium p-2">Nenhum banner cadastrado.</p>';
         return;
       }
       container.innerHTML = window.banners.map(b => `
@@ -1199,26 +1197,34 @@
       const frete = window.tipoEntregaAtual === 'retirada' ? 0 : window.valorFreteSelecionado;
       const totalGeral = totalProdutos + frete;
 
-      document.getElementById('lbl-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
-      document.getElementById('modal-subtotal-produtos').innerText = `R$ ${totalProdutos.toFixed(2)}`;
-      document.getElementById('modal-valor-frete').innerText = window.tipoEntregaAtual === 'retirada' ? 'R$ 0,00 (Retirada)' : `R$ ${frete.toFixed(2)}`;
-      document.getElementById('modal-carrinho-total').innerText = `R$ ${totalGeral.toFixed(2)}`;
-      document.getElementById('badge-carrinho-qtd').innerText = qtdItensTotal;
+      const lblCarrinhoTotal = document.getElementById('lbl-carrinho-total');
+      const modSub = document.getElementById('modal-subtotal-produtos');
+      const modFrete = document.getElementById('modal-valor-frete');
+      const modTotal = document.getElementById('modal-carrinho-total');
+      const badgeQtd = document.getElementById('badge-carrinho-qtd');
+
+      if(lblCarrinhoTotal) lblCarrinhoTotal.innerText = `R$ ${totalGeral.toFixed(2)}`;
+      if(modSub) modSub.innerText = `R$ ${totalProdutos.toFixed(2)}`;
+      if(modFrete) modFrete.innerText = window.tipoEntregaAtual === 'retirada' ? 'R$ 0,00 (Retirada)' : `R$ ${frete.toFixed(2)}`;
+      if(modTotal) modTotal.innerText = `R$ ${totalGeral.toFixed(2)}`;
+      if(badgeQtd) badgeQtd.innerText = qtdItensTotal;
 
       const avisoAtacado = document.getElementById('aviso-atacado-minimo');
       const contadorPecas = document.getElementById('contador-pecas-atacado');
-      if(chaveEscala === 'escala_2') {
-        avisoAtacado.classList.remove('hidden');
-        contadorPecas.innerText = `${qtdItensTotal} / 15 pçs`;
-        if(qtdItensTotal >= 15) {
-          avisoAtacado.className = "bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-xs text-emerald-900 font-bold flex justify-between items-center";
-          contadorPecas.className = "bg-emerald-200 px-2 py-0.5 rounded text-emerald-900";
+      if(avisoAtacado && contadorPecas) {
+        if(chaveEscala === 'escala_2') {
+          avisoAtacado.classList.remove('hidden');
+          contadorPecas.innerText = `${qtdItensTotal} / 15 pçs`;
+          if(qtdItensTotal >= 15) {
+            avisoAtacado.className = "bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-xs text-emerald-900 font-bold flex justify-between items-center";
+            contadorPecas.className = "bg-emerald-200 px-2 py-0.5 rounded text-emerald-900";
+          } else {
+            avisoAtacado.className = "bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-xs text-amber-900 font-bold flex justify-between items-center";
+            contadorPecas.className = "bg-amber-200 px-2 py-0.5 rounded text-amber-900";
+          }
         } else {
-          avisoAtacado.className = "bg-amber-50 border border-amber-200 p-2.5 rounded-xl text-xs text-amber-900 font-bold flex justify-between items-center";
-          contadorPecas.className = "bg-amber-200 px-2 py-0.5 rounded text-amber-900";
+          avisoAtacado.classList.add('hidden');
         }
-      } else {
-        avisoAtacado.classList.add('hidden');
       }
     }
 
@@ -1749,7 +1755,7 @@ ${chavePixCopia}
       const pedidoSalvo = await garantirPedidoSalvo();
       if(pedidoSalvo) {
         window.carrinho = {};
-        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs'].value = '';
+        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
         fecharModalCarrinho();
         renderCatalogo();
         atualizarResumoCarrinho();
@@ -2144,8 +2150,6 @@ ${chavePixCopia}
         </li>
       `).join('');
     }
-
-    atualizarViews();
   </script>
 </body>
 </html>
