@@ -187,7 +187,7 @@
       <div class="bg-white p-4 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-3">
         <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
           <div class="w-full md:w-1/2 relative">
-            <input type="text" id="input-busca-produto" oninput="filtrarProdutosCatalogo()" placeholder="🔍 Pesquisar produto por nome..." class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-xs bg-[#fcfbfa] focus:outline-none focus:border-[#5c3a21]">
+            <input type="text" id="input-busca-produto" oninput="filtrarProdutosCatalogo()" placeholder="🔍 Pesquisar produto por nome ou SKU..." class="w-full border border-[#d3c5b4] rounded-xl p-2.5 text-xs bg-[#fcfbfa] focus:outline-none focus:border-[#5c3a21]">
           </div>
           <div class="flex flex-wrap gap-1.5 w-full md:w-auto" id="grupo-botoes-cat">
             <button onclick="filtrarCategoria('todas', this)" class="btn-cat px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3d2c1d] text-white transition">Todas</button>
@@ -219,7 +219,7 @@
         <button id="tab-btn-pedidos" onclick="mudarAbaGestor('pedidos')" class="bg-[#3d2c1d] text-[#d4b59d] px-4 py-2 rounded-xl font-bold text-xs shadow-sm">📋 Gerenciar Pedidos</button>
         <button id="tab-btn-dist" onclick="mudarAbaGestor('distribuidores')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">👥 Perfis & Atacado</button>
         <button id="tab-btn-comissao" onclick="mudarAbaGestor('comissoes')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">💰 Comissões</button>
-        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">📦 Produtos</button>
+        <button id="tab-btn-prod" onclick="mudarAbaGestor('produtos')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">📦 Produtos & SKU</button>
         <button id="tab-btn-banners" onclick="mudarAbaGestor('banners')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">🖼️ Banners</button>
         <button id="tab-btn-blackfriday" onclick="mudarAbaGestor('blackfriday')" class="bg-[#efe8de] text-[#5c3a21] hover:bg-[#e4dacb] px-4 py-2 rounded-xl font-bold text-xs transition">🔥 Black Friday</button>
       </div>
@@ -334,20 +334,20 @@
         <div id="container-relatorio-comissoes" class="space-y-3 divide-y divide-[#f5efe6]"></div>
       </div>
 
-      <!-- ABA 3: PRODUTOS -->
+      <!-- ABA 3: PRODUTOS & SKU -->
       <div id="aba-produtos" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm space-y-4">
-          <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-produto">Cadastrar Produto</h3>
+          <h3 class="text-base font-bold text-[#3d2c1d] border-b border-[#e6dbc9] pb-2" id="titulo-form-produto">Cadastrar Produto & SKU</h3>
           <form onsubmit="cadastrarProduto(event)" class="space-y-3">
             <input type="hidden" id="cad-prod-id" value="">
-            <div>
-              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome do Produto</label>
-              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 4 Peças" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
-            </div>
             
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Categoria do Produto</label>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Código SKU *</label>
+                <input type="text" id="cad-prod-sku" required placeholder="Ex: ENC-CAS-01" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm font-mono font-bold bg-[#fcfbfa]">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Categoria</label>
                 <select id="cad-prod-categoria" required class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa] font-bold text-[#3d2c1d]">
                   <option value="cama">🛏️ Cama</option>
                   <option value="mesa">🍽️ Mesa</option>
@@ -355,10 +355,16 @@
                   <option value="decoracao">✨ Decoração</option>
                 </select>
               </div>
-              <div>
-                <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
-                <input type="text" id="cad-prod-desc" placeholder="Ex: Microfibra 180 fios" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
-              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Nome do Produto *</label>
+              <input type="text" id="cad-prod-nome" required placeholder="Ex: Jogo de Cama Casal 4 Peças" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
+            </div>
+            
+            <div>
+              <label class="block text-xs font-semibold text-[#5c3a21] mb-1">Descrição Curta</label>
+              <input type="text" id="cad-prod-desc" placeholder="Ex: Microfibra 180 fios" class="w-full border border-[#d3c5b4] rounded-lg p-2.5 text-sm bg-[#fcfbfa]">
             </div>
 
             <div class="space-y-2 bg-[#fcfbfa] p-3 rounded-xl border border-[#e6dbc9]">
@@ -399,7 +405,7 @@
         </div>
 
         <div class="bg-white p-5 rounded-2xl border border-[#e6dbc9] shadow-sm">
-          <h4 class="text-xs font-bold text-[#5c3a21] uppercase border-b border-[#e6dbc9] pb-2 mb-3">Produtos no Catálogo</h4>
+          <h4 class="text-xs font-bold text-[#5c3a21] uppercase border-b border-[#e6dbc9] pb-2 mb-3">Produtos & SKU no Catálogo</h4>
           <ul id="lista-produtos-gestor" class="divide-y divide-[#f5efe6] text-xs max-h-96 overflow-y-auto"></ul>
         </div>
       </div>
@@ -1064,7 +1070,7 @@
 
       const textoBusca = document.getElementById('input-busca-produto')?.value.toLowerCase().trim() || '';
       let listaFiltrada = window.produtos.filter(p => {
-        const atendeNome = p.nome.toLowerCase().includes(textoBusca);
+        const atendeNome = p.nome.toLowerCase().includes(textoBusca) || (p.sku && p.sku.toLowerCase().includes(textoBusca));
         const atendeCat = window.categoriaFiltroAtual === 'todas' || (p.categoria || 'cama') === window.categoriaFiltroAtual;
         return atendeNome && atendeCat;
       });
@@ -1121,6 +1127,9 @@
               </div>
               ${miniaturasHtml}
               <div class="p-4 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-mono font-bold bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded border border-[#d3c5b4]">SKU: ${p.sku || 'S/SKU'}</span>
+                </div>
                 <h3 class="font-bold text-[#3d2c1d] text-sm leading-snug">${p.nome}</h3>
                 <p class="text-xs text-[#8c7a6b] line-clamp-3">${p.descricao || 'Sem descrição.'}</p>
                 ${seletorCoresHtml}
@@ -1407,7 +1416,8 @@
         return `
           <div class="py-2.5 flex items-center justify-between gap-3">
             <div class="flex-1">
-              <h4 class="font-bold text-xs text-[#3d2c1d]">${prod.nome}</h4>
+              <span class="text-[9px] font-mono font-bold bg-[#efe8de] text-[#5c3a21] px-1.5 py-0.5 rounded border border-[#d3c5b4]">SKU: ${prod.sku || 'S/SKU'}</span>
+              <h4 class="font-bold text-xs text-[#3d2c1d] mt-0.5">${prod.nome}</h4>
               <p class="text-[11px] text-[#8c5830] font-bold">${item.cor ? 'Cor: ' + item.cor : 'Opção Padrão'}</p>
               <p class="text-[11px] text-[#8c7a6b]">${item.qtd} x R$ ${precoUnit.toFixed(2)} = <strong class="text-[#3d2c1d]">R$ ${subtotal.toFixed(2)}</strong></p>
             </div>
@@ -1447,7 +1457,7 @@
           const precoUnit = Number(prod.precos?.[chaveEscala]) || 0;
           const subtotal = precoUnit * item.qtd;
           totalProdutos += subtotal;
-          resumoItens.push({ nome: prod.nome, cor: item.cor, qtd: item.qtd, precoUnit, subtotal });
+          resumoItens.push({ sku: prod.sku || 'S/SKU', nome: prod.nome, cor: item.cor, qtd: item.qtd, precoUnit, subtotal });
         }
       });
 
@@ -1504,6 +1514,7 @@
       const itensHtml = dadosPedido.itens.map((i, idx) => `
         <tr style="border-bottom: 1px solid #e6dbc9;">
           <td style="padding: 8px; font-size: 12px;">${idx + 1}</td>
+          <td style="padding: 8px; font-size: 12px; font-family: monospace; font-weight: bold;">${i.sku || 'S/SKU'}</td>
           <td style="padding: 8px; font-size: 12px;"><strong>${i.nome}</strong> ${i.cor ? '(' + i.cor + ')' : ''}</td>
           <td style="padding: 8px; font-size: 12px; text-align: center;">${i.qtd}</td>
           <td style="padding: 8px; font-size: 12px; text-align: right;">R$ ${Number(i.precoUnit).toFixed(2)}</td>
@@ -1561,6 +1572,7 @@
             <thead>
               <tr>
                 <th>#</th>
+                <th>SKU</th>
                 <th>Item / Produto</th>
                 <th style="text-align: center;">Qtd</th>
                 <th style="text-align: right;">Unitário</th>
@@ -1609,6 +1621,79 @@
       win.document.close();
     }
 
+    // RELATÓRIO DE SEPARAÇÃO (PICKING LIST) PARA O FUNCIONÁRIO (SEM PREÇOS)
+    window.gerarRelatorioSeparacao = function(pedidoObj) {
+      let win = window.open('', '_blank');
+      if(!win) return alert("Permita pop-ups no navegador para gerar o relatório.");
+
+      let itensHtml = (pedidoObj.itens || []).map((item, index) => `
+        <tr>
+          <td style="border: 1px solid #cbd5e1; padding: 10px; text-align: center;">[ &nbsp; ]</td>
+          <td style="border: 1px solid #cbd5e1; padding: 10px; text-align: center; font-weight: bold; font-family: monospace; font-size: 13px;">${item.sku || 'S/SKU'}</td>
+          <td style="border: 1px solid #cbd5e1; padding: 10px; font-size: 13px;"><strong>${item.nome}</strong> ${item.cor ? '<br><span style="color: #8c5830; font-size: 11px;">Cor: ' + item.cor + '</span>' : ''}</td>
+          <td style="border: 1px solid #cbd5e1; padding: 10px; text-align: center; font-weight: bold; font-size: 15px;">${item.qtd}</td>
+        </tr>
+      `).join('');
+
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Separação - Pedido ${pedidoObj.id || 'N/A'}</title>
+          <style>
+            body { font-family: sans-serif; padding: 20px; color: #000; max-width: 800px; margin: auto; }
+            .header { display: flex; justify-content: space-between; border-bottom: 3px solid #3d2c1d; padding-bottom: 12px; margin-bottom: 15px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            th { background: #3d2c1d; color: #f7f3ec; border: 1px solid #3d2c1d; padding: 10px; text-align: left; font-size: 12px; }
+            .footer { margin-top: 40px; display: flex; justify-content: space-between; font-size: 12px; }
+            @media print { .no-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <div class="no-print" style="text-align: center; margin-bottom: 20px;">
+            <button onclick="window.print()" style="background: #3d2c1d; color: #f7f3ec; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">🖨️ Imprimir Folha de Separação (Picking List)</button>
+          </div>
+
+          <div class="header">
+            <div>
+              <h2 style="margin: 0; color: #3d2c1d;">MAJU ENXOVAIS - LISTA DE SEPARAÇÃO</h2>
+              <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">Documento interno para o almoxarifado / Estoque</p>
+            </div>
+            <div style="text-align: right;">
+              <h3 style="margin:0; color: #3d2c1d;">Cliente: ${pedidoObj.distribuidor}</h3>
+              <p style="margin: 4px 0 0 0; font-size: 12px;">Perfil: ${pedidoObj.perfil || 'E-commerce'} | Data: ${new Date(pedidoObj.data).toLocaleDateString('pt-BR')}</p>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; font-size: 12px; margin-bottom: 15px;">
+            <strong>📍 Endereço de Destino / Retirada:</strong> ${pedidoObj.enderecoEntrega}
+            ${pedidoObj.observacao ? '<br><strong style="color: #8c5830;">Obs:</strong> ' + pedidoObj.observacao : ''}
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 60px; text-align: center;">Sep.</th>
+                <th style="width: 160px; text-align: center;">Código SKU</th>
+                <th>Descrição do Produto & Cor</th>
+                <th style="width: 80px; text-align: center;">Qtd</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itensHtml}
+            </tbody>
+          </table>
+
+          <div class="footer">
+            <div>Separado por: ___________________________________</div>
+            <div>Conferido por: ___________________________________</div>
+          </div>
+        </body>
+        </html>
+      `);
+      win.document.close();
+    };
+
     window.enviarWhatsAppMantendoCarrinho = async function() {
       const pedidoObj = await garantirPedidoSalvo();
       if(!pedidoObj) return;
@@ -1636,7 +1721,7 @@
 `;
 
       pedidoObj.itens.forEach((item, index) => {
-        msg += `${index + 1}. *${item.nome}* ${item.cor ? '(' + item.cor + ')' : ''}
+        msg += `${index + 1}. *[SKU: ${item.sku}]* ${item.nome} ${item.cor ? '(' + item.cor + ')' : ''}
    Qtd: ${item.qtd} UN | Total: R$ ${item.subtotal.toFixed(2)}
 `;
       });
@@ -1664,7 +1749,7 @@ ${chavePixCopia}
       const pedidoSalvo = await garantirPedidoSalvo();
       if(pedidoSalvo) {
         window.carrinho = {};
-        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs').value = '';
+        if(document.getElementById('carrinho-obs')) document.getElementById('carrinho-obs'].value = '';
         fecharModalCarrinho();
         renderCatalogo();
         atualizarResumoCarrinho();
@@ -1767,8 +1852,8 @@ ${chavePixCopia}
         if(st === 'Cancelado') corBadge = 'bg-red-100 text-red-900 border-red-300';
 
         const itensHtml = (p.itens || []).map(i => `
-          <div class="text-xs text-[#5c3a21] py-0.5 border-b border-[#f5efe6] flex justify-between">
-            <span>• <strong>${i.nome}</strong> ${i.cor ? '(' + i.cor + ')' : ''} x${i.qtd}</span>
+          <div class="text-xs text-[#5c3a21] py-1 border-b border-[#f5efe6] flex justify-between items-center">
+            <span>• <strong class="font-mono bg-[#efe8de] px-1.5 py-0.5 rounded">SKU: ${i.sku || 'S/SKU'}</strong> <strong>${i.nome}</strong> ${i.cor ? '(' + i.cor + ')' : ''} x${i.qtd}</span>
             <span class="font-semibold text-[#8c5830]">R$ ${Number(i.subtotal || 0).toFixed(2)}</span>
           </div>
         `).join('');
@@ -1810,7 +1895,8 @@ ${chavePixCopia}
                 </select>
               </div>
               <div class="flex gap-2 items-center flex-wrap">
-                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2.5 py-1.5 rounded-lg border border-[#d3c5b4]">🖨️ PDF</button>
+                <button onclick='gerarRelatorioSeparacao(${JSON.stringify(p)})' class="text-white font-bold text-xs bg-[#7c3aed] hover:bg-[#6d28d9] px-3 py-1.5 rounded-lg shadow transition">📄 Relatório de Separação (Sem Preços)</button>
+                <button onclick='reimprimirPedidoGestor(${JSON.stringify(p)})' class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2.5 py-1.5 rounded-lg border border-[#d3c5b4]">🖨️ PDF Comprovante</button>
                 <button onclick="deletarPedido('${p.id}')" class="text-red-700 font-bold text-xs bg-red-50 hover:bg-red-100 px-2.5 py-1.5 rounded-lg border border-red-200">Excluir</button>
               </div>
             </div>
@@ -1958,6 +2044,7 @@ ${chavePixCopia}
     window.cadastrarProduto = async function(e) {
       if(e) e.preventDefault();
       const idEdit = document.getElementById('cad-prod-id').value;
+      const sku = document.getElementById('cad-prod-sku').value.trim().toUpperCase();
       const nome = document.getElementById('cad-prod-nome').value.trim();
       const categoria = document.getElementById('cad-prod-categoria').value;
       const descricao = document.getElementById('cad-prod-desc').value.trim();
@@ -1977,7 +2064,7 @@ ${chavePixCopia}
       });
 
       const dados = {
-        nome, categoria, descricao, foto1, foto2, foto3, cores,
+        sku, nome, categoria, descricao, foto1, foto2, foto3, cores,
         precos: { escala_1: p1, escala_2: p2, escala_3: p3 }
       };
 
@@ -1996,6 +2083,7 @@ ${chavePixCopia}
       if(!p) return;
 
       document.getElementById('cad-prod-id').value = p.id;
+      document.getElementById('cad-prod-sku').value = p.sku || '';
       document.getElementById('cad-prod-nome').value = p.nome;
       document.getElementById('cad-prod-categoria').value = p.categoria || 'cama';
       document.getElementById('cad-prod-desc').value = p.descricao || '';
@@ -2013,12 +2101,13 @@ ${chavePixCopia}
         p.cores.forEach(c => adicionarLinhaCor(c.nome, c.foto));
       }
 
-      document.getElementById('titulo-form-produto').innerText = "Editar Produto";
+      document.getElementById('titulo-form-produto').innerText = "Editar Produto & SKU";
       document.getElementById('btn-salvar-prod').innerText = "Atualizar Produto";
     };
 
     function limparFormProduto() {
       document.getElementById('cad-prod-id').value = '';
+      document.getElementById('cad-prod-sku').value = '';
       document.getElementById('cad-prod-nome').value = '';
       document.getElementById('cad-prod-categoria').value = 'cama';
       document.getElementById('cad-prod-desc').value = '';
@@ -2029,7 +2118,7 @@ ${chavePixCopia}
       document.getElementById('cad-prod-p2').value = '';
       document.getElementById('cad-prod-p3').value = '';
       document.getElementById('container-cores').innerHTML = '';
-      document.getElementById('titulo-form-produto').innerText = "Cadastrar Produto";
+      document.getElementById('titulo-form-produto').innerText = "Cadastrar Produto & SKU";
       document.getElementById('btn-salvar-prod').innerText = "Salvar Produto";
     }
 
@@ -2043,8 +2132,10 @@ ${chavePixCopia}
       ul.innerHTML = window.produtos.map(p => `
         <li class="py-2.5 flex justify-between items-center border-b border-[#f5efe6]">
           <div>
-            <span class="font-bold text-[#3d2c1d] text-sm">${p.nome}</span> <span class="bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded text-[10px] font-bold uppercase">${p.categoria || 'cama'}</span>
-            <p class="text-[10px] text-[#8c7a6b]">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
+            <span class="font-mono font-bold bg-[#efe8de] text-[#5c3a21] px-1.5 py-0.5 rounded text-[10px]">SKU: ${p.sku || 'S/SKU'}</span>
+            <span class="font-bold text-[#3d2c1d] text-sm ml-1">${p.nome}</span> 
+            <span class="bg-[#efe8de] text-[#5c3a21] px-2 py-0.5 rounded text-[10px] font-bold uppercase ml-1">${p.categoria || 'cama'}</span>
+            <p class="text-[10px] text-[#8c7a6b] mt-0.5">E-com: R$ ${Number(p.precos?.escala_1 || 0).toFixed(2)} | Atac: R$ ${Number(p.precos?.escala_2 || 0).toFixed(2)} | Afil: R$ ${Number(p.precos?.escala_3 || 0).toFixed(2)}</p>
           </div>
           <div class="flex gap-1">
             <button onclick="prepararEdicaoProduto('${p.id}')" class="text-[#5c3a21] font-bold text-xs bg-[#efe8de] hover:bg-[#e4dacb] px-2 py-1 rounded-lg border border-[#d3c5b4]">Editar</button>
