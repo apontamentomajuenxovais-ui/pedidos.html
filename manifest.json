@@ -1,0 +1,22 @@
+{
+  "name": "Maju Enxovais",
+  "short_name": "Maju Enxovais",
+  "description": "Vendas no Atacado, E-commerce e Afiliados",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdfbf7",
+  "theme_color": "#724625",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
