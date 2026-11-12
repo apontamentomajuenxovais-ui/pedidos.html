@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maju Enxovais | Vendas no Atacado, E-commerce e Afiliados</title>
+  
+  <!-- CONFIGURAÇÕES PWA (INSTALAÇÃO COMO APLICATIVO) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#724625">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="logo.png">
+
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -85,7 +93,7 @@
     </div>
   </section>
 
-  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY (COM IMAGENS AJUSTADAS SEM EXPLODIR) -->
+  <!-- SEÇÃO DE OFERTAS BLACK FRIDAY -->
   <section id="black-friday" class="w-full py-12 bg-gray-900 text-white min-h-[400px]">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center space-y-2 mb-10">
@@ -196,7 +204,7 @@
       let precoHtml = '';
       if (b.precoPor && Number(b.precoPor) > 0) {
         precoHtml = `
-          <div class="bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/20 inline-flex items-baseline gap-2 my-1.5">
+          <div class="bg-black/65 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/20 inline-flex items-baseline gap-2 my-1.5">
             ${b.precoDe && Number(b.precoDe) > 0 ? `<span class="text-xs text-gray-300 line-through">De: R$ ${Number(b.precoDe).toFixed(2)}</span>` : ''}
             <span class="text-base md:text-lg font-extrabold text-yellow-400">Por: R$ ${Number(b.precoPor).toFixed(2)}</span>
           </div>
@@ -248,7 +256,6 @@
       }
     }
 
-    // Carregar Ofertas da Black Friday com object-contain para evitar que a foto estoure
     function carregarBlackFridayDinamica() {
       const container = document.getElementById('grid-black-friday-dinamico');
       if(!container) return;
@@ -297,6 +304,17 @@
       carregarBannersHome();
       carregarBlackFridayDinamica();
     });
+  </script>
+
+  <!-- REGISTRO DO SERVICE WORKER PARA PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('PWA Service Worker registrado com sucesso!'))
+          .catch((err) => console.log('Erro ao registrar PWA:', err));
+      });
+    }
   </script>
 </body>
 </html>
