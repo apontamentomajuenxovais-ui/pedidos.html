@@ -29,14 +29,14 @@
     }
   </script>
 </head>
-<body class="bg-brandBg text-gray-800 font-sans antialiased">
+<body class="bg-brandBg text-gray-800 font-sans antialiased pb-20">
 
-  <!-- CABEÇALHO / HEADER -->
+  <!-- CABEÇALHO / HEADER (Corrigido para o logo não estourar) -->
   <header class="w-full bg-brandDark text-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="logo.png" alt="Maju Enxovais" class="h-10 max-w-[140px] object-contain bg-white px-2 py-1 rounded-lg">
-        <span class="text-xl font-bold tracking-wide">Maju Enxovais</span>
+    <div class="max-w-7xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 overflow-hidden">
+        <img src="logo.png" alt="Maju Enxovais" class="h-9 w-auto max-w-[110px] object-contain bg-white/10 p-1 rounded-md">
+        <span class="text-base sm:text-lg font-bold tracking-tight truncate">Maju Enxovais</span>
       </div>
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
         <a href="#banners-home" class="hover:text-amber-200 transition">Promoções</a>
@@ -44,12 +44,18 @@
         <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
       </nav>
       <div>
-        <a href="portal.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition shadow">
-          🚀 Acessar Portal B2B
+        <a href="portal.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition shadow whitespace-nowrap">
+          🚀 Portal B2B
         </a>
       </div>
     </div>
   </header>
+
+  <!-- BANNER DE INSTALAÇÃO DO APP (Fica visível no celular se o app não estiver instalado) -->
+  <div id="banner-instalacao" class="hidden bg-amber-500 text-gray-900 px-4 py-2.5 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-3 shadow-inner">
+    <span>📲 Instale o Aplicativo da Maju no seu celular!</span>
+    <button id="btn-instalar" class="bg-gray-900 text-white px-3 py-1 rounded-lg text-xs hover:bg-gray-800 transition shadow">Instalar Agora</button>
+  </div>
 
   <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (SLIDESHOW AUTOMÁTICO) -->
   <section id="banners-home" class="w-full py-6 px-4">
@@ -80,7 +86,7 @@
     <div class="w-full md:w-1/2 flex justify-center">
       <div class="bg-white p-6 rounded-2xl shadow-md border border-amber-100 w-full max-w-md text-center">
         <div class="bg-amber-50 h-48 rounded-xl flex flex-col items-center justify-center border border-amber-200/50 mb-4 p-4">
-          <img src="logo.png" alt="Maju Enxovais" class="h-20 max-w-[180px] object-contain mb-2">
+          <img src="logo.png" alt="Maju Enxovais" class="h-24 max-w-[200px] object-contain mb-2">
           <span class="text-brandDark font-bold text-xl">Maju Enxovais</span>
         </div>
         <h3 class="font-bold text-lg text-brandDark">Tecnologia e Qualidade</h3>
@@ -302,13 +308,40 @@
     });
   </script>
 
-  <!-- REGISTRO DO SERVICE WORKER PARA PWA -->
+  <!-- REGISTRO DO SERVICE WORKER E GATILHO DE INSTALAÇÃO DO PWA -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
           .then(() => console.log('PWA Service Worker registrado com sucesso!'))
           .catch((err) => console.log('Erro ao registrar PWA:', err));
+      });
+    }
+
+    // Lógica para exibir o botão de instalação personalizado no celular
+    let eventoInstalacaoPronto = null;
+    const bannerInstalacao = document.getElementById('banner-instalacao');
+    const btnInstalar = document.getElementById('btn-instalar');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      eventoInstalacaoPronto = e;
+      if (bannerInstalacao) bannerInstalacao.classList.remove('hidden');
+    });
+
+    if (btnInstalar) {
+      btnInstalar.addEventListener('click', async () => {
+        if (eventoInstalacaoPronto) {
+          eventoInstalacaoPronto.prompt();
+          const resultado = await eventoInstalacaoPronto.userChoice;
+          if (resultado.outcome === 'accepted') {
+            console.log('Usuário instalou o aplicativo!');
+          }
+          eventoInstalacaoPronto = null;
+          bannerInstalacao.classList.add('hidden');
+        } else {
+          alert('Para instalar no iPhone: toque no ícone de Compartilhar (quadrado com seta para cima) e escolha "Adicionar à Tela de Início". No Android, toque nos 3 pontinhos do navegador e escolha "Instalar aplicativo".');
+        }
       });
     }
   </script>
