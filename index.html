@@ -31,7 +31,7 @@
 </head>
 <body class="bg-brandBg text-gray-800 font-sans antialiased pb-20">
 
-  <!-- CABEÇALHO / HEADER (Corrigido para o logo não estourar) -->
+  <!-- CABEÇALHO / HEADER -->
   <header class="w-full bg-brandDark text-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 overflow-hidden">
@@ -43,19 +43,17 @@
         <a href="#black-friday" class="hover:text-amber-200 transition">Black Friday</a>
         <a href="#sobre" class="hover:text-amber-200 transition">Sobre</a>
       </nav>
-      <div>
+      <div class="flex items-center gap-2">
+        <!-- Botão fixo de instalação visível no topo -->
+        <button id="btn-instalar-topo" class="bg-amber-500 hover:bg-amber-400 text-gray-900 font-extrabold px-2.5 py-1.5 rounded-lg text-xs transition shadow flex items-center gap-1">
+          <span>📲 Instalar App</span>
+        </button>
         <a href="portal.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-3 py-1.5 rounded-lg text-xs sm:text-sm transition shadow whitespace-nowrap">
           🚀 Portal B2B
         </a>
       </div>
     </div>
   </header>
-
-  <!-- BANNER DE INSTALAÇÃO DO APP (Fica visível no celular se o app não estiver instalado) -->
-  <div id="banner-instalacao" class="hidden bg-amber-500 text-gray-900 px-4 py-2.5 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-3 shadow-inner">
-    <span>📲 Instale o Aplicativo da Maju no seu celular!</span>
-    <button id="btn-instalar" class="bg-gray-900 text-white px-3 py-1 rounded-lg text-xs hover:bg-gray-800 transition shadow">Instalar Agora</button>
-  </div>
 
   <!-- SEÇÃO DINÂMICA DE BANNERS DA HOME (SLIDESHOW AUTOMÁTICO) -->
   <section id="banners-home" class="w-full py-6 px-4">
@@ -308,7 +306,7 @@
     });
   </script>
 
-  <!-- REGISTRO DO SERVICE WORKER E GATILHO DE INSTALAÇÃO DO PWA -->
+  <!-- REGISTRO DO SERVICE WORKER E BOTÃO DE INSTALAÇÃO DO PWA -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -318,29 +316,26 @@
       });
     }
 
-    // Lógica para exibir o botão de instalação personalizado no celular
     let eventoInstalacaoPronto = null;
-    const bannerInstalacao = document.getElementById('banner-instalacao');
-    const btnInstalar = document.getElementById('btn-instalar');
+    const btnInstalarTopo = document.getElementById('btn-instalar-topo');
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       eventoInstalacaoPronto = e;
-      if (bannerInstalacao) bannerInstalacao.classList.remove('hidden');
     });
 
-    if (btnInstalar) {
-      btnInstalar.addEventListener('click', async () => {
+    if (btnInstalarTopo) {
+      btnInstalarTopo.addEventListener('click', async () => {
         if (eventoInstalacaoPronto) {
           eventoInstalacaoPronto.prompt();
           const resultado = await eventoInstalacaoPronto.userChoice;
           if (resultado.outcome === 'accepted') {
-            console.log('Usuário instalou o aplicativo!');
+            console.log('Usuário instalou o app!');
           }
           eventoInstalacaoPronto = null;
-          bannerInstalacao.classList.add('hidden');
         } else {
-          alert('Para instalar no iPhone: toque no ícone de Compartilhar (quadrado com seta para cima) e escolha "Adicionar à Tela de Início". No Android, toque nos 3 pontinhos do navegador e escolha "Instalar aplicativo".');
+          // Explicação amigável caso o navegador não suporte o prompt automático (ex: iPhone/Safari ou Android fora de HTTPS)
+          alert('Para instalar o aplicativo da Maju Enxovais:\n\n📱 No iPhone (Safari): Toque no ícone de Compartilhar (quadrado com seta para cima) na barra inferior e escolha "Adicionar à Tela de Início".\n\n🤖 No Android (Chrome): Toque nos 3 pontinhos no canto superior direito e selecione "Instalar aplicativo" ou "Adicionar à tela inicial".');
         }
       });
     }
